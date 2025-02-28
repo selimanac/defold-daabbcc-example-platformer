@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map.tmx",
+    "activeFile": "test2.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -17,11 +17,19 @@
             }
         },
         "platformer.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 4.4427,
             "scaleInEditor": 1
+        },
+        "test2.tmx": {
+            "scale": 2.1909375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 344.1449151333619,
+                "y": 181.8856083297675
+            }
         }
     },
-    "last.exportedFilePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-platformer/data",
+    "last.exportedFilePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/data",
     "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-platformer/assets/tilemap/Terrain",
     "map.height": 22,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
@@ -30,12 +38,13 @@
     "map.tileWidth": 16,
     "map.width": 40,
     "openFiles": [
-        "map.tmx",
+        "test2.tmx",
         "platformer.tsx"
     ],
     "project": "platformer.tiled-project",
     "recentFiles": [
         "platformer.tsx",
+        "test2.tmx",
         "map.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

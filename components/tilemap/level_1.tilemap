@@ -1,4 +1,4 @@
-tile_set: "/assets/pixel_adventure/map.tilesource"
+tile_set: "/components/tilesource/map.tilesource"
 layers {
   id: "map"
   z: 0.0

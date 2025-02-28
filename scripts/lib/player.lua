@@ -1,26 +1,87 @@
-local const      = require("scripts.lib.const")
-local data       = require("scripts.lib.data")
-local collision  = require("scripts.lib.collision")
+local const       = require("scripts.lib.const")
+local data        = require("scripts.lib.data")
+local collision   = require("scripts.lib.collision")
 
-local player     = {}
+local player      = {}
 
-local on_ground  = true
-local jump_held  = false
-local jump_timer = 0
-local is_walking = false
+local on_ground   = true
+local jump_held   = false
+local jump_timer  = 0
+local is_walking  = false
+local is_sliding  = false
+local is_falling  = false
+local current_dir = 0
 
 function player.init()
-	local player_ids       = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
-	local player_sprite    = msg.url(player_ids[hash("/player")])
-	player_sprite.fragment = "sprite"
+	local player_ids        = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
+	local player_sprite     = msg.url(player_ids[hash("/player")])
+	player_sprite.fragment  = "sprite"
 
-	data.player.ids        =
+	local run_pfx           = msg.url(player_ids[hash("/particles")])
+	run_pfx.fragment        = "run"
+
+	local ground_hit_pfx    = msg.url(player_ids[hash("/particles")])
+	ground_hit_pfx.fragment = "ground_hit"
+
+	local jump_pfx          = msg.url(player_ids[hash("/particles")])
+	jump_pfx.fragment       = "jump"
+
+	local sliding_pfx       = msg.url(player_ids[hash("/particles")])
+	sliding_pfx.fragment    = "slide"
+
+	pprint(player_ids)
+
+	data.player.ids     =
 	{
-		CONTAINER = msg.url(player_ids[hash("/container")]),
-		PLAYER_SPRITE = player_sprite,
+		CONTAINER      = msg.url(player_ids[hash("/container")]),
+		PLAYER_SPRITE  = player_sprite,
+		WALK_PFX       = run_pfx,
+		GROUND_HIT_PFX = ground_hit_pfx,
+		JUMP_PFX       = jump_pfx,
+		SLIDING_PFX    = sliding_pfx
 	}
 
-	data.player.aabb_id    = collision.insert_gameobject(data.player.ids.CONTAINER, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, const.COLLISION_BITS.PLAYER, false)
+	data.player.aabb_id = collision.insert_gameobject(data.player.ids.CONTAINER, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, const.COLLISION_BITS.PLAYER, false)
+end
+
+local function flip()
+	if current_dir ~= data.player.direction then
+		local rot = data.player.direction == -1 and vmath.quat_rotation_y(math.pi) or vmath.quat_rotation_y(0)
+		go.set_rotation(rot, data.player.ids.CONTAINER)
+		current_dir = data.player.direction
+	end
+end
+
+local function idle(grounded)
+	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.IDLE)
+	particlefx.stop(data.player.ids.WALK_PFX)
+	particlefx.stop(data.player.ids.SLIDING_PFX)
+	if grounded then
+		particlefx.play(data.player.ids.GROUND_HIT_PFX)
+	end
+end
+
+local function jump()
+	if jump_timer == 0 then
+		is_sliding = false
+		particlefx.stop(data.player.ids.WALK_PFX)
+		sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.JUMP)
+		particlefx.play(data.player.ids.JUMP_PFX)
+	end
+end
+
+local function slide()
+	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.WALL_JUMP)
+	particlefx.play(data.player.ids.SLIDING_PFX)
+end
+
+local function fall()
+	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.FALL)
+end
+
+local function run()
+	particlefx.play(data.player.ids.WALK_PFX)
+	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.RUN)
 end
 
 function player.update(dt)
@@ -29,13 +90,15 @@ function player.update(dt)
 	-- Horizontal movement
 	if data.player.direction ~= 0 then
 		if not is_walking and on_ground then
-			sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.RUN)
+			run()
+
 			is_walking = true
 		elseif not on_ground then
 			is_walking = false
 		end
 
-		sprite.set_hflip(data.player.ids.PLAYER_SPRITE, data.player.direction == -1)
+
+		flip()
 
 		data.player.velocity.x = data.player.velocity.x + data.player.direction * const.PLAYER.MOVE_ACCELERATION * dt
 
@@ -44,7 +107,7 @@ function player.update(dt)
 		end
 	else
 		if is_walking then
-			sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.IDLE)
+			idle(false)
 			is_walking = false
 		end
 
@@ -55,8 +118,7 @@ function player.update(dt)
 	-- Vertical movement:
 	if not on_ground then
 		if jump_held and jump_timer < const.PLAYER.MAX_JUMP_HOLD_TIME and data.player.velocity.y > 0 then
-			sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.JUMP)
-
+			jump()
 			data.player.velocity.y = data.player.velocity.y + (const.PLAYER.GRAVITY_UP * 0.5) * dt
 			jump_timer = jump_timer + dt
 		else
@@ -64,7 +126,12 @@ function player.update(dt)
 			if data.player.velocity.y > 0 then
 				data.player.velocity.y = data.player.velocity.y + const.PLAYER.GRAVITY_UP * dt
 			else
-				sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.FALL)
+				-- falling
+				if not is_falling and not is_sliding then
+					fall()
+					is_falling = true
+				end
+
 				data.player.velocity.y = data.player.velocity.y + const.PLAYER.GRAVITY_DOWN * dt
 			end
 		end
@@ -88,7 +155,9 @@ function player.update(dt)
 				data.player.position.y = data.player.position.y + offset_y
 
 				if on_ground == false and not is_walking then
-					sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.IDLE)
+					idle(true)
+					const.PLAYER.GRAVITY_DOWN = -1500
+					is_falling = false
 				end
 
 				data.player.velocity.y = 0
@@ -103,13 +172,36 @@ function player.update(dt)
 			end
 
 			-- Left / Right Collision: normal_x == 1 or normal_x == -1
+
 			if result[i].normal_x == 1 or result[i].normal_x == -1 then
 				data.player.velocity.x = 0
 				data.player.position.x = data.player.position.x + offset_x
+				if is_falling and not is_sliding then
+					const.PLAYER.GRAVITY_DOWN = -100
+					slide()
+					is_sliding = true
+				end
+				-- wall sliding
+				if not on_ground and is_falling then
+					--[[	else
+					particlefx.stop(data.player.ids.SLIDING_PFX)
+					is_sliding = false
+					--	const.PLAYER.GRAVITY_DOWN = -1500]]
+				end
 			end
+
+
+
+			--	local animation = go.get(data.player.ids.PLAYER_SPRITE, "animation")
+			--	pprint(animation)
 		end
 	else
 		on_ground = false
+		if not on_ground and is_sliding then
+			is_falling = true
+			fall()
+			const.PLAYER.GRAVITY_DOWN = -1500
+		end
 	end
 
 	go.set_position(data.player.position, data.player.ids.CONTAINER)

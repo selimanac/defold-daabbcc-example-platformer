@@ -27,13 +27,13 @@ const.PLAYER = {
 	MAX_JUMP_HOLD_TIME = 1,  -- hold time (in seconds) to slightly reduce gravity
 
 	ANIM               = {
-		IDLE = hash("player_idle"),
-		RUN = hash("player_run"),
-		JUMP = hash("player_jump"),
-		FALL = hash("player_fall"),
-		HIT = hash("player_hit"),
-		DOUBLE_JUMP = hash("player_double_jump"),
-		WALL_JUMP = hash("player_wall_jump")
+		IDLE = hash("virtual_guy_player_idle"),
+		RUN = hash("virtual_guy_player_run"),
+		JUMP = hash("virtual_guy_player_jump"),
+		FALL = hash("virtual_guy_player_fall"),
+		HIT = hash("virtual_guy_player_hit"),
+		DOUBLE_JUMP = hash("virtual_guy_player_double_jump"),
+		WALL_JUMP = hash("virtual_guy_player_wall_jump")
 	}
 }
 

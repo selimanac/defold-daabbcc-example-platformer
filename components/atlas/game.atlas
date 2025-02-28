@@ -1,0 +1,327 @@
+images {
+  image: "/assets/aabb_40x40.png"
+}
+animations {
+  id: "pink_man_player_idle"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/00_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/01_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/02_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/03_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/04_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/05_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/06_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/07_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/08_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/09_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Idle (32x32)/10_Idle (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 20
+}
+animations {
+  id: "pink_man_player_run"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/00_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/01_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/02_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/03_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/04_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/05_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/06_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/07_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/08_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/09_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/10_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Run (32x32)/11_Run (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 20
+}
+animations {
+  id: "pink_man_player_jump"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Jump (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 0
+}
+animations {
+  id: "pink_man_player_fall"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Fall (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 0
+}
+animations {
+  id: "pink_man_player_hit"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Hit (32x32)/00_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Hit (32x32)/01_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Hit (32x32)/02_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Hit (32x32)/03_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Hit (32x32)/04_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Hit (32x32)/05_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Hit (32x32)/06_Hit (32x32).png"
+  }
+  fps: 20
+}
+animations {
+  id: "pink_man_player_double_jump"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Double Jump (32x32)/00_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Double Jump (32x32)/01_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Double Jump (32x32)/02_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Double Jump (32x32)/03_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Double Jump (32x32)/04_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Double Jump (32x32)/05_Double Jump (32x32).png"
+  }
+  fps: 20
+}
+animations {
+  id: "pink_man_player_wall_jump"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Wall Jump (32x32)/00_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Wall Jump (32x32)/01_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Wall Jump (32x32)/02_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Wall Jump (32x32)/03_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Pink Man/Wall Jump (32x32)/04_Wall Jump (32x32).png"
+  }
+  fps: 20
+}
+animations {
+  id: "virtual_guy_player_idle"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/00_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/01_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/02_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/03_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/04_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/05_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/06_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/07_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/08_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/09_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/10_Idle (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 20
+}
+animations {
+  id: "virtual_guy_player_run"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/00_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/01_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/02_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/03_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/04_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/05_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/06_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/07_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/08_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/09_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/10_Run (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Run (32x32)/11_Run (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 20
+}
+animations {
+  id: "virtual_guy_player_jump"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Jump (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 0
+}
+animations {
+  id: "virtual_guy_player_fall"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Fall (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 0
+}
+animations {
+  id: "virtual_guy_player_hit"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Hit (32x32)/00_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Hit (32x32)/01_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Hit (32x32)/02_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Hit (32x32)/03_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Hit (32x32)/04_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Hit (32x32)/05_Hit (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Hit (32x32)/06_Hit (32x32).png"
+  }
+  fps: 20
+}
+animations {
+  id: "virtual_guy_player_double_jump"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Double Jump (32x32)/00_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Double Jump (32x32)/01_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Double Jump (32x32)/02_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Double Jump (32x32)/03_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Double Jump (32x32)/04_Double Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Double Jump (32x32)/05_Double Jump (32x32).png"
+  }
+  fps: 20
+}
+animations {
+  id: "virtual_guy_player_wall_jump"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Wall Jump (32x32)/00_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Wall Jump (32x32)/01_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Wall Jump (32x32)/02_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Wall Jump (32x32)/03_Wall Jump (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Wall Jump (32x32)/04_Wall Jump (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 20
+}
+extrude_borders: 2
