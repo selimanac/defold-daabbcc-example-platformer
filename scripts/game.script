@@ -1,0 +1,21 @@
+local manager = require("scripts.lib.manager")
+
+function init(self)
+	manager.init(1)
+end
+
+function final(self)
+	manager.final()
+end
+
+function update(self, dt)
+	manager.update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+
+end
+
+function on_input(self, action_id, action)
+	manager.input(action_id, action)
+end

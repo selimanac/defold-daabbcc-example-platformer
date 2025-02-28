@@ -1,0 +1,28 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "map.tmx": {
+            "scale": 2.0404,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 348.46108606155656,
+                "y": 254.36188982552443
+            }
+        },
+        "platformer.tsx": {
+            "scaleInDock": 2.3113,
+            "scaleInEditor": 1
+        }
+    },
+    "openFiles": [
+    ],
+    "project": "",
+    "recentFiles": [
+        "platformer.tsx",
+        "map.tmx"
+    ]
+}

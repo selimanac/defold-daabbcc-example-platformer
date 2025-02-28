@@ -1,0 +1,10 @@
+name: "level_1"
+scale_along_z: 0
+embedded_instances {
+  id: "map"
+  data: "components {\n"
+  "  id: \"level_1\"\n"
+  "  component: \"/components/tilemap/level_1.tilemap\"\n"
+  "}\n"
+  ""
+}

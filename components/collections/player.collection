@@ -1,0 +1,14 @@
+name: "player"
+instances {
+  id: "player"
+  prototype: "/components/gameobjects/player.go"
+  position {
+    y: 3.0
+  }
+}
+scale_along_z: 0
+embedded_instances {
+  id: "container"
+  children: "player"
+  data: ""
+}

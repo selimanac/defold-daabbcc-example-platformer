@@ -1,0 +1,91 @@
+tile_set: "/assets/pixel_adventure/map.tilesource"
+layers {
+  id: "map"
+  z: 0.0
+  cell {
+    x: 0
+    y: 0
+    tile: 105
+  }
+  cell {
+    x: 11
+    y: 1
+    tile: 21
+  }
+  cell {
+    x: 12
+    y: 1
+    tile: 21
+  }
+  cell {
+    x: 12
+    y: 2
+    tile: 21
+  }
+  cell {
+    x: 13
+    y: 2
+    tile: 21
+  }
+  cell {
+    x: 14
+    y: 2
+    tile: 21
+  }
+  cell {
+    x: 14
+    y: 3
+    tile: 21
+  }
+  cell {
+    x: 15
+    y: 3
+    tile: 21
+  }
+  cell {
+    x: 16
+    y: 4
+    tile: 21
+  }
+  cell {
+    x: 17
+    y: 4
+    tile: 21
+  }
+  cell {
+    x: 18
+    y: 4
+    tile: 21
+  }
+  cell {
+    x: 19
+    y: 5
+    tile: 21
+  }
+  cell {
+    x: 20
+    y: 5
+    tile: 21
+  }
+  cell {
+    x: 21
+    y: 5
+    tile: 21
+  }
+  cell {
+    x: 22
+    y: 5
+    tile: 21
+  }
+  cell {
+    x: 23
+    y: 5
+    tile: 21
+  }
+  cell {
+    x: 39
+    y: 21
+    tile: 128
+  }
+}
+material: "/builtins/materials/tile_map.material"
