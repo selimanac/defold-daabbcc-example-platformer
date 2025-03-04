@@ -15,7 +15,7 @@ emitters {
   properties {
     key: EMITTER_KEY_SPAWN_RATE
     points {
-      y: 5.0
+      y: 10.0
     }
   }
   properties {
@@ -138,7 +138,7 @@ modifiers {
   properties {
     key: MODIFIER_KEY_MAGNITUDE
     points {
-      y: -50.0
+      y: -20.0
     }
   }
 }

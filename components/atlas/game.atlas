@@ -1,6 +1,3 @@
-images {
-  image: "/assets/aabb_40x40.png"
-}
 animations {
   id: "pink_man_player_idle"
   images {
@@ -323,5 +320,66 @@ animations {
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 20
+}
+animations {
+  id: "falling_platform_idle"
+  images {
+    image: "/assets/pixel_adventure/Traps/Falling Platforms/Off.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 1
+}
+animations {
+  id: "falling_platform_on"
+  images {
+    image: "/assets/pixel_adventure/Traps/Falling Platforms/falling_1.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Falling Platforms/falling_2.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Falling Platforms/falling_3.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Falling Platforms/falling_4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+}
+animations {
+  id: "trampoline_idle"
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_idle.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 1
+}
+animations {
+  id: "trampoline_on"
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_1.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_2.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_3.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_4.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_5.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_6.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_7.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Trampoline/trampoline_8.png"
+  }
+  fps: 18
 }
 extrude_borders: 2

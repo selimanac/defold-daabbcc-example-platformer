@@ -1,0 +1,43 @@
+name: "game"
+instances {
+  id: "camera"
+  prototype: "/components/gameobjects/camera.go"
+}
+collection_instances {
+  id: "level"
+  collection: "/components/collections/levels/level.collection"
+}
+scale_along_z: 0
+embedded_instances {
+  id: "script"
+  data: "components {\n"
+  "  id: \"game\"\n"
+  "  component: \"/scripts/game.script\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "factories"
+  children: "props"
+  data: "components {\n"
+  "  id: \"player\"\n"
+  "  component: \"/components/factories/player.collectionfactory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"debug\"\n"
+  "  component: \"/components/factories/debug.factory\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "props"
+  data: "components {\n"
+  "  id: \"falling_platform\"\n"
+  "  component: \"/components/factories/props/falling_platform.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"trampoline\"\n"
+  "  component: \"/components/factories/props/trampoline.factory\"\n"
+  "}\n"
+  ""
+}

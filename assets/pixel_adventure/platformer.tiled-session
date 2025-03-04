@@ -17,20 +17,26 @@
             }
         },
         "platformer.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 4.4427,
             "scaleInEditor": 1
         },
+        "test.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "test2.tmx": {
-            "scale": 2.1909375,
-            "selectedLayer": 0,
+            "scale": 3.4,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 344.1449151333619,
-                "y": 181.8856083297675
+                "x": 314.7058823529412,
+                "y": 238.97058823529412
             }
         }
     },
     "last.exportedFilePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/data",
-    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-platformer/assets/tilemap/Terrain",
+    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)",
     "map.height": 22,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
@@ -39,17 +45,22 @@
     "map.width": 40,
     "openFiles": [
         "test2.tmx",
-        "platformer.tsx"
+        "platformer.tsx",
+        "test.tsx"
     ],
     "project": "platformer.tiled-project",
+    "property.type": "int",
     "recentFiles": [
+        "test.tsx",
         "platformer.tsx",
         "test2.tmx",
         "map.tmx"
     ],
+    "resizeMap.removeObjects": false,
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 16,
         "width": 16
-    }
+    },
+    "tileset.type": 1
 }

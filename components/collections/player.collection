@@ -12,6 +12,9 @@ embedded_instances {
   children: "particles"
   children: "player"
   data: ""
+  position {
+    z: 0.9
+  }
 }
 embedded_instances {
   id: "particles"

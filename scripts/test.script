@@ -19,6 +19,7 @@ local is_walking         = false
 
 -- Acquire input focus
 function init(self)
+	pprint("init")
 	msg.post(".", "acquire_input_focus")
 end
 

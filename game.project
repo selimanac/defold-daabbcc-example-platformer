@@ -1,5 +1,6 @@
 [bootstrap]
-main_collection = /components/collections/game.collectionc
+main_collection = /scenes/game.collectionc
+render = /render/game.renderc
 
 [script]
 shared_state = 1
@@ -20,6 +21,7 @@ title = defold-daabbcc-platformer
 custom_resources = data
 dependencies#0 = https://github.com/selimanac/defold-daabbcc/archive/refs/heads/v3.x.zip
 dependencies#1 = https://github.com/subsoap/defos/archive/refs/heads/master.zip
+dependencies#2 = https://github.com/britzl/extension-imgui/archive/refs/heads/master.zip
 
 [daabbcc]
 max_group_count = 1
@@ -39,4 +41,10 @@ subpixels = 0
 [defos]
 view_width = 1280
 view_height = 720
+
+[input]
+repeat_delay = 0.0
+repeat_interval = 0.0
+use_accelerometer = 0
+game_binding = /input/game.input_bindingc
 

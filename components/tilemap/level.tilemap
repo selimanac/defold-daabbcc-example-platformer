@@ -87,5 +87,10 @@ layers {
     y: 21
     tile: 128
   }
+  cell {
+    x: 210
+    y: 42
+    tile: 0
+  }
 }
 material: "/builtins/materials/tile_map.material"
