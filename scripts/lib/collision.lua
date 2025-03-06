@@ -5,7 +5,7 @@ local collision          = {}
 
 local aabb_group_id      = 0
 local selected_mask_bits = bit.bor(const.COLLISION_BITS.ENEMY, const.COLLISION_BITS.ITEM)
-local tile_mask_bits     = bit.bor(const.COLLISION_BITS.TILE)
+local tile_mask_bits     = bit.bor(const.COLLISION_BITS.TILE, const.COLLISION_BITS.PROP)
 
 function collision.init()
 	aabb_group_id = daabbcc.new_group(daabbcc.UPDATE_PARTIALREBUILD)
@@ -46,10 +46,10 @@ function collision.query_aabb(x, y, width, height, mask_bits, get_manifold)
 	return daabbcc.query_aabb(aabb_group_id, x, y, width, height, mask_bits, get_manifold)
 end
 
-function collision.raycast(ray_start, ray_end, mask_bits, get_manifold)
+function collision.raycast(ray_start_x, ray_start_y, ray_end_x, ray_end_y, is_mask, get_manifold)
 	local mask_bits = mask_bits and mask_bits or nil
 	get_manifold    = get_manifold and get_manifold or nil
-	return daabbcc.raycast(aabb_group_id, ray_start.x, ray_start.y, ray_end.x, ray_end.y, mask_bits, get_manifold)
+	return daabbcc.raycast(aabb_group_id, ray_start_x, ray_start_y, ray_end_x, ray_end_y, mask_bits, get_manifold)
 end
 
 function collision.raycast_sort(ray_start, ray_end, mask_bits, get_manifold)
@@ -60,6 +60,10 @@ end
 
 function collision.reset()
 	daabbcc.reset()
+end
+
+function collision.final()
+	collision.reset()
 end
 
 return collision

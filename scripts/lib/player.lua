@@ -10,24 +10,30 @@ local current_dir        = 0
 local tile_query_results = nil
 local tile_query_count   = 0
 
+local is_prop            = false
+local is_collectable     = false
+
+--local collectable_query_results = nil
+-- local collectable_query_count   = 0
+
 function player.init()
-	local player_ids         = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
-	local player_sprite      = msg.url(player_ids[hash("/player")])
-	player_sprite.fragment   = "sprite"
+	local player_ids               = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
+	local player_sprite            = msg.url(player_ids[hash("/player")])
+	player_sprite.fragment         = "sprite"
 
-	local run_pfx            = msg.url(player_ids[hash("/particles")])
-	run_pfx.fragment         = "run"
+	local run_pfx                  = msg.url(player_ids[hash("/particles")])
+	run_pfx.fragment               = "run"
 
-	local ground_hit_pfx     = msg.url(player_ids[hash("/particles")])
-	ground_hit_pfx.fragment  = "ground_hit"
+	local ground_hit_pfx           = msg.url(player_ids[hash("/particles")])
+	ground_hit_pfx.fragment        = "ground_hit"
 
-	local jump_pfx           = msg.url(player_ids[hash("/particles")])
-	jump_pfx.fragment        = "jump"
+	local jump_pfx                 = msg.url(player_ids[hash("/particles")])
+	jump_pfx.fragment              = "jump"
 
-	local sliding_pfx        = msg.url(player_ids[hash("/particles")])
-	sliding_pfx.fragment     = "slide"
+	local sliding_pfx              = msg.url(player_ids[hash("/particles")])
+	sliding_pfx.fragment           = "slide"
 
-	data.player.ids          =
+	data.player.ids                =
 	{
 		CONTAINER      = msg.url(player_ids[hash("/container")]),
 		PLAYER_SPRITE  = player_sprite,
@@ -37,9 +43,17 @@ function player.init()
 		SLIDING_PFX    = sliding_pfx
 	}
 
-	data.player.gravity_down = const.PLAYER.GRAVITY_DOWN
+	data.player.gravity_down       = const.PLAYER.GRAVITY_DOWN
 
-	data.player.aabb_id      = collision.insert_gameobject(data.player.ids.CONTAINER, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, const.COLLISION_BITS.PLAYER, false)
+	data.player.aabb_id            = collision.insert_gameobject(data.player.ids.CONTAINER, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, const.COLLISION_BITS.PLAYER, false)
+
+	data.game.state.input_pause    = true
+	data.game.state.skip_colliders = true
+
+	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.APPEARING, function()
+		data.game.state.input_pause    = false
+		data.game.state.skip_colliders = false
+	end)
 end
 
 ---------------------------
@@ -101,6 +115,10 @@ local function verticle_movement(dt)
 end
 
 function player.update(dt)
+	if data.game.state.skip_colliders then
+		return
+	end
+
 	verticle_movement(dt)
 	horizontal_movement(dt)
 
@@ -112,6 +130,8 @@ function player.update(dt)
 
 	-- Player to tiles collision
 	tile_query_results, tile_query_count = collision.tiles(data.player.aabb_id)
+
+	-- collectable_query_results, collectable_query_count = collision.collectable(data.player.aabb_id)
 
 	if tile_query_results then
 		for i = 1, tile_query_count do
@@ -125,31 +145,46 @@ function player.update(dt)
 			local tile = data.map_objects[aabb_id]
 			local prop = data.props[aabb_id]
 
-			local is_single_side_platform = false
-			local is_single_side_platform_top = false
 
-
-			local r, c = collision.query_aabb(data.player.position.x, data.player.position.y - (const.PLAYER.SIZE.h / 2), 5, 5, const.COLLISION_BITS.TILE, true)
-
-
-			if c > 0 then
-				--tile = data.map_objects[r[1].id]
-				--	pprint(tile)
-			end
-			if tile and tile.name == "SINGLE_SIDE_PLATFORM" and c > 0 and r[1].normal_y == 1 then
-				is_single_side_platform_top = true
+			is_prop = prop and true or false
+			if is_prop then
+				is_collectable = prop.collectable
 			else
-				is_single_side_platform_top = false
+				is_collectable = false
 			end
 
-			if tile and tile.name == "SINGLE_SIDE_PLATFORM" then
-				is_single_side_platform = true
+
+			--print(is_prop, is_collectable)
+
+
+			local is_one_way_platform = false
+			local is_top_one_way_platform = false
+
+			if tile and tile.name == "ONE_WAY_PLATFORM" then
+				is_one_way_platform = true
 			end
+
+			-- if data.player.state.is_falling then
+			-- 	local r, c = collision.query_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, const.COLLISION_BITS.TILE)
+
+			-- 	if c > 0 then
+			-- 		local one_way_id = r[1]
+			-- 		local one_way_platform = data.map_objects[one_way_id]
+			-- 		if one_way_platform and one_way_platform.name == "ONE_WAY_PLATFORM" then
+			-- 			pprint(one_way_platform)
+			-- 			print("is_one_way_platform:", is_one_way_platform)
+			-- 			is_top_one_way_platform = true
+			-- 		end
+			-- 	else
+			-- 		is_top_one_way_platform = false
+			-- 	end
+			-- end
 
 			-- Bottom Collision: normal_y == 1
 			if query_result.normal_y == 1 and
 				data.player.state.on_ground == false and
-				data.player.state.is_falling
+				data.player.state.is_falling and
+				is_collectable == false
 			then
 				-- ground offset
 				data.player.position.y = data.player.position.y + offset_y
@@ -166,14 +201,21 @@ function player.update(dt)
 			end
 
 			-- Top Collision: normal_y == -1
-			if query_result.normal_y == -1 and data.player.state.is_jumping and is_single_side_platform == false then
+			if query_result.normal_y == -1 and
+				data.player.state.is_jumping and
+				is_one_way_platform == false and
+				is_collectable == false
+			then
 				data.player.position.y = data.player.position.y + offset_y
 				data.player.velocity.y = 0
 				data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
 			end
 
 			-- Left / Right Collision: normal_x == 1 or normal_x == -1
-			if query_result.normal_x == 1 or query_result.normal_x == -1 and is_single_side_platform == false then
+			if (query_result.normal_x == 1 or query_result.normal_x == -1) and
+				is_one_way_platform == false and
+				is_collectable == false
+			then
 				data.player.velocity.x = 0
 				data.player.position.x = data.player.position.x + offset_x
 
@@ -183,7 +225,8 @@ function player.update(dt)
 				end
 			end
 
-			if prop and prop.status == false then
+			if is_prop and prop.status == false then
+				--	pprint(prop)
 				prop.fn(prop, query_result)
 			end
 
@@ -231,6 +274,12 @@ function player.input(action_id, action)
 			data.player.state.jump_pressed = false
 		end
 	end
+end
+
+function player.final()
+	go.delete(data.player.ids.CONTAINER, true)
+	data.player.velocity = vmath.vector3()
+	data.player.direction = 0
 end
 
 return player

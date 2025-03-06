@@ -27,6 +27,11 @@ key_trigger {
   action: "MOVE_RIGHT"
 }
 
+mouse_trigger {
+  input: MOUSE_BUTTON_LEFT
+  action: "MOUSE_BUTTON_LEFT"
+}
+
 
 key_trigger {
   input: KEY_TAB

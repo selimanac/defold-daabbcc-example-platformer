@@ -1,0 +1,24 @@
+script: "/scripts/gui/game.gui_script"
+textures {
+  name: "game"
+  texture: "/components/atlas/game.atlas"
+}
+nodes {
+  position {
+    x: 615.0
+    y: 339.0
+  }
+  type: TYPE_BOX
+  texture: "game/Restart"
+  id: "restart_btn"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+layers {
+  name: "text"
+}
+layers {
+  name: "font"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

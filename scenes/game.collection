@@ -3,10 +3,6 @@ instances {
   id: "camera"
   prototype: "/components/gameobjects/camera.go"
 }
-collection_instances {
-  id: "level"
-  collection: "/components/collections/levels/level.collection"
-}
 scale_along_z: 0
 embedded_instances {
   id: "script"
@@ -27,6 +23,10 @@ embedded_instances {
   "  id: \"debug\"\n"
   "  component: \"/components/factories/debug.factory\"\n"
   "}\n"
+  "components {\n"
+  "  id: \"level\"\n"
+  "  component: \"/components/factories/level.collectionfactory\"\n"
+  "}\n"
   ""
 }
 embedded_instances {
@@ -38,6 +38,38 @@ embedded_instances {
   "components {\n"
   "  id: \"trampoline\"\n"
   "  component: \"/components/factories/props/trampoline.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"apple\"\n"
+  "  component: \"/components/factories/props/apple.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"prop_collected\"\n"
+  "  component: \"/components/factories/props/prop_collected.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"box1\"\n"
+  "  component: \"/components/factories/props/box1.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"spikes\"\n"
+  "  component: \"/components/factories/props/spikes.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"spike_head\"\n"
+  "  component: \"/components/factories/props/spike_head.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"checkpoint\"\n"
+  "  component: \"/components/factories/props/checkpoint.factory\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "gui"
+  data: "components {\n"
+  "  id: \"game\"\n"
+  "  component: \"/components/gui/game.gui\"\n"
   "}\n"
   ""
 }

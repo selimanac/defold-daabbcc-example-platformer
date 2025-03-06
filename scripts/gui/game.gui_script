@@ -1,0 +1,39 @@
+local data  = require("scripts.lib.data")
+local const = require("scripts.lib.const")
+
+local restart_btn_node
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	restart_btn_node = gui.get_node("restart_btn")
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action_id == const.TRIGGERS.MOUSE_BUTTON_LEFT and action.pressed and gui.pick_node(restart_btn_node, action.x, action.y) then
+		msg.post(const.URLS.GAME, const.MSG.RESTART)
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

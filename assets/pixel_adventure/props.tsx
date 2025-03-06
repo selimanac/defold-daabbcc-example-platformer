@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.1.1" name="test" tilewidth="64" tileheight="64" tilecount="15" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="props" tilewidth="64" tileheight="64" tilecount="18" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1" type="TRAMPOLINE">
   <image source="Traps/Trampoline/trampoline_idle.png" width="27" height="27"/>
  </tile>
- <tile id="2">
-  <image source="Traps/Spikes/Idle.png" width="16" height="16"/>
+ <tile id="2" type="SPIKES">
+  <image source="Traps/Spikes/spikes.png" width="16" height="8"/>
  </tile>
  <tile id="3">
   <image source="Traps/Spiked Ball/Spiked Ball.png" width="28" height="28"/>
  </tile>
- <tile id="4">
-  <image source="Traps/Spike Head/Idle.png" width="54" height="52"/>
+ <tile id="4" type="SPIKE_HEAD">
+  <image source="Traps/Spike Head/Idle.png" width="43" height="43"/>
  </tile>
  <tile id="5">
   <image source="Traps/Saw/Off.png" width="38" height="38"/>
@@ -45,5 +45,14 @@
  </tile>
  <tile id="15" type="PLAYER">
   <image source="Main Characters/Virtual Guy/Idle (32x32)/00_Idle (32x32).png" width="32" height="32"/>
+ </tile>
+ <tile id="16" type="APPLE">
+  <image source="Items/Fruits/apple/images/apple_01.png" width="32" height="32"/>
+ </tile>
+ <tile id="17" type="BOX_1">
+  <image source="Items/Boxes/Box1/Idle.png" width="28" height="24"/>
+ </tile>
+ <tile id="18" type="CHECKPOINT">
+  <image source="Items/Checkpoints/Checkpoint/checkpoint_no_flag.png" width="64" height="64"/>
  </tile>
 </tileset>

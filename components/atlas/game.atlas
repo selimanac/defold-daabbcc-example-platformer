@@ -1,3 +1,12 @@
+images {
+  image: "/assets/pixel_adventure/Menu/Buttons/Restart.png"
+}
+images {
+  image: "/assets/pixel_adventure/Traps/Spikes/spikes.png"
+}
+images {
+  image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/checkpoint_no_flag.png"
+}
 animations {
   id: "pink_man_player_idle"
   images {
@@ -382,4 +391,367 @@ animations {
   }
   fps: 18
 }
+animations {
+  id: "prop_apple_idle"
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_06.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_07.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_08.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_09.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_10.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_11.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_12.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_13.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_14.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_15.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_16.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/apple/images/apple_17.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 28
+}
+animations {
+  id: "prop_collected"
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/collected/images/collected_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/collected/images/collected_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/collected/images/collected_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/collected/images/collected_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/collected/images/collected_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Fruits/collected/images/collected_06.png"
+  }
+  fps: 16
+}
+animations {
+  id: "box1_idle"
+  images {
+    image: "/assets/pixel_adventure/Items/Boxes/Box1/Idle.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 1
+}
+animations {
+  id: "box1_on"
+  images {
+    image: "/assets/pixel_adventure/Items/Boxes/Box1/images/box1_hit_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Boxes/Box1/images/box1_hit_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Boxes/Box1/images/box1_hit_03.png"
+  }
+  fps: 12
+}
+animations {
+  id: "player_appearing"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_06.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_07.png"
+  }
+  fps: 16
+}
+animations {
+  id: "player_disappearing"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_07.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_06.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/appearingpng_01.png"
+  }
+  images {
+    image: "/assets/blank.png"
+  }
+  fps: 16
+}
+animations {
+  id: "spike_head_idle"
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Spike Head/images/spike_head_idle_04.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "checkpoint_flag_idle"
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_06.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_07.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_08.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_09.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_idle_10.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 16
+}
+animations {
+  id: "checkpoint_flag_out"
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_06.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_07.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_08.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_09.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_10.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_11.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_12.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_13.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_14.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_15.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_16.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_17.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_18.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_19.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_20.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_21.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_22.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_23.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_24.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_25.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_26.png"
+  }
+  fps: 28
+}
 extrude_borders: 2
+max_page_width: 0
+max_page_height: 0

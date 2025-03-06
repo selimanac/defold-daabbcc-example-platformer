@@ -29,7 +29,7 @@ local function setup_urls()
 end
 
 
-function manager.init(level)
+function manager.init()
 	msg.post(".", "acquire_input_focus")
 	msg.post("@render:", "clear_color", { color = const.BACKGROUND_COLOR })
 
@@ -41,11 +41,12 @@ function manager.init(level)
 	end
 
 	collision.init()
-	map.load(level)
+	map.init()
+	map.load(data.game.level)
 	player.init()
 	game_camera.init()
 
-	if data.debug then
+	if data.debug.init then
 		debug.init()
 	end
 
@@ -53,20 +54,38 @@ function manager.init(level)
 end
 
 function manager.update(dt)
-	player.update(dt)
-	game_camera.update(dt)
-
-	if data.debug then
+	if data.debug.init then
 		debug.update()
 	end
+
+	if data.game.state.pause then
+		return
+	end
+
+	player.update(dt)
+	game_camera.update(dt)
 end
 
 function manager.input(action_id, action)
+	if data.game.state.input_pause or data.game.state.pause then
+		return
+	end
+
 	player.input(action_id, action)
 end
 
-function manager.final()
+function manager.message(message_id, message, sender)
+	if message_id == const.MSG.RESTART then
+		manager.final()
+		manager.init()
+	end
+end
 
+function manager.final()
+	collision.final()
+	map.final()
+	player.final()
+	data.final()
 end
 
 return manager

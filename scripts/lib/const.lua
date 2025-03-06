@@ -16,14 +16,22 @@ const.COLLISION_BITS   = {
 }
 
 const.FACTORIES        = {
+	LEVEL_MAP = "/factories#level",
 	PLAYER = "/factories#player",
+
+	-- Props
 	FALLING_PLATFORM = "/props#falling_platform",
-	TRAMPOLINE = "/props#trampoline"
+	TRAMPOLINE = "/props#trampoline",
+	APPLE = "/props#apple",
+	BOX1 = "/props#box1",
+	PROP_COLLECTED = "/props#prop_collected",
+	SPIKE = "/props#spikes",
+	SPIKE_HEAD = "/props#spike_head",
+	CHECKPOINT = "/props#checkpoint"
 }
 
 const.PLAYER           = {
 	SIZE               = { w = 20, h = 25 },
-
 	MOVE_ACCELERATION  = 800,
 	MAX_MOVE_SPEED     = 150,
 	DECELERATION_LERP  = 0.2,
@@ -42,7 +50,9 @@ const.PLAYER           = {
 		FALL = hash("virtual_guy_player_fall"),
 		HIT = hash("virtual_guy_player_hit"),
 		DOUBLE_JUMP = hash("virtual_guy_player_double_jump"),
-		WALL_JUMP = hash("virtual_guy_player_wall_jump")
+		WALL_JUMP = hash("virtual_guy_player_wall_jump"),
+		APPEARING = hash("player_appearing"),
+		DISAPPEARING = hash("player_disappearing"),
 	}
 }
 
@@ -56,13 +66,20 @@ const.CAMERA           = {
 const.TRIGGERS         = {
 	MOVE_LEFT = hash("MOVE_LEFT"),
 	MOVE_RIGHT = hash("MOVE_RIGHT"),
-	JUMP = hash("JUMP")
+	JUMP = hash("JUMP"),
+	MOUSE_BUTTON_LEFT = hash("MOUSE_BUTTON_LEFT")
 }
 
 const.URLS             = {
 	CAMERA_CONTAINER = "/camera",
 	CAMERA_ID        = "/camera#camera",
-	MAP              = "/level/map#level"
+	MAP              = "",
+	MAP_CONTANINER   = "",
+	GAME             = "/script#game"
+}
+
+const.MSG              = {
+	RESTART = hash("restart")
 }
 
 return const

@@ -25,6 +25,18 @@ function player_state.idle(grounded, current_dir)
 	end
 end
 
+function player_state.die()
+	particlefx.stop(data.player.ids.WALK_PFX)
+	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.HIT)
+	go.animate(data.player.ids.CONTAINER, "position.y", go.PLAYBACK_ONCE_FORWARD, data.player.position.y + 50, go.EASING_OUTSINE, 0.3, 0, function()
+		sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.DISAPPEARING, function()
+			timer.delay(0.3, false, function()
+				msg.post(const.URLS.GAME, const.MSG.RESTART)
+			end)
+		end)
+	end)
+end
+
 function player_state.jump(jump_timer)
 	if jump_timer == 0 then
 		data.player.state.is_jumping = true

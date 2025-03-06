@@ -1,7 +1,7 @@
 name: "level_1"
 scale_along_z: 0
 embedded_instances {
-  id: "map"
+  id: "container"
   data: "components {\n"
   "  id: \"level\"\n"
   "  component: \"/components/tilemap/level.tilemap\"\n"
