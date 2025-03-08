@@ -3,6 +3,16 @@ local data         = require("scripts.lib.data")
 
 local player_state = {}
 
+function player_state.on_slope_enter()
+    data.player.state.on_slope = true
+    -- You might want to play a specific animation or particle effect here
+end
+
+function player_state.on_slope_exit()
+    data.player.state.on_slope = false
+end
+
+
 function player_state.flip(current_dir)
 	if current_dir ~= data.player.direction then
 		local rot = data.player.direction == -1 and vmath.quat_rotation_y(math.pi) or vmath.quat_rotation_y(0)

@@ -34,20 +34,21 @@ const.FACTORIES        = {
 }
 
 const.PLAYER           = {
-	SIZE               = { w = 20, h = 25 },
-	MOVE_ACCELERATION  = 800,
-	MAX_MOVE_SPEED     = 150,
-	DECELERATION_LERP  = 0.2,
-	JUMP_FORCE         = 350,
-	WALL_JUMP_FORCE    = 250,
-	GRAVITY_UP         = -1500,
-	GRAVITY_DOWN       = -1500,
-	GRAVITY_SLIDE      = -200,
-	GRAVITY_WALL_JUMP  = -800,
-	MAX_JUMP_HOLD_TIME = 1,
-	SLOPE_CLIMB_SPEED  = 100,
+	SIZE                  = { w = 20, h = 25 },
+	MOVE_ACCELERATION     = 800,
+	MAX_MOVE_SPEED        = 150,
+	DECELERATION_LERP     = 0.2,
+	JUMP_FORCE            = 350,
+	WALL_JUMP_FORCE       = 250,
+	GRAVITY_UP            = -1500,
+	GRAVITY_DOWN          = -1500,
+	GRAVITY_SLIDE         = -200,
+	GRAVITY_WALL_JUMP     = -800,
+	MAX_JUMP_HOLD_TIME    = 1,
+	SLOPE_FRICTION        = 0.8, -- Adjust this value to control sliding on slopes
+	SLOPE_ANGLE_THRESHOLD = 45, -- Maximum angle for walkable slopes
 
-	ANIM               = {
+	ANIM                  = {
 		IDLE = hash("virtual_guy_player_idle"),
 		RUN = hash("virtual_guy_player_run"),
 		JUMP = hash("virtual_guy_player_jump"),
