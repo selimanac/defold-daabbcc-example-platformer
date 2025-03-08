@@ -164,22 +164,11 @@ function player.update(dt)
 			data.player.state.on_slope = tile and tile.name == "SLOPE45" -- IS SLOPE
 			is_one_way_platform        = tile and tile.name == "ONE_WAY_PLATFORM"
 
+			if data.player.state.on_slope then
+				-- SLOPE CODE HERE
+			end
 
-			--[[	if data.player.state.is_falling then
-				local r, c = collision.query_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, const.COLLISION_BITS.TILE, true)
 
-				if c > 0 then
-					local one_way_id = r[1]
-					local one_way_platform = data.map_objects[one_way_id]
-					if one_way_platform and one_way_platform.name == "ONE_WAY_PLATFORM" then
-						pprint(one_way_platform)
-						print("is_one_way_platform:", is_one_way_platform)
-						is_top_one_way_platform = true
-					end
-				else
-					is_top_one_way_platform = false
-				end
-			end]]
 
 			-- Bottom Collision: normal_y == 1
 			if query_result.normal_y == 1 and
