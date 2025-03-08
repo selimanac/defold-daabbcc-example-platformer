@@ -17,20 +17,20 @@ const.COLLISION_BITS   = {
 }
 
 const.FACTORIES        = {
-	LEVEL_MAP = "/factories#level",
-	PLAYER = "/factories#player",
+	LEVEL_MAP        = "/factories#level",
+	PLAYER           = "/factories#player",
 
 	-- Props
 	FALLING_PLATFORM = "/props#falling_platform",
-	TRAMPOLINE = "/props#trampoline",
-	APPLE = "/props#apple",
-	BOX1 = "/props#box1",
-	BOX1_BREAK = "/props#box1_break",
-	PROP_COLLECTED = "/props#prop_collected",
-	SPIKE = "/props#spikes",
-	SPIKE_HEAD = "/props#spike_head",
-	CHECKPOINT = "/props#checkpoint",
-	FIRE  = "/props#fire"
+	TRAMPOLINE       = "/props#trampoline",
+	APPLE            = "/props#apple",
+	BOX1             = "/props#box1",
+	BOX1_BREAK       = "/props#box1_break",
+	PROP_COLLECTED   = "/props#prop_collected",
+	SPIKE            = "/props#spikes",
+	SPIKE_HEAD       = "/props#spike_head",
+	CHECKPOINT       = "/props#checkpoint",
+	FIRE             = "/props#fire"
 }
 
 const.PLAYER           = {
@@ -45,6 +45,7 @@ const.PLAYER           = {
 	GRAVITY_SLIDE      = -200,
 	GRAVITY_WALL_JUMP  = -800,
 	MAX_JUMP_HOLD_TIME = 1,
+	SLOPE_CLIMB_SPEED  = 100,
 
 	ANIM               = {
 		IDLE = hash("virtual_guy_player_idle"),

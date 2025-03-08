@@ -45,6 +45,7 @@ data.player          = {
 
 	state        = {
 		on_ground    = true,
+		on_slope     = false,
 		jump_pressed = false,
 		is_jumping   = false,
 		is_walking   = false,

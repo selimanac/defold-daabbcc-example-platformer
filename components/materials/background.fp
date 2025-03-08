@@ -21,5 +21,4 @@ void main()
     // Wrap the UVs so they repeat
     uv = fract(uv);
     out_fragColor = texture(tex0, uv);
-    wefwef;
 }

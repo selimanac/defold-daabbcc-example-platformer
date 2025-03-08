@@ -13,8 +13,10 @@ local tile_query_count   = 0
 local is_prop            = false
 local is_collectable     = false
 
---local collectable_query_results = nil
--- local collectable_query_count   = 0
+
+local slope_angle     = 45 -- SLOPE ANGLE
+local slope_direction = 1  -- SLOPE DIRECTION
+
 
 function player.init()
 	local player_ids               = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
@@ -82,7 +84,7 @@ end
 ---------------------------
 -- Vertical movement
 ---------------------------
-local function verticle_movement(dt)
+local function vertical_movement(dt)
 	if not data.player.state.on_ground then
 		-- wall jump
 		if data.player.state.is_sliding and data.player.state.jump_pressed and data.player.direction ~= 0 and data.player.direction ~= current_dir then
@@ -114,12 +116,14 @@ local function verticle_movement(dt)
 	end
 end
 
+
+
 function player.update(dt)
 	if data.game.state.skip_colliders then
 		return
 	end
 
-	verticle_movement(dt)
+	vertical_movement(dt)
 	horizontal_movement(dt)
 
 	-- Update position using current data.player.velocity.
@@ -156,11 +160,12 @@ function player.update(dt)
 			local is_one_way_platform = false
 			local is_top_one_way_platform = false
 
-			if tile and tile.name == "ONE_WAY_PLATFORM" then
-				is_one_way_platform = true
-			end
 
-			if data.player.state.is_falling then
+			data.player.state.on_slope = tile and tile.name == "SLOPE45" -- IS SLOPE
+			is_one_way_platform        = tile and tile.name == "ONE_WAY_PLATFORM"
+
+
+			--[[	if data.player.state.is_falling then
 				local r, c = collision.query_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, const.COLLISION_BITS.TILE, true)
 
 				if c > 0 then
@@ -174,13 +179,14 @@ function player.update(dt)
 				else
 					is_top_one_way_platform = false
 				end
-			end
+			end]]
 
 			-- Bottom Collision: normal_y == 1
 			if query_result.normal_y == 1 and
 				data.player.state.on_ground == false and
 				data.player.state.is_falling and
-				is_collectable == false
+				is_collectable == false and
+				not data.player.state.on_slope
 			then
 				-- ground offset
 				data.player.position.y = data.player.position.y + offset_y
@@ -196,11 +202,14 @@ function player.update(dt)
 				data.player.state.on_ground = true
 			end
 
+
+
 			-- Top Collision: normal_y == -1
 			if query_result.normal_y == -1 and
 				data.player.state.is_jumping and
 				is_one_way_platform == false and
-				is_collectable == false
+				is_collectable == false and
+				not data.player.state.on_slope
 			then
 				data.player.position.y = data.player.position.y + offset_y
 				data.player.velocity.y = 0
@@ -210,7 +219,8 @@ function player.update(dt)
 			-- Left / Right Collision: normal_x == 1 or normal_x == -1
 			if (query_result.normal_x == 1 or query_result.normal_x == -1) and
 				is_one_way_platform == false and
-				is_collectable == false
+				is_collectable == false and
+				not data.player.state.on_slope
 			then
 				data.player.velocity.x = 0
 				data.player.position.x = data.player.position.x + offset_x
