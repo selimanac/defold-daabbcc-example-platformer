@@ -3,6 +3,7 @@ local utils        = require("scripts.lib.utils")
 local data         = require("scripts.lib.data")
 local collision    = require("scripts.lib.collision")
 local player_state = require("scripts.lib.player_state")
+local particles    = require("scripts.lib.particles")
 
 local props        = {}
 
@@ -45,28 +46,54 @@ local function init_collectable(prop, query_result)
 	end
 end
 
-
-
 local function init_box(prop, query_result)
 	if (query_result.normal_y == -1 or query_result.normal_y == 1) and prop.status == false then
 		prop.status = true
+
 		collision.remove(prop.aabb_id)
+
 		if query_result.normal_y == 1 then
 			player_state.jump(0)
 			data.player.velocity.y = data.player.velocity.y - (const.PLAYER.GRAVITY_SLIDE * 0.5)
 		end
+
+		go.animate(prop.id, "position.y", go.PLAYBACK_ONCE_PINGPONG, prop.position.y + 5, go.EASING_INQUAD, 0.3)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			go.delete(prop.id)
+		end)
+
+		timer.delay(0.2, false, function()
+			local part_ids = collectionfactory.create(prop.data.break_factory, prop.position)
+			particles.spawn(part_ids, prop.data.part_count)
 		end)
 
 		data.props[prop.aabb_id] = nil
 	end
 end
 
+local function init_fire(prop, query_result)
+	if prop.status == false and prop.data.active == false then
+		prop.status = true
+		prop.data.active = true
+		sprite.play_flipbook(prop.sprite, prop.anims.hit, function()
+			prop.data.burning = true
+			prop.status = false
+			sprite.play_flipbook(prop.sprite, prop.anims.on)
+			prop.data.timer_handle = timer.delay(1.0, false, function()
+				sprite.play_flipbook(prop.sprite, prop.anims.idle)
+				prop.data.active = false
+				prop.data.burning = false
+			end)
+		end)
+	end
+
+	if prop.data.burning == true then
+		player_state.die()
+	end
+end
+
 local function init_spikes(prop, query_result)
 	prop.status = true
-	data.game.state.input_pause = true
-	data.game.state.skip_colliders = true
 
 	player_state.die()
 end
@@ -164,6 +191,10 @@ props.TYPE = {
 		anims = {
 			idle = hash("box1_idle"),
 			on = hash("box1_on"),
+		},
+		data = {
+			break_factory = const.FACTORIES.BOX1_BREAK,
+			part_count = 4
 		}
 	},
 	SPIKES = {
@@ -221,6 +252,31 @@ props.TYPE = {
 			idle    = hash("checkpoint_no_flag"),
 			on      = hash("checkpoint_flag_out"),
 			on_idle = hash("checkpoint_flag_idle"),
+		}
+	},
+	FIRE = {
+		size = { width = 16, height = 32 },
+		collider_size = { width = 16, height = 4 },
+		offset = vmath.vector3(0, 2, 0),
+		center = { x = 0, y = 0 },
+		fn = init_fire,
+		factory = const.FACTORIES.FIRE,
+		position = vmath.vector3(),
+		status = false,
+		collectable = false,
+		aabb_id = 0,
+		id = nil,
+		sprite = nil,
+		collision_bit = const.COLLISION_BITS.TILE,
+		anims = {
+			idle = hash("fire_idle"),
+			on = hash("fire_on"),
+			hit = hash("fire_hit"),
+		},
+		data = {
+			active = false,
+			burning = false,
+			timer_handle = nil
 		}
 	},
 }
@@ -303,11 +359,10 @@ function props.add(object_data, hflip, vflip)
 			aabb_id = prop.aabb_id
 		}
 
-
 		if data.last_checkpoint == 0 then
-			--	print("object_data.id:", object_data.id)
 			data.checkpoints[object_data.id] = checkpoint
 		else
+			-- just update the aabb id
 			data.checkpoints[object_data.id].aabb_id = prop.aabb_id
 		end
 

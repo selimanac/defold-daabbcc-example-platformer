@@ -1,6 +1,15 @@
+go.property("background_1", resource.texture("/assets/pixel_adventure/Background/background_blue.png"))
+go.property("background_2", resource.texture("/assets/pixel_adventure/Background/background_brown.png"))
+go.property("background_3", resource.texture("/assets/pixel_adventure/Background/background_gray.png"))
+go.property("background_4", resource.texture("/assets/pixel_adventure/Background/background_green.png"))
+go.property("background_5", resource.texture("/assets/pixel_adventure/Background/background_pink.png"))
+go.property("background_6", resource.texture("/assets/pixel_adventure/Background/background_purple.png"))
+go.property("background_7", resource.texture("/assets/pixel_adventure/Background/background_yellow.png"))
+
 local manager = require("scripts.lib.manager")
 
 function init(self)
+	manager.add_backgrounds(self)
 	manager.init()
 end
 

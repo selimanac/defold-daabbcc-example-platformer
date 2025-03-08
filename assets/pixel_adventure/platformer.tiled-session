@@ -40,16 +40,16 @@
             }
         },
         "test2.tmx": {
-            "scale": 1.293,
+            "scale": 3.6036,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 588.1670533642691,
-                "y": 235.88553750966744
+                "x": 235.18148518148521,
+                "y": 276.39027639027637
             }
         }
     },
     "last.exportedFilePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/data",
-    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Items/Checkpoints/Checkpoint",
+    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Traps/Fire",
     "last.objectTemplatePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure",
     "map.height": 22,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",

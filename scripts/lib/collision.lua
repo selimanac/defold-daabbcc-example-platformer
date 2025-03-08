@@ -22,8 +22,8 @@ function collision.insert_gameobject(go_url, width, height, collision_bit, get_w
 	return daabbcc.insert_gameobject(aabb_group_id, go_url, width, height, collision_bit, get_world_position)
 end
 
-function collision.query_id(aabb_id, is_mask, get_manifold)
-	local mask_bits = is_mask and selected_mask_bits or nil
+function collision.query_id(aabb_id, mask_bits, get_manifold)
+	local mask_bits = mask_bits and mask_bits or nil
 	get_manifold    = get_manifold and get_manifold or nil
 	return daabbcc.query_id(aabb_group_id, aabb_id, mask_bits, get_manifold)
 end

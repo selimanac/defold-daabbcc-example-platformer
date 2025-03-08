@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="props" tilewidth="64" tileheight="64" tilecount="18" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="props" tilewidth="64" tileheight="64" tilecount="19" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1" type="TRAMPOLINE">
   <image source="Traps/Trampoline/trampoline_idle.png" width="27" height="27"/>
@@ -50,9 +50,15 @@
   <image source="Items/Fruits/apple/images/apple_01.png" width="32" height="32"/>
  </tile>
  <tile id="17" type="BOX_1">
-  <image source="Items/Boxes/Box1/Idle.png" width="28" height="24"/>
+  <image source="Items/Boxes/Box1/box1_idle.png" width="20" height="20"/>
  </tile>
  <tile id="18" type="CHECKPOINT">
   <image source="Items/Checkpoints/Checkpoint/checkpoint_no_flag.png" width="64" height="64"/>
+ </tile>
+ <tile id="19" type="FIRE">
+  <image source="Traps/Fire/fire_idle.png" width="16" height="32"/>
+  <objectgroup draworder="index" id="2">
+   <object id="2" x="0" y="16" width="16" height="4"/>
+  </objectgroup>
  </tile>
 </tileset>

@@ -7,6 +7,18 @@ images {
 images {
   image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/checkpoint_no_flag.png"
 }
+images {
+  image: "/assets/pixel_adventure/Items/Boxes/Box1/box1_break_1.png"
+}
+images {
+  image: "/assets/pixel_adventure/Items/Boxes/Box1/box1_break_2.png"
+}
+images {
+  image: "/assets/pixel_adventure/Items/Boxes/Box1/box1_break_3.png"
+}
+images {
+  image: "/assets/pixel_adventure/Items/Boxes/Box1/box1_break_4.png"
+}
 animations {
   id: "pink_man_player_idle"
   images {
@@ -472,7 +484,7 @@ animations {
 animations {
   id: "box1_idle"
   images {
-    image: "/assets/pixel_adventure/Items/Boxes/Box1/Idle.png"
+    image: "/assets/pixel_adventure/Items/Boxes/Box1/box1_idle.png"
   }
   playback: PLAYBACK_NONE
   fps: 1
@@ -488,7 +500,7 @@ animations {
   images {
     image: "/assets/pixel_adventure/Items/Boxes/Box1/images/box1_hit_03.png"
   }
-  fps: 12
+  fps: 14
 }
 animations {
   id: "player_appearing"
@@ -752,6 +764,42 @@ animations {
   }
   fps: 28
 }
+animations {
+  id: "fire_idle"
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/fire_idle.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 1
+}
+animations {
+  id: "fire_on"
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/images/fire_on_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/images/fire_on_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/images/fire_on_03.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+}
+animations {
+  id: "fire_hit"
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/images/fire_hit_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/images/fire_hit_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/images/fire_hit_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Fire/images/fire_hit_04.png"
+  }
+  fps: 12
+}
 extrude_borders: 2
-max_page_width: 0
-max_page_height: 0

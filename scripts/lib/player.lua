@@ -153,10 +153,6 @@ function player.update(dt)
 				is_collectable = false
 			end
 
-
-			--print(is_prop, is_collectable)
-
-
 			local is_one_way_platform = false
 			local is_top_one_way_platform = false
 
@@ -164,21 +160,21 @@ function player.update(dt)
 				is_one_way_platform = true
 			end
 
-			-- if data.player.state.is_falling then
-			-- 	local r, c = collision.query_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, const.COLLISION_BITS.TILE)
+			if data.player.state.is_falling then
+				local r, c = collision.query_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, const.COLLISION_BITS.TILE, true)
 
-			-- 	if c > 0 then
-			-- 		local one_way_id = r[1]
-			-- 		local one_way_platform = data.map_objects[one_way_id]
-			-- 		if one_way_platform and one_way_platform.name == "ONE_WAY_PLATFORM" then
-			-- 			pprint(one_way_platform)
-			-- 			print("is_one_way_platform:", is_one_way_platform)
-			-- 			is_top_one_way_platform = true
-			-- 		end
-			-- 	else
-			-- 		is_top_one_way_platform = false
-			-- 	end
-			-- end
+				if c > 0 then
+					local one_way_id = r[1]
+					local one_way_platform = data.map_objects[one_way_id]
+					if one_way_platform and one_way_platform.name == "ONE_WAY_PLATFORM" then
+						pprint(one_way_platform)
+						print("is_one_way_platform:", is_one_way_platform)
+						is_top_one_way_platform = true
+					end
+				else
+					is_top_one_way_platform = false
+				end
+			end
 
 			-- Bottom Collision: normal_y == 1
 			if query_result.normal_y == 1 and
@@ -226,7 +222,6 @@ function player.update(dt)
 			end
 
 			if is_prop and prop.status == false then
-				--	pprint(prop)
 				prop.fn(prop, query_result)
 			end
 
@@ -235,7 +230,6 @@ function player.update(dt)
 	else -- no result
 		-- No more collision, let it fall
 		data.player.state.on_ground = false
-
 
 		-- fall from sliding
 		if not data.player.state.on_ground and data.player.state.is_sliding then
@@ -278,8 +272,9 @@ end
 
 function player.final()
 	go.delete(data.player.ids.CONTAINER, true)
-	data.player.velocity = vmath.vector3()
+	data.player.velocity  = vmath.vector3()
 	data.player.direction = 0
+	current_dir           = 0
 end
 
 return player

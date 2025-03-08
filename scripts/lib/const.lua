@@ -3,16 +3,17 @@ local const            = {}
 const.DISPLAY_WIDTH    = sys.get_config_number("display.width")
 const.DISPLAY_HEIGHT   = sys.get_config_number("display.height")
 
-const.BACKGROUND_COLOR = vmath.vector4(221 / 255, 198 / 255, 161 / 255, 1)
+const.BACKGROUND_COLOR = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
 
 const.COLLISION_BITS   = {
-	PLAYER = 1,
-	ENEMY  = 2,
-	TILE   = 4,
-	ITEM   = 8,
-	PROP   = 16,
+	PLAYER    = 1,
+	ENEMY     = 2,
+	TILE      = 4,
+	ITEM      = 8,
+	PROP      = 16,
+	PARTICLES = 32,
 
-	ALL    = bit.bnot(0) -- -1 for all results
+	ALL       = bit.bnot(0) -- -1 for all results
 }
 
 const.FACTORIES        = {
@@ -24,10 +25,12 @@ const.FACTORIES        = {
 	TRAMPOLINE = "/props#trampoline",
 	APPLE = "/props#apple",
 	BOX1 = "/props#box1",
+	BOX1_BREAK = "/props#box1_break",
 	PROP_COLLECTED = "/props#prop_collected",
 	SPIKE = "/props#spikes",
 	SPIKE_HEAD = "/props#spike_head",
-	CHECKPOINT = "/props#checkpoint"
+	CHECKPOINT = "/props#checkpoint",
+	FIRE  = "/props#fire"
 }
 
 const.PLAYER           = {
@@ -75,7 +78,9 @@ const.URLS             = {
 	CAMERA_ID        = "/camera#camera",
 	MAP              = "",
 	MAP_CONTANINER   = "",
-	GAME             = "/script#game"
+	GAME             = "/script#game",
+	BACKGROUND       = "/background",
+	BACKGROUND_MODEL = "/background#model"
 }
 
 const.MSG              = {

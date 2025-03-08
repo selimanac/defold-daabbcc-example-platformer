@@ -1,7 +1,9 @@
-local data  = require("scripts.lib.data")
-local const = require("scripts.lib.const")
+local data           = require("scripts.lib.data")
+local const          = require("scripts.lib.const")
 
-local debug = {}
+local debug          = {}
+
+local debug_instance = nil
 
 function debug.draw_aabb(x, y, width, height, color)
 	msg.post("@render:", "draw_line", { start_point = vmath.vector3(x, y, 0), end_point = vmath.vector3(x + width, y, 0), color = color })
@@ -35,9 +37,15 @@ function toogle_profiler()
 end
 
 function debug.init()
-	factory.create("/factories#debug")
-	imgui.set_ini_filename("editor_imgui.ini")
-	toogle_profiler()
+	if debug_instance == nil then
+		debug_instance = factory.create("/factories#debug")
+		imgui.set_ini_filename("editor_imgui.ini")
+		toogle_profiler()
+	end
+end
+
+function debug.final()
+	go.delete(debug_instance, true)
 end
 
 function debug.update()
@@ -49,7 +57,7 @@ function debug.update()
 
 		debug.draw_aabb(data.camera.position.x - (const.CAMERA.DEADZONE.x * 2 / 2), data.camera.position.y - (const.CAMERA.DEADZONE.y * 2 / 2), const.CAMERA.DEADZONE.x * 2, const.CAMERA.DEADZONE.y * 2, vmath.vector4(0, 1, 0, 1))
 
-		debug.draw_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, vmath.vector4(1, 0, 0, 1))
+		debug.draw_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, vmath.vector4(1, 1, 0, 1))
 
 
 		--local ray_start = vmath.vector3(data.player.position.x, data.player.position.y - (const.PLAYER.SIZE.h / 2), 0)
@@ -63,6 +71,26 @@ function debug.update()
 		----------------------
 		imgui.begin_window("Properties", nil, imgui.WINDOWFLAGS_MENUBAR)
 
+		imgui.text("GAME STATE")
+
+
+		local changed, checked = imgui.checkbox("pause", data.game.state.pause)
+		if changed then
+			data.game.state.pause = checked
+		end
+
+		local changed, checked = imgui.checkbox("input_pause", data.game.state.input_pause)
+		if changed then
+			data.game.state.input_pause = checked
+		end
+
+		local changed, checked = imgui.checkbox("skip_colliders", data.game.state.skip_colliders)
+		if changed then
+			data.game.state.skip_colliders = checked
+		end
+
+
+		imgui.separator()
 		imgui.text("DEBUG")
 
 		local changed, checked = imgui.checkbox("Colliders", data.debug.colliders)
@@ -81,7 +109,6 @@ function debug.update()
 		local changed, checked = imgui.checkbox("Profiler", data.debug.profiler)
 		if changed then
 			data.debug.profiler = checked
-
 			toogle_profiler()
 		end
 

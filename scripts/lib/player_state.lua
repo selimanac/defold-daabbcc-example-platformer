@@ -26,6 +26,9 @@ function player_state.idle(grounded, current_dir)
 end
 
 function player_state.die()
+	data.game.state.input_pause = true
+	data.game.state.skip_colliders = true
+
 	particlefx.stop(data.player.ids.WALK_PFX)
 	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.HIT)
 	go.animate(data.player.ids.CONTAINER, "position.y", go.PLAYBACK_ONCE_FORWARD, data.player.position.y + 50, go.EASING_OUTSINE, 0.3, 0, function()

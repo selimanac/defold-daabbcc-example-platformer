@@ -7,6 +7,8 @@ data.map             = {}
 data.map_objects     = {}
 data.props           = {}
 
+data.backgrounds     = {}
+
 data.debug           = {
 	profiler = false,
 	colliders = true,
@@ -63,6 +65,9 @@ data.camera          = {
 
 function data.final()
 	for _, prop in pairs(data.props) do
+		if prop.data and prop.data.timer_handle then
+			timer.cancel(prop.data.timer_handle)
+		end
 		go.delete(prop.id, true)
 	end
 

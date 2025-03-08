@@ -1,3 +1,6 @@
+local data = require("scripts.lib.data")
+
+
 -- Copyright 2020-2025 The Defold Foundation
 -- Copyright 2014-2020 King
 -- Copyright 2009-2014 Ragnar Svensson, Christian Murray
@@ -170,7 +173,7 @@ local function reset_camera_world(state)
 end
 
 function init(self)
-    self.predicates = create_predicates("tile", "gui", "particle", "model", "debug_text")
+    self.predicates = create_predicates("tile", "gui", "particle", "background", "model", "debug_text")
 
     -- default is stretch projection. copy from builtins and change for different projection
     -- or send a message to the render script to change projection:
@@ -180,6 +183,8 @@ function init(self)
 
     local state = create_state()
     self.state = state
+
+    self.background_constants = render.constant_buffer()
 
     local camera_world = create_camera(state, "camera_world", true)
     init_camera(camera_world, get_stretch_projection)
@@ -191,6 +196,8 @@ function init(self)
     update_state(state)
 end
 
+local u_offset = vmath.vector4()
+local scroll_speed = 0.005 -- adjust as needed
 function update(self)
     local state = self.state
     if not state.valid then
@@ -225,7 +232,11 @@ function update(self)
 
     -- render the other components: sprites, tilemaps, particles etc
     --
+    --  u_offset.x = u_offset.x - scroll_speed
+    u_offset.y = u_offset.y + scroll_speed
+    self.background_constants.u_offset = u_offset
     render.enable_state(graphics.STATE_BLEND)
+    render.draw(predicates.background, { constants = self.background_constants })
     render.draw(predicates.particle, draw_options_world)
     render.draw(predicates.tile, draw_options_world)
 

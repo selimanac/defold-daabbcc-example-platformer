@@ -5,9 +5,9 @@ local data        = require("scripts.lib.data")
 local debug       = require("scripts.lib.debug")
 local const       = require("scripts.lib.const")
 local game_camera = require("scripts.lib.game_camera")
-
-
-local manager = {}
+local particles   = require("scripts.lib.particles")
+local background  = require("scripts.lib.background")
+local manager     = {}
 
 local function collect_garbage()
 	print("garbage before: ", collectgarbage("count"))
@@ -28,6 +28,15 @@ local function setup_urls()
 	end
 end
 
+function manager.add_backgrounds(self)
+	data.backgrounds[1] = self.background_1
+	data.backgrounds[2] = self.background_2
+	data.backgrounds[3] = self.background_3
+	data.backgrounds[4] = self.background_4
+	data.backgrounds[5] = self.background_5
+	data.backgrounds[6] = self.background_6
+	data.backgrounds[7] = self.background_7
+end
 
 function manager.init()
 	msg.post(".", "acquire_input_focus")
@@ -43,6 +52,7 @@ function manager.init()
 	collision.init()
 	map.init()
 	map.load(data.game.level)
+	background.init()
 	player.init()
 	game_camera.init()
 
@@ -64,6 +74,7 @@ function manager.update(dt)
 
 	player.update(dt)
 	game_camera.update(dt)
+	particles.update(dt)
 end
 
 function manager.input(action_id, action)
@@ -83,6 +94,7 @@ end
 
 function manager.final()
 	collision.final()
+	particles.final()
 	map.final()
 	player.final()
 	data.final()
