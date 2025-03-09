@@ -83,9 +83,15 @@ function map.load(level)
 				local center_x = object_data.x + (object_data.width / 2)
 				local center_y = (data.map_height - object_data.y) - (object_data.height / 2)
 
-				local aabb_id = collision.insert_aabb(center_x, center_y, object_data.width, object_data.height, const.COLLISION_BITS.TILE)
+				local collision_bit = object_data.name == "SLOPE" and const.COLLISION_BITS.SLOPE or const.COLLISION_BITS.TILE
+
+				pprint(collision_bit)
+
+				local aabb_id = collision.insert_aabb(center_x, center_y, object_data.width, object_data.height, collision_bit)
 
 				data.map_objects[aabb_id] = {
+					raw_x = object_data.x,
+					raw_y = object_data.y,
 					x = object_data.x,
 					y = (data.map_height - object_data.y) - object_data.height,
 					center = { x = center_x, y = center_y },
@@ -93,6 +99,49 @@ function map.load(level)
 					name = object_data.name,
 					aabb_id = aabb_id
 				}
+
+				local properties = {}
+				if object_data.properties then
+					data.map_objects[aabb_id].properties = {}
+					for _, property in ipairs(object_data.properties) do
+						properties[property.name] = property.value
+					end
+					data.map_objects[aabb_id].properties = properties
+				end
+
+				if object_data.name == "SLOPE" then
+					local function calculateSlopeAndIntercept(x1, y1, x2, y2)
+						local dx = x2 - x1
+						local dy = y2 - y1
+						local m = dy / dx
+						local b = y1 - m * x1
+						return m, b
+					end
+
+					if properties.direction == 1 then
+						local x1 = object_data.x
+						local y1 = (data.map_height - object_data.y) - object_data.height
+
+						local x2 = object_data.x + object_data.width
+						local y2 = (data.map_height - object_data.y)
+
+						local m, b = calculateSlopeAndIntercept(x1, y1, x2, y2)
+						data.map_objects[aabb_id].properties.slope = { x1 = x1, y1 = y1, x2 = x2, y2 = y2, m = m, b = b }
+					end
+
+					if properties.direction == -1 then
+						local x1 = object_data.x
+						local y1 = (data.map_height - object_data.y)
+
+						local x2 = object_data.x + object_data.width
+						local y2 = (data.map_height - object_data.y) - object_data.height
+
+						local m, b = calculateSlopeAndIntercept(x1, y1, x2, y2)
+						data.map_objects[aabb_id].properties.slope = { x1 = x1, y1 = y1, x2 = x2, y2 = y2, m = m, b = b }
+					end
+
+					pprint(data.map_objects[aabb_id])
+				end
 			end
 		end
 

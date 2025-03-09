@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "platformer.tsx",
+    "activeFile": "test2.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -40,11 +40,11 @@
             }
         },
         "test2.tmx": {
-            "scale": 3.6036,
+            "scale": 5.2234,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 212.70396270396273,
-                "y": 289.7102897102897
+                "x": 190.01033809396176,
+                "y": 253.8576406172225
             }
         }
     },
@@ -60,16 +60,15 @@
     "openFiles": [
         "test2.tmx",
         "props.tsx",
-        "map.tmx",
         "platformer.tsx"
     ],
     "project": "platformer.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "map.tmx",
-        "test2.tmx",
-        "props.tsx",
         "platformer.tsx",
+        "props.tsx",
+        "test2.tmx",
+        "map.tmx",
         "test.tsx",
         "test1.tmx"
     ],

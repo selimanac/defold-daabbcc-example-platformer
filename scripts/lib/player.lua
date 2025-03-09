@@ -117,7 +117,6 @@ local function vertical_movement(dt)
 end
 
 
-
 function player.update(dt)
 	if data.game.state.skip_colliders then
 		return
@@ -135,7 +134,56 @@ function player.update(dt)
 	-- Player to tiles collision
 	tile_query_results, tile_query_count = collision.tiles(data.player.aabb_id)
 
-	-- collectable_query_results, collectable_query_count = collision.collectable(data.player.aabb_id)
+
+	local ray_result, ray_count = collision.raycast(
+
+		data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
+		data.player.position.y,
+		data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
+		data.player.position.y - (const.PLAYER.SIZE.h / 2 + 16),
+		const.COLLISION_BITS.SLOPE)
+
+
+
+	data.player.state.on_slope = ray_count > 0 and true or false
+
+	local slope_tile = {}
+	if data.player.state.on_slope then
+		slope_tile = data.map_objects[ray_result[1]]
+		---------------------
+		-- SLOPE
+		--------------------
+		if not data.player.state.is_jumping then
+			data.player.velocity.y = 0
+			data.player.state.on_ground = true
+			local slopeAngle = math.atan(slope_tile.properties.slope.m)
+			local slopeAngle = math.atan(slope_tile.properties.slope.m)
+			-- Start with the default offset for positive slopes.
+			local xOffset = const.PLAYER.SIZE.w / 2
+
+			-- For negative slopes (m = -1), adjust the offset so that the x is measured from the tile's right edge.
+			if slope_tile.properties.slope.m < 0 then
+				xOffset = xOffset - (32 - 8)
+			end
+
+			local slopeYAtPlayerX = slope_tile.properties.slope.m * (data.player.position.x - xOffset) + slope_tile.properties.slope.b
+			data.player.position.y = slopeYAtPlayerX + const.PLAYER.SIZE.h
+
+			print(slopeYAtPlayerX)
+
+
+			data.player.position.y = slopeYAtPlayerX + (const.PLAYER.SIZE.h)
+
+
+			-- if data.player.velocity.y > 0 then -- Going down
+			-- 	data.player.velocity.y = data.player.velocity.y * math.cos(slopeAngle)
+			-- elseif data.player.velocity.y < 0 then -- Going up
+			-- 	data.player.velocity.y = data.player.velocity.y * math.cos(slopeAngle)
+			-- else                          -- Standing still
+			-- 	data.player.velocity.y = 0
+			-- end
+		end
+	end
 
 	if tile_query_results then
 		for i = 1, tile_query_count do
@@ -161,13 +209,39 @@ function player.update(dt)
 			local is_top_one_way_platform = false
 
 
-			data.player.state.on_slope = tile and tile.name == "SLOPE45" -- IS SLOPE
-			is_one_way_platform        = tile and tile.name == "ONE_WAY_PLATFORM"
+			--		data.player.state.on_slope = tile and tile.name == "SLOPE" -- IS SLOPE
+			is_one_way_platform = tile and tile.name == "ONE_WAY_PLATFORM"
 
-			if data.player.state.on_slope then
-				-- SLOPE CODE HERE
-			end
 
+			--[[if data.player.state.on_slope then
+				data.player.state.on_ground = true
+
+				-- Calculate the exact height on the slope based on player's horizontal position
+				local slope_x = data.player.position.x
+				local tile_x_min = tile.center.x - (16 / 2)
+				local tile_x_max = tile.center.x + (16 / 2)
+
+				-- Calculate relative position on slope (0 to 1)
+				locavelocityYl slope_t = (slope_x - tile_x_min) / (tile_x_max - tile_x_min)
+
+				-- Calculate height on slope
+				local slope_height
+				if 1 > 0 then
+					-- Ascending right
+					slope_height = tile.center.y + (slope_t * 16)
+				else
+					-- Ascending left
+					slope_height = tile.center.y + ((1 - slope_t) * 16)
+				end
+
+
+				-- Position player on slope
+				data.player.position.y = slope_height + (const.PLAYER.SIZE.h / 2)
+				data.player.velocity.y = 0
+
+				--	else
+				--	data.player.state.on_slope = false
+			end]]
 
 
 			-- Bottom Collision: normal_y == 1
@@ -190,8 +264,6 @@ function player.update(dt)
 				data.player.velocity.y = 0
 				data.player.state.on_ground = true
 			end
-
-
 
 			-- Top Collision: normal_y == -1
 			if query_result.normal_y == -1 and
@@ -226,7 +298,7 @@ function player.update(dt)
 
 			-- end for
 		end
-	else -- no result
+	elseif not data.player.state.on_slope then -- no result
 		-- No more collision, let it fall
 		data.player.state.on_ground = false
 

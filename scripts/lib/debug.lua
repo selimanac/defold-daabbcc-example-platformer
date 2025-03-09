@@ -25,6 +25,10 @@ function debug.debug_draw_center_aabb(aabb_data, color)
 			size = { width = data.collider_size.width, height = data.collider_size.height }
 		end
 
+		if data.name == "SLOPE" then
+			msg.post("@render:", "draw_line", { start_point = vmath.vector3(data.properties.slope.x1, data.properties.slope.y1, 0), end_point = vmath.vector3(data.properties.slope.x2, data.properties.slope.y2, 0), color = vmath.vector4(0, 1, 1, 1) })
+		end
+
 		debug.draw_aabb(data.center.x - (size.width / 2), data.center.y - (size.height / 2), size.width, size.height, color)
 	end
 end
@@ -57,7 +61,32 @@ function debug.update()
 
 		debug.draw_aabb(data.camera.position.x - (const.CAMERA.DEADZONE.x * 2 / 2), data.camera.position.y - (const.CAMERA.DEADZONE.y * 2 / 2), const.CAMERA.DEADZONE.x * 2, const.CAMERA.DEADZONE.y * 2, vmath.vector4(0, 1, 0, 1))
 
-		debug.draw_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, vmath.vector4(1, 1, 0, 1))
+		--	debug.draw_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, vmath.vector4(1, 1, 0, 1))
+
+		--[[	--back
+		local start_point = vmath.vector3(
+			data.player.position.x - (const.PLAYER.SIZE.w / 2 - 4),
+			data.player.position.y - (const.PLAYER.SIZE.h / 2),
+			0)
+		local end_point = vmath.vector3(
+			data.player.position.x - (const.PLAYER.SIZE.w / 2 - 4),
+			data.player.position.y - (const.PLAYER.SIZE.h / 2 + 16),
+			0)
+
+		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })]]
+
+
+		--front
+		local start_point = vmath.vector3(
+			data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
+			data.player.position.y,
+			0)
+		local end_point = vmath.vector3(
+			data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
+			data.player.position.y - (const.PLAYER.SIZE.h / 2 + 16),
+			0)
+
+		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
 
 
 		--local ray_start = vmath.vector3(data.player.position.x, data.player.position.y - (const.PLAYER.SIZE.h / 2), 0)

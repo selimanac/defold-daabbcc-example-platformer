@@ -46,16 +46,16 @@ function collision.query_aabb(x, y, width, height, mask_bits, get_manifold)
 	return daabbcc.query_aabb(aabb_group_id, x, y, width, height, mask_bits, get_manifold)
 end
 
-function collision.raycast(ray_start_x, ray_start_y, ray_end_x, ray_end_y, is_mask, get_manifold)
-	local mask_bits = mask_bits and mask_bits or nil
-	get_manifold    = get_manifold and get_manifold or nil
+function collision.raycast(ray_start_x, ray_start_y, ray_end_x, ray_end_y, mask_bits, get_manifold)
+	mask_bits    = mask_bits and mask_bits or nil
+	get_manifold = get_manifold and get_manifold or nil
 	return daabbcc.raycast(aabb_group_id, ray_start_x, ray_start_y, ray_end_x, ray_end_y, mask_bits, get_manifold)
 end
 
-function collision.raycast_sort(ray_start, ray_end, mask_bits, get_manifold)
-	local mask_bits = mask_bits and mask_bits or nil
-	get_manifold    = get_manifold and get_manifold or nil
-	return daabbcc.raycast_sort(aabb_group_id, ray_start.x, ray_start.y, ray_end.x, ray_end.y, mask_bits, get_manifold)
+function collision.raycast_sort(ray_start_x, ray_start_y, ray_end_x, ray_end_y, mask_bits, get_manifold)
+	mask_bits    = mask_bits and mask_bits or nil
+	get_manifold = get_manifold and get_manifold or nil
+	return daabbcc.raycast_sort(aabb_group_id, ray_start_x, ray_start_y, ray_end_x, ray_end_y, mask_bits, get_manifold)
 end
 
 function collision.reset()

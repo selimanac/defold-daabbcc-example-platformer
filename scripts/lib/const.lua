@@ -12,6 +12,7 @@ const.COLLISION_BITS   = {
 	ITEM      = 8,
 	PROP      = 16,
 	PARTICLES = 32,
+	SLOPE     = 64,
 
 	ALL       = bit.bnot(0) -- -1 for all results
 }
