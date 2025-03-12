@@ -49,6 +49,7 @@ embedded_instances {
 }
 embedded_instances {
   id: "factories"
+  children: "enemies"
   children: "props"
   data: "components {\n"
   "  id: \"player\"\n"
@@ -138,4 +139,32 @@ embedded_instances {
     x: 256.0
     y: 256.0
   }
+}
+embedded_instances {
+  id: "go"
+  data: ""
+  position {
+    x: 200.0
+    y: 150.0
+  }
+}
+embedded_instances {
+  id: "go1"
+  data: ""
+  position {
+    x: 300.0
+    y: 100.0
+  }
+}
+embedded_instances {
+  id: "enemies"
+  data: "components {\n"
+  "  id: \"enemy_angry_pig\"\n"
+  "  component: \"/components/factories/enemies/enemy_angry_pig.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"enemy_rock_head\"\n"
+  "  component: \"/components/factories/enemies/enemy_rock_head.factory\"\n"
+  "}\n"
+  ""
 }

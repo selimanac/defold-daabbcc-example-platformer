@@ -6,15 +6,17 @@ const.DISPLAY_HEIGHT   = sys.get_config_number("display.height")
 const.BACKGROUND_COLOR = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
 
 const.COLLISION_BITS   = {
-	PLAYER    = 1,
-	ENEMY     = 2,
-	TILE      = 4,
-	ITEM      = 8,
-	PROP      = 16,
-	PARTICLES = 32,
-	SLOPE     = 64,
+	PLAYER     = 1,
+	ENEMY      = 2,
+	TILE       = 4,
+	ITEM       = 8,
+	PROP       = 16,
+	PARTICLES  = 32,
+	SLOPE      = 64,
+	PLATFORM   = 128,
+	DIRECTIONS = 256,
 
-	ALL       = bit.bnot(0) -- -1 for all results
+	ALL        = bit.bnot(0) -- -1 for all results
 }
 
 const.FACTORIES        = {
@@ -31,23 +33,27 @@ const.FACTORIES        = {
 	SPIKE            = "/props#spikes",
 	SPIKE_HEAD       = "/props#spike_head",
 	CHECKPOINT       = "/props#checkpoint",
-	FIRE             = "/props#fire"
+	FIRE             = "/props#fire",
+
+	-- Enemnies
+	ANGRY_PIG        = "/enemies#enemy_angry_pig",
+	ROCK_HEAD        = "/enemies#enemy_rock_head"
 }
 
 const.PLAYER           = {
 	SIZE                  = { w = 20, h = 25 },
+	HALF_SIZE             = { w = 20 / 2, h = 25 / 2 },
 	MOVE_ACCELERATION     = 800,
 	MAX_MOVE_SPEED        = 150,
 	DECELERATION_LERP     = 0.2,
 	JUMP_FORCE            = 350,
 	WALL_JUMP_FORCE       = 250,
+	TRAMPOLINE_JUMP_FORCE = 750,
 	GRAVITY_UP            = -1500,
 	GRAVITY_DOWN          = -1500,
 	GRAVITY_SLIDE         = -200,
 	GRAVITY_WALL_JUMP     = -800,
 	MAX_JUMP_HOLD_TIME    = 1,
-	SLOPE_FRICTION        = 0.8, -- Adjust this value to control sliding on slopes
-	SLOPE_ANGLE_THRESHOLD = 45, -- Maximum angle for walkable slopes
 
 	ANIM                  = {
 		IDLE = hash("virtual_guy_player_idle"),

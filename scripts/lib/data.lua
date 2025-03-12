@@ -2,12 +2,14 @@ local data           = {}
 
 data.map_width       = 0
 data.map_height      = 0
-
 data.map             = {}
 data.map_objects     = {}
 data.props           = {}
-
+data.enemies         = {}
 data.backgrounds     = {}
+data.checkpoints     = {}
+data.last_checkpoint = 0
+data.directions      = {}
 
 data.debug           = {
 	profiler = false,
@@ -28,11 +30,9 @@ data.game            = {
 data.player          = {
 	position     = vmath.vector3(),
 	aabb_id      = -1,
-
 	velocity     = vmath.vector3(0, 0, 0),
 	direction    = 0,
 	gravity_down = 0,
-
 	ids          =
 	{
 		CONTAINER      = nil,
@@ -42,7 +42,6 @@ data.player          = {
 		JUMP_PFX       = nil,
 		SLIDING_PFX    = nil
 	},
-
 	state        = {
 		on_ground    = true,
 		on_slope     = false,
@@ -51,12 +50,9 @@ data.player          = {
 		is_walking   = false,
 		is_sliding   = false,
 		is_falling   = false,
-		--is_wall_jump = false,
+
 	}
 }
-
-data.checkpoints     = {}
-data.last_checkpoint = 0
 
 data.camera          = {
 	zoom = 0,
@@ -72,9 +68,16 @@ function data.final()
 		go.delete(prop.id, true)
 	end
 
-	data.props = {}
+	for _, enemy in pairs(data.enemies) do
+		go.delete(enemy.id)
+	end
+
+	data.enemies     = {}
+	data.directions  = {}
+	data.props       = {}
 	data.map_objects = {}
-	data.map = {}
+	data.map         = {}
+	data.enemies     = {}
 end
 
 return data

@@ -500,7 +500,7 @@ animations {
   images {
     image: "/assets/pixel_adventure/Items/Boxes/Box1/images/box1_hit_03.png"
   }
-  fps: 14
+  fps: 18
 }
 animations {
   id: "player_appearing"
@@ -801,5 +801,267 @@ animations {
     image: "/assets/pixel_adventure/Traps/Fire/images/fire_hit_04.png"
   }
   fps: 12
+}
+animations {
+  id: "enemy_angry_pig_idle"
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_06.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_07.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_08.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_idle_09.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 16
+}
+animations {
+  id: "enemy_angry_pig_walk"
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_05.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_06.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_07.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_08.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_09.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_10.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_11.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_12.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_13.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_14.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_15.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_walk_16.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 26
+}
+animations {
+  id: "enemy_angry_pig_hit"
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_hit_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_hit_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_hit_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_hit_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Enemies/AngryPig/images/angry_pig_hit_05.png"
+  }
+  fps: 16
+}
+animations {
+  id: "rock_head_idle"
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_idle_04.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "rock_head_left_hit"
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_left_hit_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_left_hit_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_left_hit_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_left_hit_04.png"
+  }
+  fps: 8
+}
+animations {
+  id: "rock_head_right_hit"
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_right_hit_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_right_hit_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_right_hit_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_right_hit_04.png"
+  }
+  fps: 8
+}
+animations {
+  id: "rock_head_top_hit"
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_top_hit_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_top_hit_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_top_hit_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_top_hit_04.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "rock_head_bottom_hit"
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_bottom_hit_01.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_bottom_hit_02.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_bottom_hit_03.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Traps/Rock Head/images/rock_head_bottom_hit_04.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
 }
 extrude_borders: 2

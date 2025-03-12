@@ -2,8 +2,10 @@ local data                      = require("scripts.lib.data")
 local const                     = require("scripts.lib.const")
 local collision                 = require("scripts.lib.collision")
 local props                     = require("scripts.lib.props")
-
+local utils                     = require("scripts.lib.utils")
 local map                       = {}
+local enemies                   = require("scripts.lib.enemies")
+local directions                = require("scripts.lib.directions")
 
 -- Tiled flip
 local FLIPPED_HORIZONTALLY_FLAG = 0x80000000
@@ -60,7 +62,9 @@ function map.load(level)
 	data.map_height = map_data.height * map_data.tileheight
 
 	for _, layer in ipairs(map_data.layers) do
+		----------------------
 		-- Tiles
+		----------------------
 		if layer.name == "map" then
 			for y = 1, map_data.height do
 				data.map[y] = {}
@@ -75,17 +79,27 @@ function map.load(level)
 			end
 		end
 
+		----------------------
 		-- Tile collision objects
+		----------------------
 		if layer.name == "map_collision" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
 
+				local properties = {}
+				if object_data.properties then
+					for _, property in ipairs(object_data.properties) do
+						properties[property.name] = property.value
+					end
+				end
+
 				local center_x = object_data.x + (object_data.width / 2)
 				local center_y = (data.map_height - object_data.y) - (object_data.height / 2)
 
-				local collision_bit = object_data.name == "SLOPE" and const.COLLISION_BITS.SLOPE or const.COLLISION_BITS.TILE
-
-				pprint(collision_bit)
+				local collision_bit = const.COLLISION_BITS.TILE
+				if properties.collision_bit then
+					collision_bit = const.COLLISION_BITS[properties.collision_bit]
+				end
 
 				local aabb_id = collision.insert_aabb(center_x, center_y, object_data.width, object_data.height, collision_bit)
 
@@ -100,52 +114,30 @@ function map.load(level)
 					aabb_id = aabb_id
 				}
 
-				local properties = {}
-				if object_data.properties then
+				if properties then
 					data.map_objects[aabb_id].properties = {}
-					for _, property in ipairs(object_data.properties) do
-						properties[property.name] = property.value
-					end
 					data.map_objects[aabb_id].properties = properties
 				end
 
+				-- TODO: ADD 30 degree
 				if object_data.name == "SLOPE" then
-					local function calculateSlopeAndIntercept(x1, y1, x2, y2)
-						local dx = x2 - x1
-						local dy = y2 - y1
-						local m = dy / dx
-						local b = y1 - m * x1
-						return m, b
-					end
-
-					if properties.direction == 1 then
+					if properties.direction == 1 or properties.direction == -1 then
 						local x1 = object_data.x
-						local y1 = (data.map_height - object_data.y) - object_data.height
-
 						local x2 = object_data.x + object_data.width
-						local y2 = (data.map_height - object_data.y)
 
-						local m, b = calculateSlopeAndIntercept(x1, y1, x2, y2)
+						local y1 = (data.map_height - object_data.y) - (properties.direction == 1 and object_data.height or 0)
+						local y2 = (data.map_height - object_data.y) - (properties.direction == -1 and object_data.height or 0)
+
+						local m, b = utils.slope_intercept(x1, y1, x2, y2)
 						data.map_objects[aabb_id].properties.slope = { x1 = x1, y1 = y1, x2 = x2, y2 = y2, m = m, b = b }
 					end
-
-					if properties.direction == -1 then
-						local x1 = object_data.x
-						local y1 = (data.map_height - object_data.y)
-
-						local x2 = object_data.x + object_data.width
-						local y2 = (data.map_height - object_data.y) - object_data.height
-
-						local m, b = calculateSlopeAndIntercept(x1, y1, x2, y2)
-						data.map_objects[aabb_id].properties.slope = { x1 = x1, y1 = y1, x2 = x2, y2 = y2, m = m, b = b }
-					end
-
-					pprint(data.map_objects[aabb_id])
 				end
 			end
 		end
 
-		-- Prop collision objects
+		----------------------
+		-- Prop objects
+		----------------------
 		if layer.name == "prop_collision" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
@@ -154,17 +146,21 @@ function map.load(level)
 			end
 		end
 
-		-- Entities
+		----------------------
+		-- Entities (Player, enemies...)
+		----------------------
 		if layer.name == "entities" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
 
+				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid)
 				-- Player init position
 				if object_data.name == "PLAYER" then
 					local player_z = 0.9
 
 					data.player.position = vmath.vector3(object_data.x + (object_data.width / 2), (data.map_height - object_data.y) - (object_data.height / 2), player_z)
 
+					-- Checkpoints
 					if data.last_checkpoint > 0 then
 						data.player.position = vmath.vector3()
 						local checkpoint = data.checkpoints[data.last_checkpoint]
@@ -181,8 +177,34 @@ function map.load(level)
 						end
 					end
 				end
+
+
+				if object_data.type == "ENEMY" then
+					local properties = {}
+					if object_data.properties then
+						for _, property in ipairs(object_data.properties) do
+							properties[property.name] = property.value
+						end
+					end
+
+
+					enemies.add(object_data, hflip, vflip, properties)
+				end
 			end
 		end
+
+		----------------------
+		-- Move directions for idiot npcs
+		----------------------
+		if layer.name == "move_directions" then
+			for i = 1, #layer.objects do
+				local object_data = layer.objects[i]
+
+
+				directions.add(object_data)
+			end
+		end
+
 
 		-- loop end
 	end

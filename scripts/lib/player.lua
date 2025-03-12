@@ -11,11 +11,8 @@ local tile_query_results = nil
 local tile_query_count   = 0
 
 local is_prop            = false
+local is_enemy           = false
 local is_collectable     = false
-
-
-local slope_angle     = 45 -- SLOPE ANGLE
-local slope_direction = 1  -- SLOPE DIRECTION
 
 
 function player.init()
@@ -107,6 +104,7 @@ local function vertical_movement(dt)
 				data.player.velocity.y = data.player.velocity.y + const.PLAYER.GRAVITY_UP * dt
 			else
 				-- falling
+
 				if not data.player.state.is_falling and not data.player.state.is_sliding then
 					player_state.fall()
 				end
@@ -125,6 +123,7 @@ function player.update(dt)
 	vertical_movement(dt)
 	horizontal_movement(dt)
 
+
 	-- Update position using current data.player.velocity.
 	data.player.position = data.player.position + data.player.velocity * dt
 
@@ -135,55 +134,93 @@ function player.update(dt)
 	tile_query_results, tile_query_count = collision.tiles(data.player.aabb_id)
 
 
+	---------------------
+	-- SLOPE
+	---------------------
+	-- center ray for slope
 	local ray_result, ray_count = collision.raycast(
-
-		data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
+		data.player.position.x,
 		data.player.position.y,
-		data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
-		data.player.position.y - (const.PLAYER.SIZE.h / 2 + 16),
+		data.player.position.x,
+		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 16),
 		const.COLLISION_BITS.SLOPE)
-
-
 
 	data.player.state.on_slope = ray_count > 0 and true or false
 
 	local slope_tile = {}
+
 	if data.player.state.on_slope then
 		slope_tile = data.map_objects[ray_result[1]]
-		---------------------
-		-- SLOPE
-		--------------------
+
 		if not data.player.state.is_jumping then
-			data.player.velocity.y = 0
-			data.player.state.on_ground = true
-			local slopeAngle = math.atan(slope_tile.properties.slope.m)
-			local slopeAngle = math.atan(slope_tile.properties.slope.m)
-			-- Start with the default offset for positive slopes.
-			local xOffset = const.PLAYER.SIZE.w / 2
-
-			-- For negative slopes (m = -1), adjust the offset so that the x is measured from the tile's right edge.
+			local sampleX = 0
 			if slope_tile.properties.slope.m < 0 then
-				xOffset = xOffset - (32 - 8)
+				sampleX = data.player.position.x + const.PLAYER.HALF_SIZE.w
+			else
+				sampleX = data.player.position.x - const.PLAYER.HALF_SIZE.w
 			end
+			local slopeYAtPlayerX = slope_tile.properties.slope.m * sampleX + slope_tile.properties.slope.b
 
-			local slopeYAtPlayerX = slope_tile.properties.slope.m * (data.player.position.x - xOffset) + slope_tile.properties.slope.b
-			data.player.position.y = slopeYAtPlayerX + const.PLAYER.SIZE.h
-
-			print(slopeYAtPlayerX)
-
-
-			data.player.position.y = slopeYAtPlayerX + (const.PLAYER.SIZE.h)
-
-
-			-- if data.player.velocity.y > 0 then -- Going down
-			-- 	data.player.velocity.y = data.player.velocity.y * math.cos(slopeAngle)
-			-- elseif data.player.velocity.y < 0 then -- Going up
-			-- 	data.player.velocity.y = data.player.velocity.y * math.cos(slopeAngle)
-			-- else                          -- Standing still
-			-- 	data.player.velocity.y = 0
-			-- end
+			if data.player.position.y + const.PLAYER.SIZE.h >= slopeYAtPlayerX and data.player.position.y <= slopeYAtPlayerX + const.PLAYER.SIZE.h then
+				data.player.state.on_ground = true
+				if data.player.state.is_falling then
+					data.player.state.is_falling = false
+					player_state.idle(true, current_dir)
+					data.player.velocity.y = 0
+				end
+			end
+			if not data.player.state.is_falling then
+				data.player.position.y = slopeYAtPlayerX + const.PLAYER.SIZE.h
+			end
 		end
 	end
+
+
+
+	---------------------
+	-- PLATROMS
+	---------------------
+	--[[	local on_platform = false
+	if data.player.state.is_falling then
+		local r, c = collision.query_aabb(data.player.position.x, data.player.position.y - const.PLAYER.HALF_SIZE.h - 5, const.PLAYER.SIZE.w, 5, const.COLLISION_BITS.PLATFORM, true)
+
+		if r then
+			on_platform = true
+			data.player.state.is_falling = false
+
+			--	for i = 1, c do
+			local query_result = r[1]
+			local aabb_id = query_result.id
+			local tile = data.map_objects[aabb_id]
+
+			--is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
+			--	if is_one_way_platform then
+			local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
+
+
+
+			print(player_bottom_y, tile.y + 5)
+			if query_result.normal_y == 1 then
+				-- ground offset
+				pprint(tile)
+				data.player.position.y = tile.y + const.PLAYER.HALF_SIZE.h - tile.size.h
+				player_state.idle(true, current_dir)
+				data.player.gravity_down = const.PLAYER.GRAVITY_DOWN -- reset slide gravity
+				data.player.state.is_falling = false     -- on ground
+
+				data.player.velocity.y = 0
+				data.player.state.on_ground = true
+			end
+			--end
+			--end
+		else
+			--on_platform = false
+		end
+	end]]
+
+
+
+
 
 	if tile_query_results then
 		for i = 1, tile_query_count do
@@ -196,55 +233,23 @@ function player.update(dt)
 
 			local tile = data.map_objects[aabb_id]
 			local prop = data.props[aabb_id]
+			local enemy = data.enemies[aabb_id]
 
-
+			is_enemy = enemy and true or false
 			is_prop = prop and true or false
+
 			if is_prop then
 				is_collectable = prop.collectable
 			else
 				is_collectable = false
 			end
 
-			local is_one_way_platform = false
-			local is_top_one_way_platform = false
+			--	local is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
+			--	local is_top_one_way_platform = false
 
-
-			--		data.player.state.on_slope = tile and tile.name == "SLOPE" -- IS SLOPE
-			is_one_way_platform = tile and tile.name == "ONE_WAY_PLATFORM"
-
-
-			--[[if data.player.state.on_slope then
-				data.player.state.on_ground = true
-
-				-- Calculate the exact height on the slope based on player's horizontal position
-				local slope_x = data.player.position.x
-				local tile_x_min = tile.center.x - (16 / 2)
-				local tile_x_max = tile.center.x + (16 / 2)
-
-				-- Calculate relative position on slope (0 to 1)
-				locavelocityYl slope_t = (slope_x - tile_x_min) / (tile_x_max - tile_x_min)
-
-				-- Calculate height on slope
-				local slope_height
-				if 1 > 0 then
-					-- Ascending right
-					slope_height = tile.center.y + (slope_t * 16)
-				else
-					-- Ascending left
-					slope_height = tile.center.y + ((1 - slope_t) * 16)
-				end
-
-
-				-- Position player on slope
-				data.player.position.y = slope_height + (const.PLAYER.SIZE.h / 2)
-				data.player.velocity.y = 0
-
-				--	else
-				--	data.player.state.on_slope = false
-			end]]
-
-
+			---------------------------------------
 			-- Bottom Collision: normal_y == 1
+			---------------------------------------
 			if query_result.normal_y == 1 and
 				data.player.state.on_ground == false and
 				data.player.state.is_falling and
@@ -265,10 +270,12 @@ function player.update(dt)
 				data.player.state.on_ground = true
 			end
 
+			---------------------------------------
 			-- Top Collision: normal_y == -1
+			---------------------------------------
 			if query_result.normal_y == -1 and
 				data.player.state.is_jumping and
-				is_one_way_platform == false and
+				--	is_one_way_platform == false and
 				is_collectable == false and
 				not data.player.state.on_slope
 			then
@@ -277,9 +284,11 @@ function player.update(dt)
 				data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
 			end
 
+			---------------------------------------
 			-- Left / Right Collision: normal_x == 1 or normal_x == -1
+			---------------------------------------
 			if (query_result.normal_x == 1 or query_result.normal_x == -1) and
-				is_one_way_platform == false and
+				--	is_one_way_platform == false and
 				is_collectable == false and
 				not data.player.state.on_slope
 			then
@@ -294,6 +303,11 @@ function player.update(dt)
 
 			if is_prop and prop.status == false then
 				prop.fn(prop, query_result)
+			end
+
+			if is_enemy then
+				--data.player.position.y = data.player.position.y + offset_y
+				enemy.fn(enemy, query_result)
 			end
 
 			-- end for
@@ -328,11 +342,12 @@ function player.input(action_id, action)
 			if data.player.direction > 0 then data.player.direction = 0 end
 		end
 	elseif action_id == const.TRIGGERS.JUMP then
-		if action.pressed then
+		if action.pressed and not data.player.state.is_falling then
 			data.player.state.jump_pressed = true
 			if data.player.state.on_ground then
 				data.player.velocity.y = const.PLAYER.JUMP_FORCE
 				data.player.state.on_ground = false
+				data.player.state.on_slope = false
 				jump_timer = 0
 			end
 		elseif action.released then
@@ -343,9 +358,17 @@ end
 
 function player.final()
 	go.delete(data.player.ids.CONTAINER, true)
-	data.player.velocity  = vmath.vector3()
-	data.player.direction = 0
-	current_dir           = 0
+	data.player.velocity           = vmath.vector3()
+	data.player.direction          = 0
+	current_dir                    = 0
+
+	data.player.velocity.y         = 0
+	data.player.state.on_slope     = false
+	data.player.state.jump_pressed = false
+	data.player.state.is_jumping   = false
+	data.player.state.is_walking   = false
+	data.player.state.is_sliding   = false
+	data.player.state.is_falling   = false
 end
 
 return player

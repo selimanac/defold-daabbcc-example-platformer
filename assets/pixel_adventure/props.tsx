@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="props" tilewidth="64" tileheight="64" tilecount="12" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="props" tilewidth="64" tileheight="64" tilecount="17" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1" type="TRAMPOLINE">
   <image source="Traps/Trampoline/trampoline_idle.png" width="27" height="27"/>
@@ -15,9 +15,6 @@
  </tile>
  <tile id="5">
   <image source="Traps/Saw/Off.png" width="38" height="38"/>
- </tile>
- <tile id="6">
-  <image source="Traps/Rock Head/Idle.png" width="42" height="42"/>
  </tile>
  <tile id="7" type="FALLING_PLATFORM">
   <image source="Traps/Falling Platforms/Off.png" width="32" height="10"/>
@@ -39,5 +36,33 @@
   <objectgroup draworder="index" id="2">
    <object id="2" x="0" y="16" width="16" height="4"/>
   </objectgroup>
+ </tile>
+ <tile id="20" type="ENEMY">
+  <properties>
+   <property name="direction_x" type="int" value="0"/>
+   <property name="direction_y" type="int" value="0"/>
+   <property name="speed" type="int" value="100"/>
+  </properties>
+  <image source="Enemies/AngryPig/angry_pig.png" width="33" height="27"/>
+ </tile>
+ <tile id="21" type="DIRECTION_DOWN">
+  <image source="direction_down.png" width="16" height="16"/>
+ </tile>
+ <tile id="22" type="DIRECTION_LEFT">
+  <image source="direction_left.png" width="16" height="16"/>
+ </tile>
+ <tile id="23" type="DIRECTION_RIGHT">
+  <image source="direction_right.png" width="16" height="16"/>
+ </tile>
+ <tile id="24" type="DIRECTION_UP">
+  <image source="direction_up.png" width="16" height="16"/>
+ </tile>
+ <tile id="25" type="ENEMY">
+  <properties>
+   <property name="direction_x" type="int" value="0"/>
+   <property name="direction_y" type="int" value="0"/>
+   <property name="speed" type="int" value="100"/>
+  </properties>
+  <image source="Traps/Rock Head/Irockheadidle.png" width="32" height="32"/>
  </tile>
 </tileset>

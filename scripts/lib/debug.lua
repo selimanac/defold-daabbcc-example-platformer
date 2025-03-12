@@ -56,12 +56,14 @@ function debug.update()
 	if data.debug.colliders then
 		debug.debug_draw_center_aabb(data.map_objects, vmath.vector4(1, 0, 0, 1))
 		debug.debug_draw_center_aabb(data.props, vmath.vector4(0, 0, 1, 1))
+		debug.debug_draw_center_aabb(data.enemies, vmath.vector4(1, 1, 0, 1))
+		debug.debug_draw_center_aabb(data.directions, vmath.vector4(1, 1, 0, 1))
 
-		debug.draw_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, vmath.vector4(1, 0, 0, 1))
+		debug.draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, vmath.vector4(1, 0, 0, 1))
 
 		debug.draw_aabb(data.camera.position.x - (const.CAMERA.DEADZONE.x * 2 / 2), data.camera.position.y - (const.CAMERA.DEADZONE.y * 2 / 2), const.CAMERA.DEADZONE.x * 2, const.CAMERA.DEADZONE.y * 2, vmath.vector4(0, 1, 0, 1))
 
-		--	debug.draw_aabb(data.player.position.x - (const.PLAYER.SIZE.w / 2), data.player.position.y - (const.PLAYER.SIZE.h + 6 / 2), const.PLAYER.SIZE.w, const.PLAYER.SIZE.h + 6, vmath.vector4(1, 1, 0, 1))
+		debug.draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h - 5, const.PLAYER.SIZE.w, 5, vmath.vector4(1, 1, 1, 1))
 
 		--[[	--back
 		local start_point = vmath.vector3(
@@ -76,14 +78,14 @@ function debug.update()
 		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })]]
 
 
-		--front
+		--center
 		local start_point = vmath.vector3(
-			data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
+			data.player.position.x,
 			data.player.position.y,
 			0)
 		local end_point = vmath.vector3(
-			data.player.position.x + (const.PLAYER.SIZE.w / 2 - 8),
-			data.player.position.y - (const.PLAYER.SIZE.h / 2 + 16),
+			data.player.position.x,
+			data.player.position.y - (const.PLAYER.HALF_SIZE.h + 16),
 			0)
 
 		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
@@ -101,6 +103,11 @@ function debug.update()
 		imgui.begin_window("Properties", nil, imgui.WINDOWFLAGS_MENUBAR)
 
 		imgui.text("GAME STATE")
+
+		if imgui.button("Reset Checkpoints") then
+			data.checkpoints     = {}
+			data.last_checkpoint = 0
+		end
 
 
 		local changed, checked = imgui.checkbox("pause", data.game.state.pause)
@@ -182,6 +189,13 @@ function debug.update()
 			data.player.state.is_sliding = checked
 		end
 
+		local changed, checked = imgui.checkbox("on_slope", data.player.state.on_slope)
+		if changed then
+			data.player.state.on_slope = checked
+		end
+
+
+
 		-- local changed, checked = imgui.checkbox("is_wall_jump", data.player.state.is_wall_jump)
 		-- if changed then
 		-- 	data.player.state.is_wall_jump = checked
@@ -218,6 +232,13 @@ function debug.update()
 		if changed then
 			const.PLAYER.WALL_JUMP_FORCE = int
 		end
+
+		changed, int = imgui.input_int("TRAMPOLINE_JUMP_FORCE", const.PLAYER.TRAMPOLINE_JUMP_FORCE)
+		if changed then
+			const.PLAYER.TRAMPOLINE_JUMP_FORCE = int
+		end
+
+
 		changed, int = imgui.input_int("GRAVITY_UP", const.PLAYER.GRAVITY_UP)
 		if changed then
 			const.PLAYER.GRAVITY_UP = int

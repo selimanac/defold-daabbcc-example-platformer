@@ -1,9 +1,9 @@
 local const        = require("scripts.lib.const")
-local utils        = require("scripts.lib.utils")
 local data         = require("scripts.lib.data")
 local collision    = require("scripts.lib.collision")
 local player_state = require("scripts.lib.player_state")
 local particles    = require("scripts.lib.particles")
+local utils        = require("scripts.lib.utils")
 
 local props        = {}
 
@@ -27,10 +27,12 @@ end
 local function init_trampoline(prop, query_result)
 	if query_result.normal_y == 1 and prop.status == false then
 		prop.status = true
-		sprite.play_flipbook(prop.sprite, prop.anims.on)
+		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
+			prop.status = false
+		end)
+
+		data.player.velocity.y = const.PLAYER.TRAMPOLINE_JUMP_FORCE
 		player_state.jump(0)
-		data.player.velocity.y = data.player.velocity.y - (const.PLAYER.GRAVITY_UP * 0.5)
-		prop.status = false
 	end
 end
 
@@ -53,19 +55,22 @@ local function init_box(prop, query_result)
 		collision.remove(prop.aabb_id)
 
 		if query_result.normal_y == 1 then
+			data.player.state.on_ground = false
+			data.player.velocity.y = const.PLAYER.WALL_JUMP_FORCE
 			player_state.jump(0)
-			data.player.velocity.y = data.player.velocity.y - (const.PLAYER.GRAVITY_SLIDE * 0.5)
+		elseif query_result.normal_y == -1 then
+			data.player.velocity.y = 0
+			data.player.gravity_down = const.PLAYER.GRAVITY_DOWN
+			player_state.fall()
 		end
 
-		go.animate(prop.id, "position.y", go.PLAYBACK_ONCE_PINGPONG, prop.position.y + 5, go.EASING_INQUAD, 0.3)
+		go.animate(prop.id, "position.y", go.PLAYBACK_ONCE_FORWARD, prop.position.y - (20 * query_result.normal_y), go.EASING_LINEAR, 0.2)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			go.delete(prop.id)
-		end)
-
-		timer.delay(0.2, false, function()
 			local part_ids = collectionfactory.create(prop.data.break_factory, prop.position)
 			particles.spawn(part_ids, prop.data.part_count)
 		end)
+
 
 		data.props[prop.aabb_id] = nil
 	end
@@ -218,7 +223,7 @@ props.TYPE = {
 
 	SPIKE_HEAD = {
 		size = { width = 43, height = 43 },
-		collider_size = { width = 43, height = 43 },
+		collider_size = { width = 30, height = 30 },
 		offset = vmath.vector3(),
 		center = { x = 0, y = 0 },
 		fn = init_spikes,
@@ -281,39 +286,13 @@ props.TYPE = {
 	},
 }
 
-local function object_rotate(object_data)
-	-- object rotation is very problematic at Tiled. this is a very ugly solution
-	local size = vmath.vector3(object_data.width, object_data.height, 0)
-	local rotated_size = vmath.rotate(vmath.quat_rotation_z(math.rad(object_data.rotation * -1)), size)
-
-	rotated_size.x = math.abs(rotated_size.x)
-	rotated_size.y = math.abs(rotated_size.y)
-
-	local centerX = object_data.width / 2
-	local centerY = object_data.height / 2
-	local cosRotation = math.cos(math.rad(object_data.rotation))
-	local sinRotation = math.sin(math.rad(object_data.rotation))
-	local rotatedCenterX = centerX * cosRotation - centerY * sinRotation
-	local rotatedCenterY = centerX * sinRotation + centerY * cosRotation
-
-	if object_data.rotation == -90 or object_data.rotation == 90 then
-		object_data.x = math.floor(object_data.x - rotatedCenterX - (object_data.width / 2))
-		object_data.y = math.floor((object_data.y + rotatedCenterY) + (object_data.height / 2))
-	elseif object_data.rotation == 180 or object_data.rotation == -180 then
-		object_data.x = math.floor(object_data.x - rotatedCenterX - (object_data.width + (object_data.width / 2)))
-		object_data.y = math.floor((object_data.y + rotatedCenterY) + (object_data.height + object_data.height / 2))
-	end
-
-	object_data.width  = rotated_size.x
-	object_data.height = rotated_size.y
-end
 
 function props.add(object_data, hflip, vflip)
 	hflip = hflip and hflip or false
 	vflip = vflip and vflip or false
 
 	if object_data.rotation ~= 0 then
-		object_rotate(object_data)
+		utils.object_rotate(object_data)
 	end
 
 	local rotation = object_data.rotation and vmath.quat_rotation_z(math.rad(object_data.rotation * -1)) or nil
@@ -350,7 +329,6 @@ function props.add(object_data, hflip, vflip)
 
 	-- add checkpoints
 	if object_data.type == "CHECKPOINT" then
-		print("CHECKPOINT aabb id:", prop.aabb_id)
 		local checkpoint = {
 			position = prop.position,
 			x = prop.position.x,

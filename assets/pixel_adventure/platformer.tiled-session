@@ -18,7 +18,7 @@
         },
         "platformer.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1,
+            "scaleInDock": 2.898,
             "scaleInEditor": 1
         },
         "props.tsx": {
@@ -40,16 +40,16 @@
             }
         },
         "test2.tmx": {
-            "scale": 5.2234,
-            "selectedLayer": 0,
+            "scale": 2.26,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 190.01033809396176,
-                "y": 253.8576406172225
+                "x": 1105.9734513274336,
+                "y": 232.9646017699115
             }
         }
     },
     "last.exportedFilePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/data",
-    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Traps/Fire",
+    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Traps/Rock Head",
     "last.objectTemplatePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure",
     "map.height": 22,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",

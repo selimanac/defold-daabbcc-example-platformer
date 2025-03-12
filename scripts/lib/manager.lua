@@ -7,6 +7,8 @@ local const       = require("scripts.lib.const")
 local game_camera = require("scripts.lib.game_camera")
 local particles   = require("scripts.lib.particles")
 local background  = require("scripts.lib.background")
+local enemies     = require("scripts.lib.enemies")
+
 local manager     = {}
 
 local function collect_garbage()
@@ -74,6 +76,7 @@ function manager.update(dt)
 
 	player.update(dt)
 	game_camera.update(dt)
+	enemies.update(dt)
 	particles.update(dt)
 end
 
