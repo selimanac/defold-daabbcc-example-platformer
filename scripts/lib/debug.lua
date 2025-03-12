@@ -61,21 +61,11 @@ function debug.update()
 
 		debug.draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, vmath.vector4(1, 0, 0, 1))
 
+		-- camera deadzone
 		debug.draw_aabb(data.camera.position.x - (const.CAMERA.DEADZONE.x * 2 / 2), data.camera.position.y - (const.CAMERA.DEADZONE.y * 2 / 2), const.CAMERA.DEADZONE.x * 2, const.CAMERA.DEADZONE.y * 2, vmath.vector4(0, 1, 0, 1))
 
-		debug.draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h - 5, const.PLAYER.SIZE.w, 5, vmath.vector4(1, 1, 1, 1))
-
-		--[[	--back
-		local start_point = vmath.vector3(
-			data.player.position.x - (const.PLAYER.SIZE.w / 2 - 4),
-			data.player.position.y - (const.PLAYER.SIZE.h / 2),
-			0)
-		local end_point = vmath.vector3(
-			data.player.position.x - (const.PLAYER.SIZE.w / 2 - 4),
-			data.player.position.y - (const.PLAYER.SIZE.h / 2 + 16),
-			0)
-
-		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })]]
+		-- bottom
+		--	debug.draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h - 5, const.PLAYER.SIZE.w, 5, vmath.vector4(1, 1, 1, 1))
 
 
 		--center
@@ -85,7 +75,7 @@ function debug.update()
 			0)
 		local end_point = vmath.vector3(
 			data.player.position.x,
-			data.player.position.y - (const.PLAYER.HALF_SIZE.h + 16),
+			data.player.position.y - (const.PLAYER.SIZE.h + 20),
 			0)
 
 		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })

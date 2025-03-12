@@ -3,9 +3,10 @@ local const                     = require("scripts.lib.const")
 local collision                 = require("scripts.lib.collision")
 local props                     = require("scripts.lib.props")
 local utils                     = require("scripts.lib.utils")
-local map                       = {}
 local enemies                   = require("scripts.lib.enemies")
 local directions                = require("scripts.lib.directions")
+
+local map                       = {}
 
 -- Tiled flip
 local FLIPPED_HORIZONTALLY_FLAG = 0x80000000
@@ -144,6 +145,8 @@ function map.load(level)
 				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid) -- generic gid flip and rotate for tiles only
 				props.add(object_data, hflip, vflip)
 			end
+
+			--pprint(data.checkpoints)
 		end
 
 		----------------------
@@ -154,6 +157,18 @@ function map.load(level)
 				local object_data = layer.objects[i]
 
 				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid)
+
+				if object_data.type == "ENEMY" then
+					local properties = {}
+					if object_data.properties then
+						for _, property in ipairs(object_data.properties) do
+							properties[property.name] = property.value
+						end
+					end
+
+					enemies.add(object_data, hflip, vflip, properties)
+				end
+
 				-- Player init position
 				if object_data.name == "PLAYER" then
 					local player_z = 0.9
@@ -177,20 +192,9 @@ function map.load(level)
 						end
 					end
 				end
-
-
-				if object_data.type == "ENEMY" then
-					local properties = {}
-					if object_data.properties then
-						for _, property in ipairs(object_data.properties) do
-							properties[property.name] = property.value
-						end
-					end
-
-
-					enemies.add(object_data, hflip, vflip, properties)
-				end
 			end
+
+			--	pprint(data.enemies)
 		end
 
 		----------------------
@@ -199,8 +203,6 @@ function map.load(level)
 		if layer.name == "move_directions" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
-
-
 				directions.add(object_data)
 			end
 		end

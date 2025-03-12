@@ -1,11 +1,10 @@
-local data               = require("scripts.lib.data")
-local const              = require("scripts.lib.const")
+local data           = require("scripts.lib.data")
+local const          = require("scripts.lib.const")
 
-local collision          = {}
+local collision      = {}
 
-local aabb_group_id      = 0
-local selected_mask_bits = bit.bor(const.COLLISION_BITS.ENEMY, const.COLLISION_BITS.ITEM)
-local tile_mask_bits     = bit.bor(const.COLLISION_BITS.TILE, const.COLLISION_BITS.PROP, const.COLLISION_BITS.ENEMY)
+local aabb_group_id  = 0
+local tile_mask_bits = bit.bor(const.COLLISION_BITS.TILE, const.COLLISION_BITS.PROP, const.COLLISION_BITS.ENEMY)
 
 function collision.init()
 	aabb_group_id = daabbcc.new_group(daabbcc.UPDATE_PARTIALREBUILD)
@@ -63,7 +62,7 @@ function collision.reset()
 end
 
 function collision.final()
-	collision.reset()
+	daabbcc.reset()
 end
 
 return collision

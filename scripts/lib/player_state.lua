@@ -60,6 +60,7 @@ function player_state.jump(jump_timer)
 end
 
 function player_state.slide()
+	--	data.player.state.on_ground = false
 	data.player.state.is_jumping = false
 	data.player.velocity.y = 0
 	data.player.gravity_down = const.PLAYER.GRAVITY_SLIDE -- set slide gravity

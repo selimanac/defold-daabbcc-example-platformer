@@ -104,7 +104,6 @@ local function vertical_movement(dt)
 				data.player.velocity.y = data.player.velocity.y + const.PLAYER.GRAVITY_UP * dt
 			else
 				-- falling
-
 				if not data.player.state.is_falling and not data.player.state.is_sliding then
 					player_state.fall()
 				end
@@ -114,7 +113,7 @@ local function vertical_movement(dt)
 	end
 end
 
-
+local over_platform = false
 function player.update(dt)
 	if data.game.state.skip_colliders then
 		return
@@ -175,52 +174,59 @@ function player.update(dt)
 		end
 	end
 
-
-
 	---------------------
 	-- PLATROMS
 	---------------------
-	--[[	local on_platform = false
-	if data.player.state.is_falling then
-		local r, c = collision.query_aabb(data.player.position.x, data.player.position.y - const.PLAYER.HALF_SIZE.h - 5, const.PLAYER.SIZE.w, 5, const.COLLISION_BITS.PLATFORM, true)
-
-		if r then
-			on_platform = true
-			data.player.state.is_falling = false
-
-			--	for i = 1, c do
-			local query_result = r[1]
-			local aabb_id = query_result.id
-			local tile = data.map_objects[aabb_id]
-
-			--is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
-			--	if is_one_way_platform then
-			local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
+	local on_platform = false
 
 
+	local ray_result, ray_count = collision.raycast(
+		data.player.position.x,
+		data.player.position.y,
+		data.player.position.x,
+		data.player.position.y - (const.PLAYER.SIZE.h + 20),
+		const.COLLISION_BITS.PLATFORM)
 
-			print(player_bottom_y, tile.y + 5)
-			if query_result.normal_y == 1 then
-				-- ground offset
-				pprint(tile)
-				data.player.position.y = tile.y + const.PLAYER.HALF_SIZE.h - tile.size.h
-				player_state.idle(true, current_dir)
-				data.player.gravity_down = const.PLAYER.GRAVITY_DOWN -- reset slide gravity
-				data.player.state.is_falling = false     -- on ground
+	if ray_result then
+		local query_result = ray_result[1]
+		local aabb_id = ray_result[1]
+		local tile = data.map_objects[aabb_id]
+		local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
 
-				data.player.velocity.y = 0
-				data.player.state.on_ground = true
-			end
-			--end
-			--end
-		else
-			--on_platform = false
+
+		if player_bottom_y >= tile.y + 10 then
+			over_platform = true
 		end
-	end]]
+	else
+		over_platform = false
+	end
 
 
+	if over_platform then
+		local r, c = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)
+		if r then
+			for i = 1, c do
+				local query_result = r[i]
+				local aabb_id = query_result.id
+				local offset_y = query_result.normal_y * query_result.depth
 
+				if query_result.normal_y == 1 and data.player.state.is_falling then
+					-- ground offset
+					data.player.position.y = data.player.position.y + offset_y
 
+					-- Falling to ground, set it to idle
+					if data.player.state.on_ground == false and not data.player.state.is_walking then
+						player_state.idle(true, current_dir)
+						data.player.gravity_down = const.PLAYER.GRAVITY_DOWN -- reset slide gravity
+						data.player.state.is_falling = false -- on ground
+					end
+
+					data.player.velocity.y = 0
+					data.player.state.on_ground = true
+				end
+			end
+		end
+	end
 
 	if tile_query_results then
 		for i = 1, tile_query_count do
@@ -231,19 +237,22 @@ function player.update(dt)
 			local offset_x = query_result.normal_x * query_result.depth
 			local offset_y = query_result.normal_y * query_result.depth
 
-			local tile = data.map_objects[aabb_id]
+			--	local tile = data.map_objects[aabb_id]
 			local prop = data.props[aabb_id]
 			local enemy = data.enemies[aabb_id]
 
 			is_enemy = enemy and true or false
 			is_prop = prop and true or false
 
-			if is_prop then
-				is_collectable = prop.collectable
-			else
-				is_collectable = false
-			end
+			is_collectable = (prop and prop.collectable) and prop.collectable or false
+			--	is_collectable = false
+			--	if is_prop then
+			--	pprint(prop)
+			--		is_collectable = prop.collectable
+			--	end
 
+			--is_collectable = false
+			--	print(is_collectable)
 			--	local is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
 			--	local is_top_one_way_platform = false
 
@@ -284,13 +293,16 @@ function player.update(dt)
 				data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
 			end
 
+
+
+
 			---------------------------------------
 			-- Left / Right Collision: normal_x == 1 or normal_x == -1
 			---------------------------------------
 			if (query_result.normal_x == 1 or query_result.normal_x == -1) and
 				--	is_one_way_platform == false and
-				is_collectable == false and
-				not data.player.state.on_slope
+				is_collectable == false
+				and not data.player.state.on_slope
 			then
 				data.player.velocity.x = 0
 				data.player.position.x = data.player.position.x + offset_x
@@ -301,18 +313,18 @@ function player.update(dt)
 				end
 			end
 
+
 			if is_prop and prop.status == false then
 				prop.fn(prop, query_result)
 			end
 
 			if is_enemy then
-				--data.player.position.y = data.player.position.y + offset_y
 				enemy.fn(enemy, query_result)
 			end
 
 			-- end for
 		end
-	elseif not data.player.state.on_slope then -- no result
+	elseif not data.player.state.on_slope and not over_platform then -- no result
 		-- No more collision, let it fall
 		data.player.state.on_ground = false
 
@@ -323,6 +335,7 @@ function player.update(dt)
 			data.player.gravity_down = const.PLAYER.GRAVITY_DOWN
 		end
 	end -- end query
+
 
 	-- set final position
 	go.set_position(data.player.position, data.player.ids.CONTAINER)
@@ -342,7 +355,7 @@ function player.input(action_id, action)
 			if data.player.direction > 0 then data.player.direction = 0 end
 		end
 	elseif action_id == const.TRIGGERS.JUMP then
-		if action.pressed and not data.player.state.is_falling then
+		if action.pressed then
 			data.player.state.jump_pressed = true
 			if data.player.state.on_ground then
 				data.player.velocity.y = const.PLAYER.JUMP_FORCE
@@ -362,13 +375,16 @@ function player.final()
 	data.player.direction          = 0
 	current_dir                    = 0
 
-	data.player.velocity.y         = 0
+	is_collectable                 = false
+	data.player.velocity           = vmath.vector3()
 	data.player.state.on_slope     = false
 	data.player.state.jump_pressed = false
 	data.player.state.is_jumping   = false
 	data.player.state.is_walking   = false
 	data.player.state.is_sliding   = false
 	data.player.state.is_falling   = false
+	tile_query_results             = nil
+	tile_query_count               = 0
 end
 
 return player

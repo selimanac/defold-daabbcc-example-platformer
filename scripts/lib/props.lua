@@ -30,7 +30,8 @@ local function init_trampoline(prop, query_result)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			prop.status = false
 		end)
-
+		data.player.state.on_ground = false
+		data.player.state.jump_pressed = false
 		data.player.velocity.y = const.PLAYER.TRAMPOLINE_JUMP_FORCE
 		player_state.jump(0)
 	end
@@ -104,6 +105,7 @@ local function init_spikes(prop, query_result)
 end
 
 local function init_checkpoint(prop, _)
+	pprint(prop)
 	if prop.status == false then
 		prop.status = true
 
@@ -118,6 +120,7 @@ local function init_checkpoint(prop, _)
 			checkpoint.active = true
 			data.last_checkpoint = prop.data.checkpoint_id
 		end
+		data.props[prop.aabb_id] = nil
 	end
 end
 
@@ -343,7 +346,7 @@ function props.add(object_data, hflip, vflip)
 			-- just update the aabb id
 			data.checkpoints[object_data.id].aabb_id = prop.aabb_id
 		end
-
+		print("CHECKPOINT prop.aabb_id", prop.aabb_id)
 		prop.data = {
 			checkpoint_id = object_data.id
 		}

@@ -96,11 +96,11 @@ function manager.message(message_id, message, sender)
 end
 
 function manager.final()
-	collision.final()
 	particles.final()
 	map.final()
 	player.final()
 	data.final()
+	collision.final()
 end
 
 return manager

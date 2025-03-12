@@ -6,20 +6,8 @@ local utils        = require("scripts.lib.utils")
 
 local enemies      = {}
 
-
-
-local function enemy_idle()
-
-end
-
-local function enemy_walk()
-
-end
-
-
-local function enemy_hit()
-
-end
+local query_result = {}
+local enemy_direction
 
 local function init_enemy(enemy, query_result)
 	if query_result.normal_y == 1 and enemy.status == false then
@@ -44,15 +32,11 @@ local function init_enemy(enemy, query_result)
 end
 
 local function init_rock_head(enemy, query_result)
-	--	data.player.state.is_falling = false
-	if query_result.normal_y == 1 and enemy.status == false then
-		--	data.player.state.on_ground = false
-	elseif enemy.status == false and enemy.is_killer then
-		--	player_state.die()
+	if (query_result.normal_y == 1 or query_result.normal_y == -1) and enemy.status == false then
+		enemy.status = true
+		player_state.die()
 	end
 end
-
-
 
 enemies.TYPE = {
 	ANGRY_PIG = {
@@ -106,7 +90,7 @@ enemies.TYPE = {
 			is_idle = false
 		},
 		is_fixed = false,
-		is_killer = false,
+		is_killer = true,
 		is_flip = false,
 		direction_x = 0,
 		direction_y = 0,
@@ -145,19 +129,11 @@ function enemies.add(object_data, hflip, vflip, properties)
 		enemy.speed = properties.speed
 	end
 
-	print(enemy.direction_x)
-
 	-- h-v flip
 	if hflip then
 		sprite.set_hflip(enemy.sprite, hflip)
-		--	enemy.direction_x = 1
 	elseif vflip then
 		sprite.set_vflip(enemy.sprite, vflip)
-		--	enemy.direction_y = 1
-	end
-
-	if enemy.name == "ROCK_HEAD" then
-		print(enemy.direction_x, enemy.direction_y)
 	end
 
 	-- rotate collider
@@ -177,16 +153,10 @@ function enemies.add(object_data, hflip, vflip, properties)
 	else
 		enemy.aabb_id = collision.insert_aabb(enemy.center.x, enemy.center.y, enemy.collider_size.width, enemy.collider_size.height, enemy.collision_bit)
 	end
-
-	pprint(enemy.aabb_id)
-
+	print("enemy.aabb_id", enemy.aabb_id)
 	enemy.state.is_idle = true
 
 	data.enemies[enemy.aabb_id] = enemy
-end
-
-local function enemy_move()
-
 end
 
 function enemies.update(dt)
@@ -206,11 +176,11 @@ function enemies.update(dt)
 
 			collision.update_aabb(enemy.aabb_id, enemy.position.x, enemy.position.y, enemy.collider_size.width, enemy.collider_size.height)
 
-			local result, count = collision.query_id(enemy.aabb_id, const.COLLISION_BITS.DIRECTIONS)
-			if result then
-				local direction = data.directions[result[1]]
-				enemy.direction_x = direction.direction_x
-				enemy.direction_y = direction.direction_y
+			query_result, _ = collision.query_id(enemy.aabb_id, const.COLLISION_BITS.DIRECTIONS)
+			if query_result then
+				enemy_direction = data.directions[query_result[1]]
+				enemy.direction_x = enemy_direction.direction_x
+				enemy.direction_y = enemy_direction.direction_y
 				if enemy.is_flip then
 					sprite.set_hflip(enemy.sprite, enemy.direction_x == 1 and true or false)
 					sprite.set_vflip(enemy.sprite, enemy.direction_y == 1 and true or false)
@@ -218,7 +188,6 @@ function enemies.update(dt)
 			end
 
 			go.set_position(enemy.position, enemy.id)
-
 
 			--end if
 		end
