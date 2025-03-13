@@ -81,28 +81,28 @@ function debug.update()
 
 		--Back ray for platforms
 		local start_point = vmath.vector3(
-			data.player.position.x - const.PLAYER.HALF_SIZE.w,
+			data.player.position.x,
 			data.player.position.y,
 			0)
 		local end_point = vmath.vector3(
 			data.player.position.x - const.PLAYER.HALF_SIZE.w,
-			data.player.position.y - (const.PLAYER.SIZE.h + 10),
+			data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
 			0)
 
-		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
+		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 0, 0, 1) })
 
 
 		--Front ray for platforms
 		local start_point = vmath.vector3(
-			data.player.position.x + const.PLAYER.HALF_SIZE.w,
+			data.player.position.x,
 			data.player.position.y,
 			0)
 		local end_point = vmath.vector3(
 			data.player.position.x + const.PLAYER.HALF_SIZE.w,
-			data.player.position.y - (const.PLAYER.SIZE.h + 10),
+			data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
 			0)
 
-		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
+		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 0, 0, 1) })
 	end
 
 	if data.debug.imgui then

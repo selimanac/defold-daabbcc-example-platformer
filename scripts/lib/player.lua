@@ -203,17 +203,17 @@ function player.update(dt)
 	local on_platform = false
 
 	platform_back_ray_result, _ = collision.raycast(
-		data.player.position.x - const.PLAYER.HALF_SIZE.w,
+		data.player.position.x,
 		data.player.position.y,
 		data.player.position.x - const.PLAYER.HALF_SIZE.w,
-		data.player.position.y - (const.PLAYER.SIZE.h + 10),
+		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
 		const.COLLISION_BITS.PLATFORM)
 
 	platform_front_ray_result, _ = collision.raycast(
-		data.player.position.x + const.PLAYER.HALF_SIZE.w,
+		data.player.position.x,
 		data.player.position.y,
 		data.player.position.x + const.PLAYER.HALF_SIZE.w,
-		data.player.position.y - (const.PLAYER.SIZE.h + 10),
+		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
 		const.COLLISION_BITS.PLATFORM)
 
 
@@ -230,8 +230,8 @@ function player.update(dt)
 	else
 		over_platform = false
 	end
+	pprint(over_platform)
 
-	--[[
 	if over_platform then
 		platform_query, platform_count = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)
 		if platform_query then
@@ -246,7 +246,7 @@ function player.update(dt)
 
 					-- Falling to ground, set it to idle
 					if data.player.state.on_ground == false and not data.player.state.is_walking then
-						player_state.idle(true, current_dir)over_platform
+						player_state.idle(true, current_dir)
 						data.player.gravity_down = const.PLAYER.GRAVITY_DOWN -- reset slide gravity
 						data.player.state.is_falling = false -- on ground
 					end
@@ -257,7 +257,7 @@ function player.update(dt)
 			end
 		end
 	end
-]]
+
 	if tile_query_results then
 		for i = 1, tile_query_count do
 			query_result = tile_query_results[i]
@@ -267,7 +267,7 @@ function player.update(dt)
 			player_offset_x = query_result.normal_x * query_result.depth
 			player_offset_y = query_result.normal_y * query_result.depth
 
-			local tile = data.map_objects[query_aabb_id]
+			--	local tile = data.map_objects[aabb_id]
 			local prop = data.props[query_aabb_id]
 			local enemy = data.enemies[query_aabb_id]
 
@@ -279,19 +279,29 @@ function player.update(dt)
 
 			--is_collectable = false
 			--	print(is_collectable)
-			local is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
+			--	local is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
 			--	local is_top_one_way_platform = false
 
 			---------------------------------------
 			-- Bottom Collision: normal_y == 1
 			---------------------------------------
+
+
+			-- if (query_result.normal_y == 1
+			-- 		and not data.player.state.on_ground
+			-- 		and data.player.state.is_falling
+			-- 		and not is_collectable
+			-- 		and not data.player.state.on_slope
+			-- 		and not is_one_way_platform)
+			-- 	or (is_one_way_platform and over_platform)
+			-- then
+
+
 			if query_result.normal_y == 1
 				and data.player.state.on_ground == false
 				and data.player.state.is_falling
 				and is_collectable == false
 				and not data.player.state.on_slope
-				or (is_one_way_platform and over_platform)
-				and not over_platform
 			then
 				-- ground offset
 				data.player.position.y = data.player.position.y + player_offset_y
@@ -314,7 +324,7 @@ function player.update(dt)
 				and data.player.state.is_jumping
 				and is_collectable == false
 				and not data.player.state.on_slope
-				and is_one_way_platform == false
+			--	is_one_way_platform == false and
 			then
 				data.player.position.y = data.player.position.y + player_offset_y
 				data.player.velocity.y = 0
@@ -327,7 +337,7 @@ function player.update(dt)
 			if (query_result.normal_x == 1 or query_result.normal_x == -1)
 				and is_collectable == false
 				and not data.player.state.on_slope
-				and is_one_way_platform == false
+			--	is_one_way_platform == false and
 			then
 				data.player.velocity.x = 0
 				data.player.position.x = data.player.position.x + player_offset_x
