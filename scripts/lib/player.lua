@@ -230,7 +230,7 @@ function player.update(dt)
 	else
 		over_platform = false
 	end
-	pprint(over_platform)
+
 
 	if over_platform then
 		platform_query, platform_count = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)
