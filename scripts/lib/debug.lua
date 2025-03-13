@@ -64,26 +64,45 @@ function debug.update()
 		-- camera deadzone
 		debug.draw_aabb(data.camera.position.x - (const.CAMERA.DEADZONE.x * 2 / 2), data.camera.position.y - (const.CAMERA.DEADZONE.y * 2 / 2), const.CAMERA.DEADZONE.x * 2, const.CAMERA.DEADZONE.y * 2, vmath.vector4(0, 1, 0, 1))
 
-		-- bottom
-		--	debug.draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h - 5, const.PLAYER.SIZE.w, 5, vmath.vector4(1, 1, 1, 1))
 
 
-		--center
+		--SLOPE RAY
 		local start_point = vmath.vector3(
 			data.player.position.x,
 			data.player.position.y,
 			0)
 		local end_point = vmath.vector3(
 			data.player.position.x,
-			data.player.position.y - (const.PLAYER.SIZE.h + 20),
+			data.player.position.y - (const.PLAYER.SIZE.h + 16),
 			0)
 
 		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
 
 
-		--local ray_start = vmath.vector3(data.player.position.x, data.player.position.y - (const.PLAYER.SIZE.h / 2), 0)
-		--local ray_end = vmath.vector3(data.player.position.x, data.player.position.y - (const.PLAYER.SIZE.h / 2 + 5), 0)
-		--msg.post("@render:", "draw_line", { start_point = ray_start, end_point = ray_end, color = vmath.vector4(1, 0, 0, 1) })
+		--Back ray for platforms
+		local start_point = vmath.vector3(
+			data.player.position.x - const.PLAYER.HALF_SIZE.w,
+			data.player.position.y,
+			0)
+		local end_point = vmath.vector3(
+			data.player.position.x - const.PLAYER.HALF_SIZE.w,
+			data.player.position.y - (const.PLAYER.SIZE.h + 10),
+			0)
+
+		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
+
+
+		--Front ray for platforms
+		local start_point = vmath.vector3(
+			data.player.position.x + const.PLAYER.HALF_SIZE.w,
+			data.player.position.y,
+			0)
+		local end_point = vmath.vector3(
+			data.player.position.x + const.PLAYER.HALF_SIZE.w,
+			data.player.position.y - (const.PLAYER.SIZE.h + 10),
+			0)
+
+		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
 	end
 
 	if data.debug.imgui then

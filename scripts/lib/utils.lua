@@ -12,6 +12,26 @@ function utils.table_copy(tbl)
 	return copy
 end
 
+function utils.merge_tables(t1, t2)
+	-- If one of them is nil, return the other
+	if not t1 then return t2 or {} end
+	if not t2 then return t1 end
+
+	local result = {}
+
+	-- Copy t1
+	for i, v in ipairs(t1) do
+		result[i] = v
+	end
+
+	-- Overwrite with values from t2
+	for i, v in ipairs(t2) do
+		result[i] = v
+	end
+
+	return result
+end
+
 function utils.slope_intercept(x1, y1, x2, y2)
 	local dx = x2 - x1
 	local dy = y2 - y1

@@ -1,19 +1,40 @@
-local const              = require("scripts.lib.const")
-local data               = require("scripts.lib.data")
-local collision          = require("scripts.lib.collision")
-local player_state       = require("scripts.lib.player_state")
+local const                     = require("scripts.lib.const")
+local data                      = require("scripts.lib.data")
+local collision                 = require("scripts.lib.collision")
+local player_state              = require("scripts.lib.player_state")
+local utils                     = require("scripts.lib.utils")
 
-local player             = {}
+local player                    = {}
 
-local jump_timer         = 0
-local current_dir        = 0
-local tile_query_results = nil
-local tile_query_count   = 0
+local jump_timer                = 0
+local current_dir               = 0
 
-local is_prop            = false
-local is_enemy           = false
-local is_collectable     = false
+local tile_query_results        = nil
+local tile_query_count          = 0
 
+-- Slope
+local slope_ray_result          = nil
+local slope_ray_count           = 0
+local slope_tile                = {}
+local player_side_x             = 0
+local slope_y                   = 0
+
+--Platforms
+local platform_back_ray_result  = {}
+local platform_front_ray_result = {}
+local platform_query            = {}
+local platform_count            = 0
+
+-- Queries
+local player_offset_x           = 0
+local player_offset_y           = 0
+local query_result              = {}
+local query_aabb_id             = 0
+
+-- Prop & enemy items
+local is_prop                   = false
+local is_enemy                  = false
+local is_collectable            = false
 
 function player.init()
 	local player_ids               = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
@@ -132,67 +153,76 @@ function player.update(dt)
 	-- Player to tiles collision
 	tile_query_results, tile_query_count = collision.tiles(data.player.aabb_id)
 
-
 	---------------------
 	-- SLOPE
 	---------------------
 	-- center ray for slope
-	local ray_result, ray_count = collision.raycast(
+	slope_ray_result, slope_ray_count = collision.raycast(
 		data.player.position.x,
 		data.player.position.y,
 		data.player.position.x,
 		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 16),
 		const.COLLISION_BITS.SLOPE)
 
-	data.player.state.on_slope = ray_count > 0 and true or false
+	data.player.state.on_slope = slope_ray_count > 0 and true or false
 
-	local slope_tile = {}
+	slope_tile = {}
 
 	if data.player.state.on_slope then
-		slope_tile = data.map_objects[ray_result[1]]
+		slope_tile = data.map_objects[slope_ray_result[1]]
 
 		if not data.player.state.is_jumping then
-			local sampleX = 0
-			if slope_tile.properties.slope.m < 0 then
-				sampleX = data.player.position.x + const.PLAYER.HALF_SIZE.w
-			else
-				sampleX = data.player.position.x - const.PLAYER.HALF_SIZE.w
-			end
-			local slopeYAtPlayerX = slope_tile.properties.slope.m * sampleX + slope_tile.properties.slope.b
+			player_side_x = 0
 
-			if data.player.position.y + const.PLAYER.SIZE.h >= slopeYAtPlayerX and data.player.position.y <= slopeYAtPlayerX + const.PLAYER.SIZE.h then
+			if slope_tile.properties.slope.m < 0 then
+				player_side_x = data.player.position.x + const.PLAYER.HALF_SIZE.w
+			else
+				player_side_x = data.player.position.x - const.PLAYER.HALF_SIZE.w
+			end
+
+			slope_y = slope_tile.properties.slope.m * player_side_x + slope_tile.properties.slope.b
+
+			if data.player.position.y + const.PLAYER.SIZE.h >= slope_y and data.player.position.y <= slope_y + const.PLAYER.SIZE.h then
 				data.player.state.on_ground = true
+
 				if data.player.state.is_falling then
 					data.player.state.is_falling = false
-					player_state.idle(true, current_dir)
 					data.player.velocity.y = 0
+					player_state.idle(true, current_dir)
 				end
 			end
 			if not data.player.state.is_falling then
-				data.player.position.y = slopeYAtPlayerX + const.PLAYER.SIZE.h
+				data.player.position.y = slope_y + const.PLAYER.SIZE.h
 			end
 		end
 	end
 
 	---------------------
-	-- PLATROMS
+	-- PLATFORM
 	---------------------
 	local on_platform = false
 
-
-	local ray_result, ray_count = collision.raycast(
-		data.player.position.x,
+	platform_back_ray_result, _ = collision.raycast(
+		data.player.position.x - const.PLAYER.HALF_SIZE.w,
 		data.player.position.y,
-		data.player.position.x,
-		data.player.position.y - (const.PLAYER.SIZE.h + 20),
+		data.player.position.x - const.PLAYER.HALF_SIZE.w,
+		data.player.position.y - (const.PLAYER.SIZE.h + 10),
 		const.COLLISION_BITS.PLATFORM)
 
-	if ray_result then
-		local query_result = ray_result[1]
-		local aabb_id = ray_result[1]
+	platform_front_ray_result, _ = collision.raycast(
+		data.player.position.x + const.PLAYER.HALF_SIZE.w,
+		data.player.position.y,
+		data.player.position.x + const.PLAYER.HALF_SIZE.w,
+		data.player.position.y - (const.PLAYER.SIZE.h + 10),
+		const.COLLISION_BITS.PLATFORM)
+
+
+	if platform_back_ray_result or platform_front_ray_result then
+		local result = utils.merge_tables(platform_back_ray_result, platform_front_ray_result)
+
+		local aabb_id = result[1]
 		local tile = data.map_objects[aabb_id]
 		local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
-
 
 		if player_bottom_y >= tile.y + 10 then
 			over_platform = true
@@ -201,22 +231,22 @@ function player.update(dt)
 		over_platform = false
 	end
 
-
+	--[[
 	if over_platform then
-		local r, c = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)
-		if r then
-			for i = 1, c do
-				local query_result = r[i]
-				local aabb_id = query_result.id
-				local offset_y = query_result.normal_y * query_result.depth
+		platform_query, platform_count = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)
+		if platform_query then
+			for i = 1, platform_count do
+				query_result = platform_query[i]
+
+				player_offset_y = query_result.normal_y * query_result.depth
 
 				if query_result.normal_y == 1 and data.player.state.is_falling then
 					-- ground offset
-					data.player.position.y = data.player.position.y + offset_y
+					data.player.position.y = data.player.position.y + player_offset_y
 
 					-- Falling to ground, set it to idle
 					if data.player.state.on_ground == false and not data.player.state.is_walking then
-						player_state.idle(true, current_dir)
+						player_state.idle(true, current_dir)over_platform
 						data.player.gravity_down = const.PLAYER.GRAVITY_DOWN -- reset slide gravity
 						data.player.state.is_falling = false -- on ground
 					end
@@ -227,46 +257,44 @@ function player.update(dt)
 			end
 		end
 	end
-
+]]
 	if tile_query_results then
 		for i = 1, tile_query_count do
-			local query_result = tile_query_results[i]
-			local aabb_id = query_result.id
+			query_result = tile_query_results[i]
+			query_aabb_id = query_result.id
 
 			-- collision offset
-			local offset_x = query_result.normal_x * query_result.depth
-			local offset_y = query_result.normal_y * query_result.depth
+			player_offset_x = query_result.normal_x * query_result.depth
+			player_offset_y = query_result.normal_y * query_result.depth
 
-			--	local tile = data.map_objects[aabb_id]
-			local prop = data.props[aabb_id]
-			local enemy = data.enemies[aabb_id]
+			local tile = data.map_objects[query_aabb_id]
+			local prop = data.props[query_aabb_id]
+			local enemy = data.enemies[query_aabb_id]
 
 			is_enemy = enemy and true or false
 			is_prop = prop and true or false
 
 			is_collectable = (prop and prop.collectable) and prop.collectable or false
-			--	is_collectable = false
-			--	if is_prop then
-			--	pprint(prop)
-			--		is_collectable = prop.collectable
-			--	end
+
 
 			--is_collectable = false
 			--	print(is_collectable)
-			--	local is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
+			local is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
 			--	local is_top_one_way_platform = false
 
 			---------------------------------------
 			-- Bottom Collision: normal_y == 1
 			---------------------------------------
-			if query_result.normal_y == 1 and
-				data.player.state.on_ground == false and
-				data.player.state.is_falling and
-				is_collectable == false and
-				not data.player.state.on_slope
+			if query_result.normal_y == 1
+				and data.player.state.on_ground == false
+				and data.player.state.is_falling
+				and is_collectable == false
+				and not data.player.state.on_slope
+				or (is_one_way_platform and over_platform)
+				and not over_platform
 			then
 				-- ground offset
-				data.player.position.y = data.player.position.y + offset_y
+				data.player.position.y = data.player.position.y + player_offset_y
 
 				-- Falling to ground, set it to idle
 				if data.player.state.on_ground == false and not data.player.state.is_walking then
@@ -282,30 +310,27 @@ function player.update(dt)
 			---------------------------------------
 			-- Top Collision: normal_y == -1
 			---------------------------------------
-			if query_result.normal_y == -1 and
-				data.player.state.is_jumping and
-				--	is_one_way_platform == false and
-				is_collectable == false and
-				not data.player.state.on_slope
+			if query_result.normal_y == -1
+				and data.player.state.is_jumping
+				and is_collectable == false
+				and not data.player.state.on_slope
+				and is_one_way_platform == false
 			then
-				data.player.position.y = data.player.position.y + offset_y
+				data.player.position.y = data.player.position.y + player_offset_y
 				data.player.velocity.y = 0
 				data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
 			end
 
-
-
-
 			---------------------------------------
 			-- Left / Right Collision: normal_x == 1 or normal_x == -1
 			---------------------------------------
-			if (query_result.normal_x == 1 or query_result.normal_x == -1) and
-				--	is_one_way_platform == false and
-				is_collectable == false
+			if (query_result.normal_x == 1 or query_result.normal_x == -1)
+				and is_collectable == false
 				and not data.player.state.on_slope
+				and is_one_way_platform == false
 			then
 				data.player.velocity.x = 0
-				data.player.position.x = data.player.position.x + offset_x
+				data.player.position.x = data.player.position.x + player_offset_x
 
 				-- Slide on the wall if falling
 				if data.player.state.is_falling and not data.player.state.is_sliding then
@@ -313,7 +338,9 @@ function player.update(dt)
 				end
 			end
 
-
+			---------------------------------------
+			-- Prop & Enemy items
+			---------------------------------------
 			if is_prop and prop.status == false then
 				prop.fn(prop, query_result)
 			end

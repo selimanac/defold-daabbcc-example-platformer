@@ -172,7 +172,7 @@
   <object id="154" name="FIRE" gid="262" x="992" y="320" width="16" height="32"/>
   <object id="155" name="FIRE" gid="262" x="1008" y="320" width="16" height="32"/>
   <object id="156" name="FIRE" gid="262" x="1024" y="320" width="16" height="32"/>
-  <object id="166" name="TRAMPOLINE" gid="244" x="292" y="320" width="28" height="28"/>
+  <object id="166" name="TRAMPOLINE" gid="244" x="172" y="92" width="28" height="28"/>
   <object id="167" name="CHECKPOINT" gid="261" x="1084" y="128" width="64" height="64"/>
   <object id="170" name="BOX_1" gid="260" x="1272" y="224" width="20" height="20"/>
   <object id="172" name="BOX_1" gid="260" x="1244" y="224" width="20" height="20"/>
