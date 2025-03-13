@@ -107,6 +107,14 @@ embedded_instances {
   "  id: \"fire\"\n"
   "  component: \"/components/factories/props/fire.factory\"\n"
   "}\n"
+  "components {\n"
+  "  id: \"moving_platform\"\n"
+  "  component: \"/components/factories/props/moving_platform.factory\"\n"
+  "}\n"
+  "components {\n"
+  "  id: \"end\"\n"
+  "  component: \"/components/factories/props/end.factory\"\n"
+  "}\n"
   ""
 }
 embedded_instances {
@@ -138,22 +146,6 @@ embedded_instances {
   scale3 {
     x: 256.0
     y: 256.0
-  }
-}
-embedded_instances {
-  id: "go"
-  data: ""
-  position {
-    x: 200.0
-    y: 150.0
-  }
-}
-embedded_instances {
-  id: "go1"
-  data: ""
-  position {
-    x: 300.0
-    y: 100.0
   }
 }
 embedded_instances {

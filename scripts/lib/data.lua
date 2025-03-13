@@ -12,16 +12,16 @@ data.last_checkpoint = 0
 data.directions      = {}
 
 data.debug           = {
-	profiler = false,
+	profiler  = false,
 	colliders = true,
-	imgui = true,
-	init = true
+	imgui     = true,
+	init      = true
 }
 
 data.game            = {
 	state = {
-		pause = false,
-		input_pause = false,
+		pause          = false,
+		input_pause    = false,
 		skip_colliders = false
 	},
 	level = 1
@@ -43,29 +43,40 @@ data.player          = {
 		SLIDING_PFX    = nil
 	},
 	state        = {
-		on_ground    = true,
-		on_slope     = false,
-		jump_pressed = false,
-		is_jumping   = false,
-		is_walking   = false,
-		is_sliding   = false,
-		is_falling   = false,
+		on_ground     = true,
+		on_slope      = false,
+		jump_pressed  = false,
+		is_jumping    = false,
+		is_walking    = false,
+		is_sliding    = false,
+		is_falling    = false,
+		over_platform = false
 
 	}
 }
 
 data.camera          = {
-	zoom = 0,
-	position = vmath.vector3(),
-	deadzone = vmath.vector3()
+	zoom          = 0,
+	position      = vmath.vector3(),
+	base_position = vmath.vector3(),
+	deadzone      = vmath.vector3(),
+	view          = vmath.matrix4()
 }
+
+function data.reset_checkpoints()
+	--[[for _, checkpoint in pairs(data.checkpoints) do
+		go.delete(checkpoint.id)
+	end]]
+	data.checkpoints     = {}
+	data.last_checkpoint = 0
+end
 
 function data.final()
 	for _, prop in pairs(data.props) do
 		if prop.data and prop.data.timer_handle then
 			timer.cancel(prop.data.timer_handle)
 		end
-		go.delete(prop.id, true)
+		go.delete(prop.id)
 	end
 
 	for _, enemy in pairs(data.enemies) do

@@ -3,6 +3,7 @@ local data                      = require("scripts.lib.data")
 local collision                 = require("scripts.lib.collision")
 local player_state              = require("scripts.lib.player_state")
 local utils                     = require("scripts.lib.utils")
+local camera_fx                 = require("scripts.lib.camera_fx")
 
 local player                    = {}
 
@@ -22,14 +23,19 @@ local slope_y                   = 0
 --Platforms
 local platform_back_ray_result  = {}
 local platform_front_ray_result = {}
+local platform_ray_result       = {} -- merge results from back and front
 local platform_query            = {}
 local platform_count            = 0
+--local data.player.state.over_platform             = false
 
 -- Queries
 local player_offset_x           = 0
 local player_offset_y           = 0
 local query_result              = {}
 local query_aabb_id             = 0
+local query_tile                = {}
+local query_prop                = {}
+local query_enemy               = {}
 
 -- Prop & enemy items
 local is_prop                   = false
@@ -134,7 +140,7 @@ local function vertical_movement(dt)
 	end
 end
 
-local over_platform = false
+
 function player.update(dt)
 	if data.game.state.skip_colliders then
 		return
@@ -142,7 +148,6 @@ function player.update(dt)
 
 	vertical_movement(dt)
 	horizontal_movement(dt)
-
 
 	-- Update position using current data.player.velocity.
 	data.player.position = data.player.position + data.player.velocity * dt
@@ -200,8 +205,9 @@ function player.update(dt)
 	---------------------
 	-- PLATFORM
 	---------------------
-	local on_platform = false
 
+	local is_moving_patform = false
+	-- Raycast from front and back
 	platform_back_ray_result, _ = collision.raycast(
 		data.player.position.x,
 		data.player.position.y,
@@ -218,21 +224,25 @@ function player.update(dt)
 
 
 	if platform_back_ray_result or platform_front_ray_result then
-		local result = utils.merge_tables(platform_back_ray_result, platform_front_ray_result)
+		-- merge ray results
+		platform_ray_result = utils.merge_tables(platform_back_ray_result, platform_front_ray_result)
 
-		local aabb_id = result[1]
-		local tile = data.map_objects[aabb_id]
+		query_aabb_id = platform_ray_result[1]
+
+		query_tile = data.map_objects[query_aabb_id] and data.map_objects[query_aabb_id] or data.props[query_aabb_id]
+		is_moving_patform = data.props[query_aabb_id] and true or false
+
 		local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
 
-		if player_bottom_y >= tile.y + 10 then
-			over_platform = true
+		if player_bottom_y >= query_tile.y + const.PLAYER.PLATFORM_JUMP_OFFSET then -- jump offset
+			data.player.state.over_platform = true
 		end
 	else
-		over_platform = false
+		data.player.state.over_platform = false
 	end
 
 
-	if over_platform then
+	if data.player.state.over_platform then
 		platform_query, platform_count = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)
 		if platform_query then
 			for i = 1, platform_count do
@@ -241,8 +251,16 @@ function player.update(dt)
 				player_offset_y = query_result.normal_y * query_result.depth
 
 				if query_result.normal_y == 1 and data.player.state.is_falling then
+					if is_moving_patform then
+
+					end
+					-- TODO: THIS IS A REPEATING CODE FROM BOTTOM COLLISION
 					-- ground offset
 					data.player.position.y = data.player.position.y + player_offset_y
+
+					-- for mivng platform
+					--	data.player.state.is_falling = false
+					--	data.player.gravity_down = 0
 
 					-- Falling to ground, set it to idle
 					if data.player.state.on_ground == false and not data.player.state.is_walking then
@@ -258,6 +276,10 @@ function player.update(dt)
 		end
 	end
 
+
+	---------------------
+	-- TILE(MAP) QUERY
+	---------------------
 	if tile_query_results then
 		for i = 1, tile_query_count do
 			query_result = tile_query_results[i]
@@ -268,35 +290,18 @@ function player.update(dt)
 			player_offset_y = query_result.normal_y * query_result.depth
 
 			--	local tile = data.map_objects[aabb_id]
-			local prop = data.props[query_aabb_id]
-			local enemy = data.enemies[query_aabb_id]
 
-			is_enemy = enemy and true or false
-			is_prop = prop and true or false
+			query_prop = data.props[query_aabb_id]
+			query_enemy = data.enemies[query_aabb_id]
 
-			is_collectable = (prop and prop.collectable) and prop.collectable or false
+			is_enemy = query_enemy and true or false
+			is_prop = query_prop and true or false
 
-
-			--is_collectable = false
-			--	print(is_collectable)
-			--	local is_one_way_platform = (tile and tile.name == "ONE_WAY_PLATFORM") and true or false
-			--	local is_top_one_way_platform = false
+			is_collectable = (query_prop and query_prop.collectable) and query_prop.collectable or false
 
 			---------------------------------------
 			-- Bottom Collision: normal_y == 1
 			---------------------------------------
-
-
-			-- if (query_result.normal_y == 1
-			-- 		and not data.player.state.on_ground
-			-- 		and data.player.state.is_falling
-			-- 		and not is_collectable
-			-- 		and not data.player.state.on_slope
-			-- 		and not is_one_way_platform)
-			-- 	or (is_one_way_platform and over_platform)
-			-- then
-
-
 			if query_result.normal_y == 1
 				and data.player.state.on_ground == false
 				and data.player.state.is_falling
@@ -324,7 +329,6 @@ function player.update(dt)
 				and data.player.state.is_jumping
 				and is_collectable == false
 				and not data.player.state.on_slope
-			--	is_one_way_platform == false and
 			then
 				data.player.position.y = data.player.position.y + player_offset_y
 				data.player.velocity.y = 0
@@ -337,7 +341,6 @@ function player.update(dt)
 			if (query_result.normal_x == 1 or query_result.normal_x == -1)
 				and is_collectable == false
 				and not data.player.state.on_slope
-			--	is_one_way_platform == false and
 			then
 				data.player.velocity.x = 0
 				data.player.position.x = data.player.position.x + player_offset_x
@@ -351,17 +354,17 @@ function player.update(dt)
 			---------------------------------------
 			-- Prop & Enemy items
 			---------------------------------------
-			if is_prop and prop.status == false then
-				prop.fn(prop, query_result)
+			if is_prop and query_prop.status == false then
+				query_prop.fn(query_prop, query_result)
 			end
 
 			if is_enemy then
-				enemy.fn(enemy, query_result)
+				query_enemy.fn(query_enemy, query_result)
 			end
 
 			-- end for
 		end
-	elseif not data.player.state.on_slope and not over_platform then -- no result
+	elseif not data.player.state.on_slope and not data.player.state.over_platform then -- no result
 		-- No more collision, let it fall
 		data.player.state.on_ground = false
 

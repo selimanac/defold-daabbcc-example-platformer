@@ -1,16 +1,8 @@
 local const        = require("scripts.lib.const")
 local data         = require("scripts.lib.data")
+local camera_fx    = require("scripts.lib.camera_fx")
 
 local player_state = {}
-
-function player_state.on_slope_enter()
-	data.player.state.on_slope = true
-	-- You might want to play a specific animation or particle effect here
-end
-
-function player_state.on_slope_exit()
-	data.player.state.on_slope = false
-end
 
 function player_state.flip(current_dir)
 	if current_dir ~= data.player.direction then
@@ -37,7 +29,7 @@ end
 function player_state.die()
 	data.game.state.input_pause = true
 	data.game.state.skip_colliders = true
-
+	camera_fx.shake(10, 4)
 	particlefx.stop(data.player.ids.WALK_PFX)
 	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.HIT)
 	go.animate(data.player.ids.CONTAINER, "position.y", go.PLAYBACK_ONCE_FORWARD, data.player.position.y + 50, go.EASING_OUTSINE, 0.3, 0, function()

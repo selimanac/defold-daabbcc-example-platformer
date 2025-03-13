@@ -4,6 +4,7 @@ local collision    = require("scripts.lib.collision")
 local player_state = require("scripts.lib.player_state")
 local particles    = require("scripts.lib.particles")
 local utils        = require("scripts.lib.utils")
+local camera_fx    = require("scripts.lib.camera_fx")
 
 local props        = {}
 
@@ -30,6 +31,7 @@ local function init_trampoline(prop, query_result)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			prop.status = false
 		end)
+		camera_fx.shake(2, 4)
 		data.player.state.on_ground = false
 		data.player.state.jump_pressed = false
 		data.player.velocity.y = const.PLAYER.TRAMPOLINE_JUMP_FORCE
@@ -49,6 +51,19 @@ local function init_collectable(prop, query_result)
 	end
 end
 
+local function init_end(prop, query_result)
+	if prop.status == false then
+		prop.status = true
+		data.reset_checkpoints()
+		collision.remove(prop.aabb_id)
+		--	data.props[prop.aabb_id] = nil
+		camera_fx.shake(2, 4)
+		player_state.die()
+	end
+end
+
+
+
 local function init_box(prop, query_result)
 	if (query_result.normal_y == -1 or query_result.normal_y == 1) and prop.status == false then
 		prop.status = true
@@ -64,7 +79,7 @@ local function init_box(prop, query_result)
 			data.player.gravity_down = const.PLAYER.GRAVITY_DOWN
 			player_state.fall()
 		end
-
+		camera_fx.shake(2, 4)
 		go.animate(prop.id, "position.y", go.PLAYBACK_ONCE_FORWARD, prop.position.y - (20 * query_result.normal_y), go.EASING_LINEAR, 0.2)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			go.delete(prop.id)
@@ -105,7 +120,6 @@ local function init_spikes(prop, query_result)
 end
 
 local function init_checkpoint(prop, _)
-	pprint(prop)
 	if prop.status == false then
 		prop.status = true
 
@@ -120,7 +134,7 @@ local function init_checkpoint(prop, _)
 			checkpoint.active = true
 			data.last_checkpoint = prop.data.checkpoint_id
 		end
-		data.props[prop.aabb_id] = nil
+		--data.props[prop.aabb_id] = nil
 	end
 end
 
@@ -136,6 +150,7 @@ props.TYPE = {
 		status = false,
 		collectable = false,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.TILE,
@@ -155,6 +170,7 @@ props.TYPE = {
 		status = false,
 		collectable = false,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.TILE,
@@ -174,6 +190,7 @@ props.TYPE = {
 		status = false,
 		collectable = true,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.PROP,
@@ -193,6 +210,7 @@ props.TYPE = {
 		status = false,
 		collectable = false,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.TILE,
@@ -216,6 +234,7 @@ props.TYPE = {
 		status = false,
 		collectable = false,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.TILE,
@@ -235,6 +254,7 @@ props.TYPE = {
 		status = false,
 		collectable = false,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.TILE,
@@ -253,6 +273,7 @@ props.TYPE = {
 		status = false,
 		collectable = true,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.PROP,
@@ -273,6 +294,7 @@ props.TYPE = {
 		status = false,
 		collectable = false,
 		aabb_id = 0,
+		is_fixed = true,
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.TILE,
@@ -287,10 +309,52 @@ props.TYPE = {
 			timer_handle = nil
 		}
 	},
+	MOVING_PLATFORM = {
+		size = { width = 32, height = 7 },
+		collider_size = { width = 32, height = 5 },
+		offset = vmath.vector3(0, 0, 0),
+		center = { x = 0, y = 0 },
+		fn = nil,
+		factory = const.FACTORIES.MOVING_PLATFORM,
+		position = vmath.vector3(),
+		status = false,
+		collectable = false,
+		aabb_id = 0,
+		is_fixed = false,
+		id = nil,
+		sprite = nil,
+		collision_bit = const.COLLISION_BITS.PLATFORM,
+		anims = {
+
+		},
+		data = {
+			active = false
+
+		}
+	},
+	END = {
+		size = { width = 64, height = 64 },
+		collider_size = { width = 32, height = 64 },
+		offset = vmath.vector3(0, 0, 0),
+		center = { x = 0, y = 0 },
+		fn = init_end,
+		factory = const.FACTORIES.END,
+		position = vmath.vector3(),
+		status = false,
+		collectable = true,
+		aabb_id = 0,
+		is_fixed = true,
+		id = nil,
+		sprite = nil,
+		collision_bit = const.COLLISION_BITS.PROP,
+		anims = {
+			idle = hash("prop_end_idle"),
+		}
+	}
 }
 
 
-function props.add(object_data, hflip, vflip)
+function props.add(object_data, hflip, vflip, properties)
 	hflip = hflip and hflip or false
 	vflip = vflip and vflip or false
 
@@ -301,12 +365,20 @@ function props.add(object_data, hflip, vflip)
 	local rotation = object_data.rotation and vmath.quat_rotation_z(math.rad(object_data.rotation * -1)) or nil
 	local prop = utils.table_copy(props.TYPE[object_data.type])
 
+	prop.x = object_data.x
+	prop.y = (data.map_height - object_data.y) - object_data.height
 	prop.center.x = object_data.x + (prop.size.width / 2)
 	prop.center.y = (data.map_height - object_data.y) + (prop.size.height / 2)
 	prop.position = vmath.vector3(prop.center.x, prop.center.y, 0.1)
 	prop.id = factory.create(prop.factory, prop.position, rotation)
 	prop.sprite = msg.url(prop.id)
 	prop.sprite.fragment = "sprite"
+
+	if next(properties) ~= nil then
+		prop.direction_x = properties.direction_x
+		prop.direction_y = properties.direction_y
+		prop.speed = properties.speed
+	end
 
 	-- h-v flip
 	if hflip then
@@ -328,7 +400,11 @@ function props.add(object_data, hflip, vflip)
 	prop.center.y = prop.center.y - prop.offset.y
 
 	-- insert aabb
-	prop.aabb_id = collision.insert_aabb(prop.center.x, prop.center.y, prop.collider_size.width, prop.collider_size.height, prop.collision_bit)
+	if not prop.is_fixed then
+		prop.aabb_id = collision.insert_gameobject(prop.id, prop.collider_size.width, prop.collider_size.height, prop.collision_bit)
+	else
+		prop.aabb_id = collision.insert_aabb(prop.center.x, prop.center.y, prop.collider_size.width, prop.collider_size.height, prop.collision_bit)
+	end
 
 	-- add checkpoints
 	if object_data.type == "CHECKPOINT" then
@@ -337,7 +413,8 @@ function props.add(object_data, hflip, vflip)
 			x = prop.position.x,
 			y = prop.position.y,
 			active = false,
-			aabb_id = prop.aabb_id
+			aabb_id = prop.aabb_id,
+			id = prop.id
 		}
 
 		if data.last_checkpoint == 0 then
@@ -346,13 +423,40 @@ function props.add(object_data, hflip, vflip)
 			-- just update the aabb id
 			data.checkpoints[object_data.id].aabb_id = prop.aabb_id
 		end
-		print("CHECKPOINT prop.aabb_id", prop.aabb_id)
+
 		prop.data = {
 			checkpoint_id = object_data.id
 		}
 	end
 
 	data.props[prop.aabb_id] = prop
+end
+
+function props.update(dt)
+	for _, prop in pairs(data.props) do
+		if not prop.is_fixed and prop.status == false then
+			prop.position.x = prop.position.x + (prop.speed * prop.direction_x) * dt
+			prop.position.y = prop.position.y + (prop.speed * prop.direction_y) * dt
+
+			prop.y = prop.position.y - (prop.size.height / 2)
+			prop.center = prop.position
+
+			collision.update_aabb(prop.aabb_id, prop.position.x, prop.position.y, prop.collider_size.width, prop.collider_size.height)
+
+			query_result, _ = collision.query_id(prop.aabb_id, const.COLLISION_BITS.DIRECTIONS)
+			if query_result then
+				enemy_direction = data.directions[query_result[1]]
+				prop.direction_x = enemy_direction.direction_x
+				prop.direction_y = enemy_direction.direction_y
+				if prop.is_flip then
+					sprite.set_hflip(prop.sprite, prop.direction_x == 1 and true or false)
+					sprite.set_vflip(prop.sprite, prop.direction_y == 1 and true or false)
+				end
+			end
+
+			go.set_position(prop.position, prop.id)
+		end
+	end
 end
 
 return props

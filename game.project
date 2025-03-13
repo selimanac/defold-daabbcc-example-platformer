@@ -38,6 +38,7 @@ app_manifest = /game.appmanifest
 
 [sprite]
 subpixels = 0
+max_count = 512
 
 [defos]
 view_width = 1280

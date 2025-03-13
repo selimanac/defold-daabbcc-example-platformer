@@ -27,6 +27,7 @@ const.FACTORIES        = {
 	FALLING_PLATFORM = "/props#falling_platform",
 	TRAMPOLINE       = "/props#trampoline",
 	APPLE            = "/props#apple",
+	END              = "/props#end",
 	BOX1             = "/props#box1",
 	BOX1_BREAK       = "/props#box1_break",
 	PROP_COLLECTED   = "/props#prop_collected",
@@ -34,6 +35,7 @@ const.FACTORIES        = {
 	SPIKE_HEAD       = "/props#spike_head",
 	CHECKPOINT       = "/props#checkpoint",
 	FIRE             = "/props#fire",
+	MOVING_PLATFORM  = "/props#moving_platform",
 
 	-- Enemnies
 	ANGRY_PIG        = "/enemies#enemy_angry_pig",
@@ -54,6 +56,7 @@ const.PLAYER           = {
 	GRAVITY_SLIDE         = -200,
 	GRAVITY_WALL_JUMP     = -800,
 	MAX_JUMP_HOLD_TIME    = 1,
+	PLATFORM_JUMP_OFFSET  = 10,
 
 	ANIM                  = {
 		IDLE = hash("virtual_guy_player_idle"),
@@ -69,10 +72,10 @@ const.PLAYER           = {
 }
 
 const.CAMERA           = {
-	DEADZONE    = vmath.vector3(60, 60, 0),  -- Deadzone x and heighty
-	CAMERA_LERP = 5,                         -- Smoothing factor -> higher = faster catch-up
-	BOUNDS_MIN  = vmath.vector3(190, -1768, 0), -- Minimum camera bound position (left/bottom)
-	BOUNDS_MAX  = vmath.vector3(2024, 1768, 0), -- Maximum camera bound position (right/top)
+	DEADZONE    = vmath.vector3(60, 60, 0), -- Deadzone x and heighty
+	CAMERA_LERP = 5,                        -- Smoothing factor -> higher = faster catch-up
+	BOUNDS_MIN  = vmath.vector3(270, -800, 0), -- Minimum camera bound position (left/bottom)
+	BOUNDS_MAX  = vmath.vector3(2950, 200, 0), -- Maximum camera bound position (right/top)
 }
 
 const.TRIGGERS         = {

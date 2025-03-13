@@ -21,7 +21,7 @@ local function get_target_camera_pos(cam_pos, player_pos, deadzone)
 		target_offset.y = offset.y - deadzone.y
 	elseif player_pos.y < cam_pos.y then
 		-- Follow the player when falling (ignoring deadzone)
-		target_offset.y = offset.y + 40
+		target_offset.y = offset.y + 32
 	end
 
 	return cam_pos + target_offset
@@ -37,6 +37,7 @@ function game_camera.update(dt)
 
 	go.set_position(new_cam_pos, const.URLS.CAMERA_CONTAINER)
 	data.camera.position = new_cam_pos
+	data.camera.base_position = new_cam_pos
 end
 
 local function window_resized(self, event, size)

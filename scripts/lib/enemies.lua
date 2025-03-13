@@ -11,7 +11,6 @@ local enemy_direction
 
 local function init_enemy(enemy, query_result)
 	if query_result.normal_y == 1 and enemy.status == false then
-		print("init_enemy")
 		enemy.status = true
 		enemy.state.is_moving = false
 
@@ -48,7 +47,7 @@ enemies.TYPE = {
 		center = { x = 0, y = 0 },
 		fn = init_enemy,
 		factory = const.FACTORIES.ANGRY_PIG,
-		position = vmath.vector3(),
+		position = vmath.vector3(0.3),
 		status = false,
 		collectable = false,
 		aabb_id = 0,
@@ -117,7 +116,7 @@ function enemies.add(object_data, hflip, vflip, properties)
 	enemy.name = object_data.name
 	enemy.center.x = object_data.x + (enemy.size.width / 2)
 	enemy.center.y = (data.map_height - object_data.y) + (enemy.size.height / 2)
-	enemy.position = vmath.vector3(enemy.center.x, enemy.center.y, 0.1)
+	enemy.position = vmath.vector3(enemy.center.x, enemy.center.y, 0.3)
 	enemy.id = factory.create(enemy.factory, enemy.position, rotation)
 	enemy.sprite = msg.url(enemy.id)
 	enemy.sprite.fragment = "sprite"
@@ -153,7 +152,7 @@ function enemies.add(object_data, hflip, vflip, properties)
 	else
 		enemy.aabb_id = collision.insert_aabb(enemy.center.x, enemy.center.y, enemy.collider_size.width, enemy.collider_size.height, enemy.collision_bit)
 	end
-	print("enemy.aabb_id", enemy.aabb_id)
+
 	enemy.state.is_idle = true
 
 	data.enemies[enemy.aabb_id] = enemy
@@ -174,7 +173,8 @@ function enemies.update(dt)
 			enemy.position.y = enemy.position.y + (enemy.speed * enemy.direction_y) * dt
 			enemy.center = enemy.position
 
-			collision.update_aabb(enemy.aabb_id, enemy.position.x, enemy.position.y, enemy.collider_size.width, enemy.collider_size.height)
+
+			--		collision.update_aabb(enemy.aabb_id, enemy.position.x, enemy.position.y, enemy.collider_size.width, enemy.collider_size.height)
 
 			query_result, _ = collision.query_id(enemy.aabb_id, const.COLLISION_BITS.DIRECTIONS)
 			if query_result then

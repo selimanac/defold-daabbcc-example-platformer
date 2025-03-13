@@ -142,11 +142,18 @@ function map.load(level)
 		if layer.name == "prop_collision" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
-				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid) -- generic gid flip and rotate for tiles only
-				props.add(object_data, hflip, vflip)
-			end
 
-			--pprint(data.checkpoints)
+				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid) -- generic gid flip and rotate for tiles only
+
+				local properties = {}
+				if object_data.properties then
+					for _, property in ipairs(object_data.properties) do
+						properties[property.name] = property.value
+					end
+				end
+
+				props.add(object_data, hflip, vflip, properties)
+			end
 		end
 
 		----------------------

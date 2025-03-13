@@ -7,14 +7,8 @@
  <tile id="2" type="SPIKES">
   <image source="Traps/Spikes/spikes.png" width="16" height="8"/>
  </tile>
- <tile id="3">
-  <image source="Traps/Spiked Ball/Spiked Ball.png" width="28" height="28"/>
- </tile>
  <tile id="4" type="SPIKE_HEAD">
   <image source="Traps/Spike Head/Idle.png" width="43" height="43"/>
- </tile>
- <tile id="5">
-  <image source="Traps/Saw/Off.png" width="38" height="38"/>
  </tile>
  <tile id="7" type="FALLING_PLATFORM">
   <image source="Traps/Falling Platforms/Off.png" width="32" height="10"/>
@@ -64,5 +58,16 @@
    <property name="speed" type="int" value="100"/>
   </properties>
   <image source="Traps/Rock Head/Irockheadidle.png" width="32" height="32"/>
+ </tile>
+ <tile id="26" type="MOVING_PLATFORM">
+  <properties>
+   <property name="direction_x" type="int" value="0"/>
+   <property name="direction_y" type="int" value="0"/>
+   <property name="speed" type="int" value="100"/>
+  </properties>
+  <image source="Traps/Platforms/moving_platform.png" width="32" height="7"/>
+ </tile>
+ <tile id="27" type="END">
+  <image source="Items/Checkpoints/images/end_01.png" width="64" height="64"/>
  </tile>
 </tileset>

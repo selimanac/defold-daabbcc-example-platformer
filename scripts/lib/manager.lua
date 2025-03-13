@@ -8,6 +8,8 @@ local game_camera = require("scripts.lib.game_camera")
 local particles   = require("scripts.lib.particles")
 local background  = require("scripts.lib.background")
 local enemies     = require("scripts.lib.enemies")
+local props       = require("scripts.lib.props")
+local camera_fx   = require("scripts.lib.camera_fx")
 
 local manager     = {}
 
@@ -77,7 +79,9 @@ function manager.update(dt)
 	player.update(dt)
 	game_camera.update(dt)
 	enemies.update(dt)
+	props.update(dt)
 	particles.update(dt)
+	camera_fx.update(dt)
 end
 
 function manager.input(action_id, action)

@@ -3,17 +3,19 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "test2.tmx",
+    "activeFile": "map.tmx",
     "expandedProjectPaths": [
         "."
     ],
+    "exportAsImage.drawObjectLabels": true,
+    "exportAsImage.includeBackgroundColor": true,
     "fileStates": {
         "map.tmx": {
-            "scale": 2.19,
-            "selectedLayer": 2,
+            "scale": 2.6035,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 221.23287671232876,
-                "y": 240.6392694063927
+                "x": 271.3654695602074,
+                "y": 230.26694833877474
             }
         },
         "platformer.tsx": {
@@ -35,21 +37,27 @@
             "scale": 1.76640625,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 319.85846970367095,
+                "x": 319.57540911101285,
                 "y": 175.78062804068998
             }
         },
         "test2.tmx": {
-            "scale": 3.1027,
-            "selectedLayer": 1,
+            "expandedObjectLayers": [
+                3,
+                6,
+                2,
+                7
+            ],
+            "scale": 3.1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 309.89138492280915,
-                "y": 144.22921971186386
+                "x": 1120.1612903225805,
+                "y": 175.96774193548387
             }
         }
     },
     "last.exportedFilePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/data",
-    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Traps/Rock Head",
+    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Items/Checkpoints/images",
     "last.objectTemplatePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure",
     "map.height": 22,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
@@ -58,6 +66,7 @@
     "map.tileWidth": 16,
     "map.width": 40,
     "openFiles": [
+        "map.tmx",
         "test2.tmx",
         "props.tsx",
         "platformer.tsx"
@@ -69,8 +78,8 @@
         "props.tsx",
         "test2.tmx",
         "map.tmx",
-        "test.tsx",
-        "test1.tmx"
+        "test1.tmx",
+        "test.tsx"
     ],
     "resizeMap.removeObjects": false,
     "tileset.lastUsedFormat": "tsx",
