@@ -15,8 +15,10 @@ const.COLLISION_BITS   = {
 	SLOPE      = 64,
 	PLATFORM   = 128,
 	DIRECTIONS = 256,
+	WATERFALL  = 512,
 
-	ALL        = bit.bnot(0) -- -1 for all results
+
+	ALL = bit.bnot(0) -- -1 for all results
 }
 
 const.FACTORIES        = {
@@ -32,6 +34,8 @@ const.FACTORIES        = {
 	BOX1_BREAK       = "/props#box1_break",
 	PROP_COLLECTED   = "/props#prop_collected",
 	SPIKE            = "/props#spikes",
+	WATER            = "/props#water",
+	WATERFALL        = "/props#waterfall",
 	SPIKE_HEAD       = "/props#spike_head",
 	CHECKPOINT       = "/props#checkpoint",
 	FIRE             = "/props#fire",
@@ -72,17 +76,19 @@ const.PLAYER           = {
 }
 
 const.CAMERA           = {
-	DEADZONE    = vmath.vector3(60, 60, 0), -- Deadzone x and heighty
-	CAMERA_LERP = 5,                        -- Smoothing factor -> higher = faster catch-up
-	BOUNDS_MIN  = vmath.vector3(270, -800, 0), -- Minimum camera bound position (left/bottom)
-	BOUNDS_MAX  = vmath.vector3(2950, 200, 0), -- Maximum camera bound position (right/top)
+	DEADZONE    = vmath.vector3(60, 60, 0),
+	CAMERA_LERP = 5,
+	BOUNDS_MIN  = vmath.vector3(270, -800, 0),
+	BOUNDS_MAX  = vmath.vector3(4250, 200, 0)
 }
 
 const.TRIGGERS         = {
 	MOVE_LEFT = hash("MOVE_LEFT"),
 	MOVE_RIGHT = hash("MOVE_RIGHT"),
 	JUMP = hash("JUMP"),
-	MOUSE_BUTTON_LEFT = hash("MOUSE_BUTTON_LEFT")
+	MOUSE_BUTTON_LEFT = hash("MOUSE_BUTTON_LEFT"),
+	GAMEPAD_CONNECTED = hash("gamepad_connected"),
+	GAMEPAD_DISCONNECTED = hash("gamepad_disconnected")
 }
 
 const.URLS             = {
@@ -96,7 +102,29 @@ const.URLS             = {
 }
 
 const.MSG              = {
-	RESTART = hash("restart")
+	RESTART = hash("restart"),
+	PLAYER_DEATH = hash("player_death")
+}
+
+const.AUDIO            = {
+	ON_GROUND        = "/fx#on_ground",
+	JUMP             = "/fx#jump",
+	RUN              = "/fx#run",
+	TRAMPOLINE       = "/fx#trampoline",
+	MUSIC            = "/fx#musix",
+	COLLECT          = "/fx#collect",
+	WALL_JUMP        = "/fx#wall_jump",
+	BOX_CRACK        = "/fx#box_crack",
+	PIECE_DROP       = "/fx#piece_drop",
+	FALLING_PLATFORM = "/fx#falling_platform",
+	PLAYER_DEATH     = "/fx#death",
+	PLAYER_DISAPPEAR = "/fx#disappear",
+	PLAYER_APPEAR    = "/fx#appear",
+	SQUEEZE          = "/fx#squeeze",
+	FIRE             = "/fx#fire",
+	CHECKPOINT       = "/fx#checkpoint",
+	END              = "/fx#end",
+
 }
 
 return const

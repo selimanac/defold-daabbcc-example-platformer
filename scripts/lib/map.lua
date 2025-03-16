@@ -14,7 +14,7 @@ local FLIPPED_VERTICALLY_FLAG   = 0x40000000
 local FLIPPED_DIAGONALLY_FLAG   = 0x20000000
 
 -- generic gid flip and rotate for tiles only
-function tile_flip(global_tile_id)
+local function tile_flip(global_tile_id)
 	-- Extract flip flags using the bit library.
 	local hflip = bit.band(global_tile_id, FLIPPED_HORIZONTALLY_FLAG) ~= 0
 	local vflip = bit.band(global_tile_id, FLIPPED_VERTICALLY_FLAG) ~= 0
@@ -120,14 +120,16 @@ function map.load(level)
 					data.map_objects[aabb_id].properties = properties
 				end
 
-				-- TODO: ADD 30 degree
 				if object_data.name == "SLOPE" then
 					if properties.direction == 1 or properties.direction == -1 then
-						local x1 = object_data.x
-						local x2 = object_data.x + object_data.width
+						local angle = math.rad(properties.angle or 45)
+						local slope_height = math.tan(angle) * object_data.width
 
-						local y1 = (data.map_height - object_data.y) - (properties.direction == 1 and object_data.height or 0)
-						local y2 = (data.map_height - object_data.y) - (properties.direction == -1 and object_data.height or 0)
+						local x1 = object_data.x + (properties.direction == -1 and object_data.width or 0)
+						local x2 = object_data.x + (properties.direction == 1 and object_data.width or 0)
+
+						local y1 = (data.map_height - object_data.y) - object_data.height
+						local y2 = y1 + slope_height
 
 						local m, b = utils.slope_intercept(x1, y1, x2, y2)
 						data.map_objects[aabb_id].properties.slope = { x1 = x1, y1 = y1, x2 = x2, y2 = y2, m = m, b = b }
@@ -181,23 +183,10 @@ function map.load(level)
 					local player_z = 0.9
 
 					data.player.position = vmath.vector3(object_data.x + (object_data.width / 2), (data.map_height - object_data.y) - (object_data.height / 2), player_z)
+					data.player.initial_position = data.player.position
 
 					-- Checkpoints
-					if data.last_checkpoint > 0 then
-						data.player.position = vmath.vector3()
-						local checkpoint = data.checkpoints[data.last_checkpoint]
-						data.player.position = vmath.vector3(checkpoint.x, checkpoint.y, player_z)
-						data.player.position.z = player_z
-						data.player.position.y = data.player.position.y - (object_data.height / 2)
-						data.player.position.x = data.player.position.x + 10
-
-						for _, checkpoint in pairs(data.checkpoints) do
-							if checkpoint.active then
-								local checkpoint_prop = data.props[checkpoint.aabb_id]
-								checkpoint_prop.fn(checkpoint_prop)
-							end
-						end
-					end
+					data.check_checkpoint()
 				end
 			end
 

@@ -14,6 +14,28 @@ nodes {
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }
+nodes {
+  position {
+    x: 588.0
+    y: 339.0
+  }
+  type: TYPE_BOX
+  texture: "game/Restart"
+  id: "pause_btn"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 554.0
+    y: 339.0
+  }
+  type: TYPE_BOX
+  texture: "game/Restart"
+  id: "pause_btn1"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
 layers {
   name: "text"
 }

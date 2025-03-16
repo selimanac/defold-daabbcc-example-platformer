@@ -41,7 +41,21 @@ function game_camera.update(dt)
 end
 
 local function window_resized(self, event, size)
+	if event == window.WINDOW_EVENT_FOCUS_LOST then
+		print("window.WINDOW_EVENT_FOCUS_LOST")
+		data.toggle_game_pause(true)
+	elseif event == window.WINDOW_EVENT_FOCUS_GAINED then
+		print("window.WINDOW_EVENT_FOCUS_GAINED")
+		--	data.toggle_game_pause(false)
+	elseif event == window.WINDOW_EVENT_ICONFIED then
+		print("window.WINDOW_EVENT_ICONFIED")
+	elseif event == window.WINDOW_EVENT_DEICONIFIED then
+		print("window.WINDOW_EVENT_DEICONIFIED")
+	elseif event == window.WINDOW_EVENT_RESIZED then
+		print("Window resized: ", data.width, data.height)
+	end
 	if event == window.WINDOW_EVENT_RESIZED then
+		data.toggle_game_pause(true)
 		--  Might require scale factor : https://github.com/britzl/defold-orthographic?tab=readme-ov-file#cameraset_window_scaling_factorscaling_factor
 		local new_camera_zoom = math.floor(math.max(size.width / const.DISPLAY_WIDTH, size.height / const.DISPLAY_HEIGHT) * data.camera.zoom)
 
@@ -51,7 +65,7 @@ end
 
 function game_camera.init()
 	data.camera.position = data.player.position
-	--	data.camera.position.y = data.camera.position.y + 20
+
 	data.camera.zoom = go.get(const.URLS.CAMERA_ID, "orthographic_zoom")
 
 	go.set_position(data.camera.position, const.URLS.CAMERA_CONTAINER)

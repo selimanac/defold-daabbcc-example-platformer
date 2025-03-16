@@ -1,9 +1,10 @@
 local collision         = require("scripts.lib.collision")
 local const             = require("scripts.lib.const")
+local audio             = require("scripts.lib.audio")
 
 local particles         = {}
 
-local GRAVITY           = -500 -- gravity (pixels/sec²); adjust as needed
+local GRAVITY           = -900 -- gravity (pixels/sec²); adjust as needed
 local DEFAULT_LIFETIME  = 1.0  -- seconds
 
 local spawned_particles = {}
@@ -12,7 +13,7 @@ function particles.spawn(ids, count, gravity, life_time, collectable)
 	gravity = gravity or GRAVITY
 	life_time = life_time or DEFAULT_LIFETIME
 	collectable = collectable or false
-
+	audio.play(const.AUDIO.PIECE_DROP)
 	count = count or 4
 	for i = 1, count do
 		local part_id = ids[hash("/part" .. i)]
@@ -40,6 +41,7 @@ function particles.spawn(ids, count, gravity, life_time, collectable)
 			active = true,
 			collectable = collectable,
 			gravity = gravity,
+			hit_ground = false
 
 		}
 		spawned_particles[aabb_id] = particle
@@ -76,8 +78,13 @@ function particles.update(dt)
 		end
 
 		if particle.on_ground and particle.collectable == false then
+			if not particle.hit_ground then
+				particle.hit_ground = true
+				audio.play(const.AUDIO.PIECE_DROP)
+			end
 			if particle.life <= 0 and particle.active == true then
 				particle.active = false
+
 				go.animate(particle.sprite_url, "tint", go.PLAYBACK_ONCE_PINGPONG, vmath.vector4(1, 1, 1, 3), go.EASING_INCIRC, 0.2, 0, function()
 					collision.remove(particle.aabb_id)
 					go.delete(particle.id)

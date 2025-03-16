@@ -1,48 +1,31 @@
-local const                     = require("scripts.lib.const")
-local data                      = require("scripts.lib.data")
-local collision                 = require("scripts.lib.collision")
-local player_state              = require("scripts.lib.player_state")
-local utils                     = require("scripts.lib.utils")
-local camera_fx                 = require("scripts.lib.camera_fx")
+local const              = require("scripts.lib.const")
+local data               = require("scripts.lib.data")
+local collision          = require("scripts.lib.collision")
+local player_collisions  = require("scripts.lib.player_collisions")
+local player_input       = require("scripts.lib.player_input")
+local audio              = require("scripts.lib.audio")
 
-local player                    = {}
+local player             = {}
 
-local jump_timer                = 0
-local current_dir               = 0
-
-local tile_query_results        = nil
-local tile_query_count          = 0
-
--- Slope
-local slope_ray_result          = nil
-local slope_ray_count           = 0
-local slope_tile                = {}
-local player_side_x             = 0
-local slope_y                   = 0
-
---Platforms
-local platform_back_ray_result  = {}
-local platform_front_ray_result = {}
-local platform_ray_result       = {} -- merge results from back and front
-local platform_query            = {}
-local platform_count            = 0
---local data.player.state.over_platform             = false
+local tile_query_results = nil
+local tile_query_count   = 0
 
 -- Queries
-local player_offset_x           = 0
-local player_offset_y           = 0
-local query_result              = {}
-local query_aabb_id             = 0
-local query_tile                = {}
-local query_prop                = {}
-local query_enemy               = {}
+local player_offset_x    = 0
+local player_offset_y    = 0
+local query_result       = {}
+local query_aabb_id      = 0
+
+local query_prop         = {}
+local query_enemy        = {}
 
 -- Prop & enemy items
-local is_prop                   = false
-local is_enemy                  = false
-local is_collectable            = false
+local is_prop            = false
+local is_enemy           = false
+local is_collectable     = false
 
 function player.init()
+	--data.check_checkpoint()
 	local player_ids               = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
 	local player_sprite            = msg.url(player_ids[hash("/player")])
 	player_sprite.fragment         = "sprite"
@@ -76,78 +59,20 @@ function player.init()
 	data.game.state.input_pause    = true
 	data.game.state.skip_colliders = true
 
+	audio.play(const.AUDIO.PLAYER_APPEAR)
 	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.APPEARING, function()
 		data.game.state.input_pause    = false
 		data.game.state.skip_colliders = false
 	end)
 end
 
----------------------------
--- Horizontal movement
----------------------------
-local function horizontal_movement(dt)
-	if data.player.direction ~= 0 then
-		player_state.run()
-		current_dir = player_state.flip(current_dir)
-
-		data.player.velocity.x = data.player.velocity.x + data.player.direction * const.PLAYER.MOVE_ACCELERATION * dt
-
-		-- clamp to max speed
-		if math.abs(data.player.velocity.x) > const.PLAYER.MAX_MOVE_SPEED then
-			data.player.velocity.x = data.player.direction * const.PLAYER.MAX_MOVE_SPEED
-		end
-	else
-		if data.player.state.is_walking then
-			player_state.idle(false, current_dir)
-		end
-
-		data.player.velocity.x = vmath.lerp(const.PLAYER.DECELERATION_LERP, data.player.velocity.x, 0)
-	end
-end
-
----------------------------
--- Vertical movement
----------------------------
-local function vertical_movement(dt)
-	if not data.player.state.on_ground then
-		-- wall jump
-		if data.player.state.is_sliding and data.player.state.jump_pressed and data.player.direction ~= 0 and data.player.direction ~= current_dir then
-			data.player.state.on_ground = false
-			jump_timer = 0
-			data.player.state.is_sliding = false
-			data.player.velocity.y = const.PLAYER.WALL_JUMP_FORCE
-			data.player.gravity_down = const.PLAYER.GRAVITY_WALL_JUMP -- reset jump gravity
-		end
-
-		-- jump
-		if data.player.state.jump_pressed and jump_timer < const.PLAYER.MAX_JUMP_HOLD_TIME and data.player.velocity.y > 0 and not data.player.state.is_sliding then
-			player_state.jump(jump_timer)
-
-			data.player.velocity.y = data.player.velocity.y + (const.PLAYER.GRAVITY_UP * 0.5) * dt
-			jump_timer = jump_timer + dt
-		else
-			-- released or time expires
-			if data.player.velocity.y > 0 then
-				data.player.velocity.y = data.player.velocity.y + const.PLAYER.GRAVITY_UP * dt
-			else
-				-- falling
-				if not data.player.state.is_falling and not data.player.state.is_sliding then
-					player_state.fall()
-				end
-				data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
-			end
-		end
-	end
-end
-
-
 function player.update(dt)
 	if data.game.state.skip_colliders then
 		return
 	end
 
-	vertical_movement(dt)
-	horizontal_movement(dt)
+	player_input.vertical_movement(dt)
+	player_input.horizontal_movement(dt)
 
 	-- Update position using current data.player.velocity.
 	data.player.position = data.player.position + data.player.velocity * dt
@@ -161,121 +86,12 @@ function player.update(dt)
 	---------------------
 	-- SLOPE
 	---------------------
-	-- center ray for slope
-	slope_ray_result, slope_ray_count = collision.raycast(
-		data.player.position.x,
-		data.player.position.y,
-		data.player.position.x,
-		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 16),
-		const.COLLISION_BITS.SLOPE)
-
-	data.player.state.on_slope = slope_ray_count > 0 and true or false
-
-	slope_tile = {}
-
-	if data.player.state.on_slope then
-		slope_tile = data.map_objects[slope_ray_result[1]]
-
-		if not data.player.state.is_jumping then
-			player_side_x = 0
-
-			if slope_tile.properties.slope.m < 0 then
-				player_side_x = data.player.position.x + const.PLAYER.HALF_SIZE.w
-			else
-				player_side_x = data.player.position.x - const.PLAYER.HALF_SIZE.w
-			end
-
-			slope_y = slope_tile.properties.slope.m * player_side_x + slope_tile.properties.slope.b
-
-			if data.player.position.y + const.PLAYER.SIZE.h >= slope_y and data.player.position.y <= slope_y + const.PLAYER.SIZE.h then
-				data.player.state.on_ground = true
-
-				if data.player.state.is_falling then
-					data.player.state.is_falling = false
-					data.player.velocity.y = 0
-					player_state.idle(true, current_dir)
-				end
-			end
-			if not data.player.state.is_falling then
-				data.player.position.y = slope_y + const.PLAYER.SIZE.h
-			end
-		end
-	end
+	player_collisions.slope()
 
 	---------------------
 	-- PLATFORM
 	---------------------
-
-	local is_moving_patform = false
-	-- Raycast from front and back
-	platform_back_ray_result, _ = collision.raycast(
-		data.player.position.x,
-		data.player.position.y,
-		data.player.position.x - const.PLAYER.HALF_SIZE.w,
-		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
-		const.COLLISION_BITS.PLATFORM)
-
-	platform_front_ray_result, _ = collision.raycast(
-		data.player.position.x,
-		data.player.position.y,
-		data.player.position.x + const.PLAYER.HALF_SIZE.w,
-		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
-		const.COLLISION_BITS.PLATFORM)
-
-
-	if platform_back_ray_result or platform_front_ray_result then
-		-- merge ray results
-		platform_ray_result = utils.merge_tables(platform_back_ray_result, platform_front_ray_result)
-
-		query_aabb_id = platform_ray_result[1]
-
-		query_tile = data.map_objects[query_aabb_id] and data.map_objects[query_aabb_id] or data.props[query_aabb_id]
-		is_moving_patform = data.props[query_aabb_id] and true or false
-
-		local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
-
-		if player_bottom_y >= query_tile.y + const.PLAYER.PLATFORM_JUMP_OFFSET then -- jump offset
-			data.player.state.over_platform = true
-		end
-	else
-		data.player.state.over_platform = false
-	end
-
-
-	if data.player.state.over_platform then
-		platform_query, platform_count = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)
-		if platform_query then
-			for i = 1, platform_count do
-				query_result = platform_query[i]
-
-				player_offset_y = query_result.normal_y * query_result.depth
-
-				if query_result.normal_y == 1 and data.player.state.is_falling then
-					if is_moving_patform then
-
-					end
-					-- TODO: THIS IS A REPEATING CODE FROM BOTTOM COLLISION
-					-- ground offset
-					data.player.position.y = data.player.position.y + player_offset_y
-
-					-- for mivng platform
-					--	data.player.state.is_falling = false
-					--	data.player.gravity_down = 0
-
-					-- Falling to ground, set it to idle
-					if data.player.state.on_ground == false and not data.player.state.is_walking then
-						player_state.idle(true, current_dir)
-						data.player.gravity_down = const.PLAYER.GRAVITY_DOWN -- reset slide gravity
-						data.player.state.is_falling = false -- on ground
-					end
-
-					data.player.velocity.y = 0
-					data.player.state.on_ground = true
-				end
-			end
-		end
-	end
-
+	player_collisions.platform(dt)
 
 	---------------------
 	-- TILE(MAP) QUERY
@@ -289,15 +105,18 @@ function player.update(dt)
 			player_offset_x = query_result.normal_x * query_result.depth
 			player_offset_y = query_result.normal_y * query_result.depth
 
-			--	local tile = data.map_objects[aabb_id]
-
 			query_prop = data.props[query_aabb_id]
 			query_enemy = data.enemies[query_aabb_id]
 
 			is_enemy = query_enemy and true or false
 			is_prop = query_prop and true or false
 
-			is_collectable = (query_prop and query_prop.collectable) and query_prop.collectable or false
+			is_collectable = (is_prop and query_prop.collectable) and query_prop.collectable or false
+
+			if is_prop and query_prop.collectable then
+				pprint(query_prop)
+			end
+
 
 			---------------------------------------
 			-- Bottom Collision: normal_y == 1
@@ -308,18 +127,7 @@ function player.update(dt)
 				and is_collectable == false
 				and not data.player.state.on_slope
 			then
-				-- ground offset
-				data.player.position.y = data.player.position.y + player_offset_y
-
-				-- Falling to ground, set it to idle
-				if data.player.state.on_ground == false and not data.player.state.is_walking then
-					player_state.idle(true, current_dir)
-					data.player.gravity_down = const.PLAYER.GRAVITY_DOWN -- reset slide gravity
-					data.player.state.is_falling = false  -- on ground
-				end
-
-				data.player.velocity.y = 0
-				data.player.state.on_ground = true
+				player_collisions.bottom(player_offset_y)
 			end
 
 			---------------------------------------
@@ -330,31 +138,27 @@ function player.update(dt)
 				and is_collectable == false
 				and not data.player.state.on_slope
 			then
-				data.player.position.y = data.player.position.y + player_offset_y
-				data.player.velocity.y = 0
-				data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
+				player_collisions.top(player_offset_y, dt)
 			end
 
 			---------------------------------------
-			-- Left / Right Collision: normal_x == 1 or normal_x == -1
+			-- Side (Left / Right) Collision: normal_x == 1 or normal_x == -1
 			---------------------------------------
+
+
+
 			if (query_result.normal_x == 1 or query_result.normal_x == -1)
 				and is_collectable == false
 				and not data.player.state.on_slope
 			then
-				data.player.velocity.x = 0
-				data.player.position.x = data.player.position.x + player_offset_x
-
-				-- Slide on the wall if falling
-				if data.player.state.is_falling and not data.player.state.is_sliding then
-					player_state.slide()
-				end
+				player_collisions.side(player_offset_x)
 			end
 
 			---------------------------------------
 			-- Prop & Enemy items
 			---------------------------------------
 			if is_prop and query_prop.status == false then
+				print("is_prop")
 				query_prop.fn(query_prop, query_result)
 			end
 
@@ -362,18 +166,13 @@ function player.update(dt)
 				query_enemy.fn(query_enemy, query_result)
 			end
 
+
+
 			-- end for
 		end
 	elseif not data.player.state.on_slope and not data.player.state.over_platform then -- no result
 		-- No more collision, let it fall
-		data.player.state.on_ground = false
-
-		-- fall from sliding
-		if not data.player.state.on_ground and data.player.state.is_sliding then
-			data.player.state.is_sliding = false
-			player_state.fall()
-			data.player.gravity_down = const.PLAYER.GRAVITY_DOWN
-		end
+		player_collisions.fall()
 	end -- end query
 
 
@@ -381,39 +180,12 @@ function player.update(dt)
 	go.set_position(data.player.position, data.player.ids.CONTAINER)
 end
 
-function player.input(action_id, action)
-	if action_id == const.TRIGGERS.MOVE_LEFT then
-		if action.pressed then
-			data.player.direction = -1
-		elseif action.released then
-			if data.player.direction < 0 then data.player.direction = 0 end
-		end
-	elseif action_id == const.TRIGGERS.MOVE_RIGHT then
-		if action.pressed then
-			data.player.direction = 1
-		elseif action.released then
-			if data.player.direction > 0 then data.player.direction = 0 end
-		end
-	elseif action_id == const.TRIGGERS.JUMP then
-		if action.pressed then
-			data.player.state.jump_pressed = true
-			if data.player.state.on_ground then
-				data.player.velocity.y = const.PLAYER.JUMP_FORCE
-				data.player.state.on_ground = false
-				data.player.state.on_slope = false
-				jump_timer = 0
-			end
-		elseif action.released then
-			data.player.state.jump_pressed = false
-		end
-	end
-end
-
 function player.final()
-	go.delete(data.player.ids.CONTAINER, true)
+	collision.remove(data.player.aabb_id)
+	go.delete(data.player.ids.CONTAINER)
 	data.player.velocity           = vmath.vector3()
 	data.player.direction          = 0
-	current_dir                    = 0
+	data.player.current_direction  = 0
 
 	is_collectable                 = false
 	data.player.velocity           = vmath.vector3()
@@ -423,6 +195,7 @@ function player.final()
 	data.player.state.is_walking   = false
 	data.player.state.is_sliding   = false
 	data.player.state.is_falling   = false
+
 	tile_query_results             = nil
 	tile_query_count               = 0
 end

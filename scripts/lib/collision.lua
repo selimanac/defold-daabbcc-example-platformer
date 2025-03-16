@@ -61,6 +61,10 @@ function collision.reset()
 	daabbcc.reset()
 end
 
+function collision.run(state)
+	daabbcc.run(state)
+end
+
 function collision.final()
 	daabbcc.reset()
 end

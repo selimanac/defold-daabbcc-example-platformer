@@ -1,13 +1,14 @@
-local const        = require("scripts.lib.const")
-local data         = require("scripts.lib.data")
-local collision    = require("scripts.lib.collision")
-local player_state = require("scripts.lib.player_state")
-local utils        = require("scripts.lib.utils")
+local const           = require("scripts.lib.const")
+local data            = require("scripts.lib.data")
+local collision       = require("scripts.lib.collision")
+local player_state    = require("scripts.lib.player_state")
+local utils           = require("scripts.lib.utils")
+local audio           = require("scripts.lib.audio")
 
-local enemies      = {}
+local enemies         = {}
 
-local query_result = {}
-local enemy_direction
+local query_result    = {}
+local enemy_direction = 0
 
 local function init_enemy(enemy, query_result)
 	if query_result.normal_y == 1 and enemy.status == false then
@@ -18,7 +19,7 @@ local function init_enemy(enemy, query_result)
 		data.player.velocity.y = const.PLAYER.WALL_JUMP_FORCE
 		player_state.jump(0)
 
-
+		audio.play(const.AUDIO.SQUEEZE)
 		collision.remove(enemy.aabb_id)
 		sprite.play_flipbook(enemy.sprite, enemy.anims.hit, function()
 			go.delete(enemy.id)
@@ -161,6 +162,7 @@ end
 function enemies.update(dt)
 	for _, enemy in pairs(data.enemies) do
 		if not enemy.is_fixed and enemy.status == false then
+			go.set_position(enemy.position, enemy.id)
 			if not enemy.state.is_moving then
 				enemy.state.is_moving = true
 				enemy.state.is_idle = false
@@ -174,8 +176,6 @@ function enemies.update(dt)
 			enemy.center = enemy.position
 
 
-			--		collision.update_aabb(enemy.aabb_id, enemy.position.x, enemy.position.y, enemy.collider_size.width, enemy.collider_size.height)
-
 			query_result, _ = collision.query_id(enemy.aabb_id, const.COLLISION_BITS.DIRECTIONS)
 			if query_result then
 				enemy_direction = data.directions[query_result[1]]
@@ -187,7 +187,7 @@ function enemies.update(dt)
 				end
 			end
 
-			go.set_position(enemy.position, enemy.id)
+
 
 			--end if
 		end

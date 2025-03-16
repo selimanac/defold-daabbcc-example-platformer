@@ -114,8 +114,7 @@ function debug.update()
 		imgui.text("GAME STATE")
 
 		if imgui.button("Reset Checkpoints") then
-			data.checkpoints     = {}
-			data.last_checkpoint = 0
+			data.reset_checkpoints()
 		end
 
 
@@ -202,6 +201,17 @@ function debug.update()
 		if changed then
 			data.player.state.on_slope = checked
 		end
+
+		local changed, checked = imgui.checkbox("over_platform", data.player.state.over_platform)
+		if changed then
+			data.player.state.over_platform = checked
+		end
+
+		local changed, checked = imgui.checkbox("on_moving_platform", data.player.state.on_moving_platform)
+		if changed then
+			data.player.state.on_moving_platform = checked
+		end
+
 
 
 

@@ -92,5 +92,10 @@ layers {
     y: 42
     tile: 0
   }
+  cell {
+    x: 304
+    y: 42
+    tile: 0
+  }
 }
 material: "/builtins/materials/tile_map.material"

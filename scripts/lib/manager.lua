@@ -1,17 +1,19 @@
-local map         = require("scripts.lib.map")
-local collision   = require("scripts.lib.collision")
-local player      = require("scripts.lib.player")
-local data        = require("scripts.lib.data")
-local debug       = require("scripts.lib.debug")
-local const       = require("scripts.lib.const")
-local game_camera = require("scripts.lib.game_camera")
-local particles   = require("scripts.lib.particles")
-local background  = require("scripts.lib.background")
-local enemies     = require("scripts.lib.enemies")
-local props       = require("scripts.lib.props")
-local camera_fx   = require("scripts.lib.camera_fx")
+local map          = require("scripts.lib.map")
+local collision    = require("scripts.lib.collision")
+local player       = require("scripts.lib.player")
+local data         = require("scripts.lib.data")
+local debug        = require("scripts.lib.debug")
+local const        = require("scripts.lib.const")
+local game_camera  = require("scripts.lib.game_camera")
+local particles    = require("scripts.lib.particles")
+local background   = require("scripts.lib.background")
+local enemies      = require("scripts.lib.enemies")
+local props        = require("scripts.lib.props")
+local camera_fx    = require("scripts.lib.camera_fx")
+local player_input = require("scripts.lib.player_input")
+local audio        = require("scripts.lib.audio")
 
-local manager     = {}
+local manager      = {}
 
 local function collect_garbage()
 	print("garbage before: ", collectgarbage("count"))
@@ -29,6 +31,10 @@ local function setup_urls()
 
 	for key, url in pairs(const.FACTORIES) do
 		const.FACTORIES[key] = msg.url(url)
+	end
+
+	for key, url in pairs(const.AUDIO) do
+		const.AUDIO[key] = msg.url(url)
 	end
 end
 
@@ -65,6 +71,8 @@ function manager.init()
 	end
 
 	collect_garbage()
+
+	audio.play(const.AUDIO.MUSIC)
 end
 
 function manager.update(dt)
@@ -89,17 +97,22 @@ function manager.input(action_id, action)
 		return
 	end
 
-	player.input(action_id, action)
+	player_input.input(action_id, action)
 end
 
 function manager.message(message_id, message, sender)
 	if message_id == const.MSG.RESTART then
+		print("RESTART")
 		manager.final()
 		manager.init()
+		--[[elseif message_id == const.MSG.PLAYER_DEATH then
+		player.final()
+		player.init()]]
 	end
 end
 
 function manager.final()
+	audio.stop(const.AUDIO.MUSIC)
 	particles.final()
 	map.final()
 	player.final()

@@ -1,11 +1,14 @@
-local data  = require("scripts.lib.data")
-local const = require("scripts.lib.const")
+local data             = require("scripts.lib.data")
+local const            = require("scripts.lib.const")
 
-local restart_btn_node
-
+local restart_btn_node = nil
+local pause_btn_node   = nil
+local pause_btn_node1  = nil
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	restart_btn_node = gui.get_node("restart_btn")
+	pause_btn_node = gui.get_node("pause_btn")
+	pause_btn_node1 = gui.get_node("pause_btn1")
 end
 
 function final(self)
@@ -27,11 +30,17 @@ function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
-	if action_id == const.TRIGGERS.MOUSE_BUTTON_LEFT and action.pressed and gui.pick_node(restart_btn_node, action.x, action.y) then
-		data.game.state.input_pause = true
-		data.game.state.skip_colliders = true
+	if action_id == const.TRIGGERS.MOUSE_BUTTON_LEFT and action.pressed then
+		if gui.pick_node(restart_btn_node, action.x, action.y) then
+			data.game.state.input_pause = true
+			data.game.state.skip_colliders = true
 
-		msg.post(const.URLS.GAME, const.MSG.RESTART)
+			msg.post(const.URLS.GAME, const.MSG.RESTART)
+		elseif gui.pick_node(pause_btn_node, action.x, action.y) then
+			data.toggle_game_pause(false)
+		elseif gui.pick_node(pause_btn_node1, action.x, action.y) then
+			data.toggle_game_pause(true)
+		end
 	end
 end
 

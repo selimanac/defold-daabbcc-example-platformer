@@ -1,18 +1,22 @@
-local const        = require("scripts.lib.const")
-local data         = require("scripts.lib.data")
-local collision    = require("scripts.lib.collision")
-local player_state = require("scripts.lib.player_state")
-local particles    = require("scripts.lib.particles")
-local utils        = require("scripts.lib.utils")
-local camera_fx    = require("scripts.lib.camera_fx")
+local const             = require("scripts.lib.const")
+local data              = require("scripts.lib.data")
+local collision         = require("scripts.lib.collision")
+local player_state      = require("scripts.lib.player_state")
+local particles         = require("scripts.lib.particles")
+local utils             = require("scripts.lib.utils")
+local camera_fx         = require("scripts.lib.camera_fx")
+local audio             = require("scripts.lib.audio")
 
-local props        = {}
+local props             = {}
+
+local prop_query_result = {}
+local prop_direction    = 0
 
 local function init_falling_platform(prop, query_result, callback_fnc)
 	if query_result.normal_y == 1 and prop.status == false then
 		prop.status = true
 		sprite.play_flipbook(prop.sprite, prop.anims.on)
-
+		audio.play(const.AUDIO.FALLING_PLATFORM)
 		timer.delay(0.5, false, function()
 			collision.remove(prop.aabb_id)
 			go.animate(prop.sprite, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR, 0.2, 0)
@@ -20,6 +24,7 @@ local function init_falling_platform(prop, query_result, callback_fnc)
 			go.animate(prop.id, "position.y", go.PLAYBACK_ONCE_FORWARD, prop.position.y - 30, go.EASING_LINEAR, 0.2, 0, function()
 				go.delete(prop.id)
 				data.props[prop.aabb_id] = nil
+				audio.stop(const.AUDIO.FALLING_PLATFORM)
 			end)
 		end)
 	end
@@ -27,6 +32,7 @@ end
 
 local function init_trampoline(prop, query_result)
 	if query_result.normal_y == 1 and prop.status == false then
+		audio.play(const.AUDIO.TRAMPOLINE)
 		prop.status = true
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			prop.status = false
@@ -41,6 +47,7 @@ end
 
 local function init_collectable(prop, query_result)
 	if prop.status == false then
+		audio.play(const.AUDIO.COLLECT)
 		prop.status = true
 		collision.remove(prop.aabb_id)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
@@ -54,6 +61,7 @@ end
 local function init_end(prop, query_result)
 	if prop.status == false then
 		prop.status = true
+		audio.play(const.AUDIO.END)
 		data.reset_checkpoints()
 		collision.remove(prop.aabb_id)
 		--	data.props[prop.aabb_id] = nil
@@ -80,6 +88,7 @@ local function init_box(prop, query_result)
 			player_state.fall()
 		end
 		camera_fx.shake(2, 4)
+		audio.play(const.AUDIO.BOX_CRACK)
 		go.animate(prop.id, "position.y", go.PLAYBACK_ONCE_FORWARD, prop.position.y - (20 * query_result.normal_y), go.EASING_LINEAR, 0.2)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			go.delete(prop.id)
@@ -99,6 +108,7 @@ local function init_fire(prop, query_result)
 		sprite.play_flipbook(prop.sprite, prop.anims.hit, function()
 			prop.data.burning = true
 			prop.status = false
+			audio.play(const.AUDIO.FIRE)
 			sprite.play_flipbook(prop.sprite, prop.anims.on)
 			prop.data.timer_handle = timer.delay(1.0, false, function()
 				sprite.play_flipbook(prop.sprite, prop.anims.idle)
@@ -124,7 +134,7 @@ local function init_checkpoint(prop, _)
 		prop.status = true
 
 		local checkpoint = data.checkpoints[prop.data.checkpoint_id]
-
+		audio.play(const.AUDIO.CHECKPOINT)
 		collision.remove(prop.aabb_id)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			sprite.play_flipbook(prop.sprite, prop.anims.on_idle)
@@ -134,7 +144,6 @@ local function init_checkpoint(prop, _)
 			checkpoint.active = true
 			data.last_checkpoint = prop.data.checkpoint_id
 		end
-		--data.props[prop.aabb_id] = nil
 	end
 end
 
@@ -310,8 +319,8 @@ props.TYPE = {
 		}
 	},
 	MOVING_PLATFORM = {
-		size = { width = 32, height = 7 },
-		collider_size = { width = 32, height = 5 },
+		size = { width = 32, height = 8 },
+		collider_size = { width = 32, height = 4 },
 		offset = vmath.vector3(0, 0, 0),
 		center = { x = 0, y = 0 },
 		fn = nil,
@@ -324,12 +333,10 @@ props.TYPE = {
 		id = nil,
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.PLATFORM,
-		anims = {
-
-		},
 		data = {
-			active = false
-
+			active = false,
+			prev_position = vmath.vector3(),
+			velocity = vmath.vector3()
 		}
 	},
 	END = {
@@ -350,6 +357,42 @@ props.TYPE = {
 		anims = {
 			idle = hash("prop_end_idle"),
 		}
+	},
+	WATER = {
+		size = { width = 1, height = 1 },
+		collider_size = { width = 1, height = 1 },
+		offset = vmath.vector3(),
+		center = { x = 0, y = 0 },
+		fn = init_spikes,
+		factory = const.FACTORIES.WATER,
+		position = vmath.vector3(),
+		status = false,
+		collectable = false,
+		aabb_id = 0,
+		is_fixed = true,
+		id = nil,
+		sprite = nil,
+		model = nil,
+		collision_bit = const.COLLISION_BITS.WATERFALL,
+
+	},
+	WATERFALL = {
+		size = { width = 1, height = 1 },
+		collider_size = { width = 1, height = 1 },
+		offset = vmath.vector3(),
+		center = { x = 0, y = 0 },
+		fn = init_spikes,
+		factory = const.FACTORIES.WATERFALL,
+		position = vmath.vector3(),
+		status = false,
+		collectable = false,
+		aabb_id = 0,
+		is_fixed = true,
+		id = nil,
+		sprite = nil,
+		model = nil,
+		collision_bit = const.COLLISION_BITS.WATERFALL,
+
 	}
 }
 
@@ -365,14 +408,36 @@ function props.add(object_data, hflip, vflip, properties)
 	local rotation = object_data.rotation and vmath.quat_rotation_z(math.rad(object_data.rotation * -1)) or nil
 	local prop = utils.table_copy(props.TYPE[object_data.type])
 
+	local object_scale = vmath.vector3(1)
+
+
+	-- scale water quad
+	if object_data.type == "WATER" or object_data.type == "WATERFALL" then
+		prop.size.width = object_data.width
+		prop.size.height = object_data.height
+		prop.collider_size.width = object_data.width
+		prop.collider_size.height = object_data.height
+		object_scale = vmath.vector3(prop.size.width / 2, prop.size.height / 2, 1)
+	end
+
+
 	prop.x = object_data.x
 	prop.y = (data.map_height - object_data.y) - object_data.height
 	prop.center.x = object_data.x + (prop.size.width / 2)
 	prop.center.y = (data.map_height - object_data.y) + (prop.size.height / 2)
 	prop.position = vmath.vector3(prop.center.x, prop.center.y, 0.1)
-	prop.id = factory.create(prop.factory, prop.position, rotation)
+
+	prop.id = factory.create(prop.factory, prop.position, rotation, nil, object_scale)
 	prop.sprite = msg.url(prop.id)
 	prop.sprite.fragment = "sprite"
+
+
+	if object_data.type == "WATER" or object_data.type == "WATERFALL" then
+		prop.model = msg.url(prop.id)
+		prop.model.fragment = "model"
+		pprint(prop.model)
+		go.set(prop.model, "uResolution", vmath.vector4(object_scale.x, object_scale.y, 1, 1))
+	end
 
 	if next(properties) ~= nil then
 		prop.direction_x = properties.direction_x
@@ -429,32 +494,36 @@ function props.add(object_data, hflip, vflip, properties)
 		}
 	end
 
+
+
 	data.props[prop.aabb_id] = prop
 end
 
 function props.update(dt)
+	data.shader_time.x = data.shader_time.x + dt
 	for _, prop in pairs(data.props) do
 		if not prop.is_fixed and prop.status == false then
+			-- there is a Vsyc problem going on here.....
+			-- If it is set to ON there is a interpolation or timing mismatches.
+			go.set_position(prop.position, prop.id) -- Temporary fix: Set the position before(next frame) to prevent interpolation or timing mismatches.
+
+			prop.data.prev_position.x = prop.position.x
+			prop.data.prev_position.y = prop.position.y
+
 			prop.position.x = prop.position.x + (prop.speed * prop.direction_x) * dt
 			prop.position.y = prop.position.y + (prop.speed * prop.direction_y) * dt
+			prop.data.velocity = (prop.position - prop.data.prev_position) / dt
 
-			prop.y = prop.position.y - (prop.size.height / 2)
+			prop.y = prop.position.y - (prop.size.height / 2) -- used for top of the prop for platforms
+
 			prop.center = prop.position
 
-			collision.update_aabb(prop.aabb_id, prop.position.x, prop.position.y, prop.collider_size.width, prop.collider_size.height)
-
-			query_result, _ = collision.query_id(prop.aabb_id, const.COLLISION_BITS.DIRECTIONS)
-			if query_result then
-				enemy_direction = data.directions[query_result[1]]
-				prop.direction_x = enemy_direction.direction_x
-				prop.direction_y = enemy_direction.direction_y
-				if prop.is_flip then
-					sprite.set_hflip(prop.sprite, prop.direction_x == 1 and true or false)
-					sprite.set_vflip(prop.sprite, prop.direction_y == 1 and true or false)
-				end
+			prop_query_result, _ = collision.query_id(prop.aabb_id, const.COLLISION_BITS.DIRECTIONS)
+			if prop_query_result then
+				prop_direction = data.directions[prop_query_result[1]]
+				prop.direction_x = prop_direction.direction_x
+				prop.direction_y = prop_direction.direction_y
 			end
-
-			go.set_position(prop.position, prop.id)
 		end
 	end
 end

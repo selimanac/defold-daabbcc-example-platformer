@@ -26,13 +26,6 @@ key_trigger {
   input: KEY_RIGHT
   action: "MOVE_RIGHT"
 }
-
-mouse_trigger {
-  input: MOUSE_BUTTON_LEFT
-  action: "MOUSE_BUTTON_LEFT"
-}
-
-
 key_trigger {
   input: KEY_TAB
   action: "key_tab"
@@ -162,6 +155,10 @@ key_trigger {
   action: "key_b"
 }
 mouse_trigger {
+  input: MOUSE_BUTTON_LEFT
+  action: "MOUSE_BUTTON_LEFT"
+}
+mouse_trigger {
   input: MOUSE_WHEEL_UP
   action: "mouse_wheel_up"
 }
@@ -183,11 +180,11 @@ mouse_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_LSTICK_LEFT
-  action: "gamepad_lstick_left"
+  action: "MOVE_LEFT"
 }
 gamepad_trigger {
   input: GAMEPAD_LSTICK_RIGHT
-  action: "gamepad_lstick_right"
+  action: "MOVE_RIGHT"
 }
 gamepad_trigger {
   input: GAMEPAD_LSTICK_DOWN
@@ -211,19 +208,19 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_LPAD_LEFT
-  action: "gamepad_lpad_left"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_LPAD_RIGHT
-  action: "gamepad_lpad_right"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_LPAD_DOWN
-  action: "gamepad_lpad_down"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_LPAD_UP
-  action: "gamepad_lpad_up"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_RSTICK_LEFT
@@ -255,19 +252,19 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_LEFT
-  action: "gamepad_rpad_left"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_RIGHT
-  action: "gamepad_rpad_right"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_DOWN
-  action: "gamepad_rpad_down"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_UP
-  action: "gamepad_rpad_up"
+  action: "JUMP"
 }
 gamepad_trigger {
   input: GAMEPAD_START
@@ -301,4 +298,3 @@ text_trigger {
   input: MARKED_TEXT
   action: "marked_text"
 }
-

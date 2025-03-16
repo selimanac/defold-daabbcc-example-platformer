@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="props" tilewidth="64" tileheight="64" tilecount="17" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="props" tilewidth="64" tileheight="64" tilecount="19" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1" type="TRAMPOLINE">
   <image source="Traps/Trampoline/trampoline_idle.png" width="27" height="27"/>
@@ -69,5 +69,11 @@
  </tile>
  <tile id="27" type="END">
   <image source="Items/Checkpoints/images/end_01.png" width="64" height="64"/>
+ </tile>
+ <tile id="28" type="WATER">
+  <image source="water.png" width="32" height="32"/>
+ </tile>
+ <tile id="29" type="WATERFALL">
+  <image source="waterfall.png" width="32" height="32"/>
  </tile>
 </tileset>

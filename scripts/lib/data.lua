@@ -1,3 +1,5 @@
+local const          = require("scripts.lib.const")
+
 local data           = {}
 
 data.map_width       = 0
@@ -10,6 +12,7 @@ data.backgrounds     = {}
 data.checkpoints     = {}
 data.last_checkpoint = 0
 data.directions      = {}
+data.shader_time     = vmath.vector4(0)
 
 data.debug           = {
 	profiler  = false,
@@ -28,12 +31,15 @@ data.game            = {
 }
 
 data.player          = {
-	position     = vmath.vector3(),
-	aabb_id      = -1,
-	velocity     = vmath.vector3(0, 0, 0),
-	direction    = 0,
-	gravity_down = 0,
-	ids          =
+	position          = vmath.vector3(),
+	initial_position  = vmath.vector3(),
+	aabb_id           = -1,
+	velocity          = vmath.vector3(0, 0, 0),
+	direction         = 0,
+	current_direction = 0,
+	gravity_down      = 0,
+	jump_timer        = 0,
+	ids               =
 	{
 		CONTAINER      = nil,
 		PLAYER_SPRITE  = nil,
@@ -42,15 +48,16 @@ data.player          = {
 		JUMP_PFX       = nil,
 		SLIDING_PFX    = nil
 	},
-	state        = {
-		on_ground     = true,
-		on_slope      = false,
-		jump_pressed  = false,
-		is_jumping    = false,
-		is_walking    = false,
-		is_sliding    = false,
-		is_falling    = false,
-		over_platform = false
+	state             = {
+		on_ground          = true,
+		on_slope           = false,
+		jump_pressed       = false,
+		is_jumping         = false,
+		is_walking         = false,
+		is_sliding         = false,
+		is_falling         = false,
+		over_platform      = false,
+		on_moving_platform = false
 
 	}
 }
@@ -64,11 +71,38 @@ data.camera          = {
 }
 
 function data.reset_checkpoints()
-	--[[for _, checkpoint in pairs(data.checkpoints) do
-		go.delete(checkpoint.id)
-	end]]
 	data.checkpoints     = {}
 	data.last_checkpoint = 0
+end
+
+function data.check_checkpoint()
+	local player_z = 0.9
+	if data.last_checkpoint > 0 then
+		data.player.position = vmath.vector3()
+		local checkpoint = data.checkpoints[data.last_checkpoint]
+		data.player.position = vmath.vector3(checkpoint.x, checkpoint.y, player_z)
+		data.player.position.z = player_z
+		data.player.position.y = data.player.position.y - const.PLAYER.HALF_SIZE.h
+		data.player.position.x = data.player.position.x + 10
+
+		for _, checkpoint in pairs(data.checkpoints) do
+			if checkpoint.active then
+				local checkpoint_prop = data.props[checkpoint.aabb_id]
+				checkpoint_prop.fn(checkpoint_prop)
+			end
+		end
+	end
+end
+
+function data.toggle_game_pause(state)
+	print(state)
+	data.game.state.pause = state
+
+	if state then
+		daabbcc.run(false)
+	else
+		daabbcc.run(true)
+	end
 end
 
 function data.final()
@@ -82,7 +116,7 @@ function data.final()
 	for _, enemy in pairs(data.enemies) do
 		go.delete(enemy.id)
 	end
-
+	data.shader_time = vmath.vector4(0)
 	data.enemies     = {}
 	data.directions  = {}
 	data.props       = {}

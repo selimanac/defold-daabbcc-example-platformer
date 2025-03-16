@@ -8,14 +8,38 @@
         "."
     ],
     "exportAsImage.drawObjectLabels": true,
-    "exportAsImage.includeBackgroundColor": true,
+    "exportAsImage.includeBackgroundColor": false,
     "fileStates": {
+        "/Volumes/Work/Downloads/Fantasy Swamp Forest/Free/BG_1.tsx": {
+            "scaleInDock": 1
+        },
+        "/Volumes/Work/Downloads/Fantasy Swamp Forest/Free/BG_2.tsx": {
+            "scaleInDock": 1
+        },
+        "/Volumes/Work/Downloads/Fantasy Swamp Forest/Free/BG_3.tsx": {
+            "scaleInDock": 1
+        },
+        "/Volumes/Work/Downloads/Fantasy Swamp Forest/Free/Free.tmx": {
+            "scale": 6.6973,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 555.2237468830723,
+                "y": 265.85340361041017
+            }
+        },
+        "/Volumes/Work/Downloads/Fantasy Swamp Forest/Free/Terrain_and_Props.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2.2508
+        },
         "map.tmx": {
-            "scale": 2.6035,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.37,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 271.3654695602074,
-                "y": 230.26694833877474
+                "x": 475.91240875912416,
+                "y": 136.1313868613139
             }
         },
         "platformer.tsx": {
@@ -43,21 +67,21 @@
         },
         "test2.tmx": {
             "expandedObjectLayers": [
+                2,
                 3,
                 6,
-                2,
                 7
             ],
             "scale": 3.1,
-            "selectedLayer": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1120.1612903225805,
+                "x": 1776.9354838709678,
                 "y": 175.96774193548387
             }
         }
     },
     "last.exportedFilePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/data",
-    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure/Items/Checkpoints/images",
+    "last.imagePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure",
     "last.objectTemplatePath": "/Users/selimanac/Development/defold/EXTENSIONS/defold-daabbcc-examples/defold-daabbcc-platformer/assets/pixel_adventure",
     "map.height": 22,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
@@ -67,7 +91,6 @@
     "map.width": 40,
     "openFiles": [
         "map.tmx",
-        "test2.tmx",
         "props.tsx",
         "platformer.tsx"
     ],
@@ -76,8 +99,9 @@
     "recentFiles": [
         "platformer.tsx",
         "props.tsx",
-        "test2.tmx",
         "map.tmx",
+        "test2.tmx",
+        "/Volumes/Work/Downloads/Fantasy Swamp Forest/Free/Free.tmx",
         "test1.tmx",
         "test.tsx"
     ],

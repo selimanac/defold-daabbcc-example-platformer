@@ -9,6 +9,10 @@ shared_state = 1
 width = 640
 height = 360
 high_dpi = 1
+vsync = 1
+fullscreen = 0
+display_device_info = 0
+swap_interval = 1
 
 [android]
 input_method = HiddenInputField
@@ -49,4 +53,8 @@ repeat_delay = 0.0
 repeat_interval = 0.0
 use_accelerometer = 0
 game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[particle_fx]
+max_count = 128
 
