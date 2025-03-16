@@ -1,0 +1,34 @@
+name: "water"
+tags: "waterfall"
+vertex_program: "/components/materials/waterfall.vp"
+fragment_program: "/components/materials/waterfall.fp"
+vertex_space: VERTEX_SPACE_LOCAL
+vertex_constants {
+  name: "mtx_view"
+  type: CONSTANT_TYPE_VIEW
+}
+vertex_constants {
+  name: "mtx_proj"
+  type: CONSTANT_TYPE_PROJECTION
+}
+fragment_constants {
+  name: "uTime"
+  type: CONSTANT_TYPE_USER
+  value {
+  }
+}
+fragment_constants {
+  name: "uResolution"
+  type: CONSTANT_TYPE_USER
+  value {
+    x: 80.0
+    y: 200.0
+  }
+}
+samplers {
+  name: "tex0"
+  wrap_u: WRAP_MODE_REPEAT
+  wrap_v: WRAP_MODE_REPEAT
+  filter_min: FILTER_MODE_MIN_NEAREST
+  filter_mag: FILTER_MODE_MAG_NEAREST
+}

@@ -1,0 +1,3 @@
+sound: "/assets/audio/fx/falling_platform2.wav"
+looping: 1
+gain: 0.5

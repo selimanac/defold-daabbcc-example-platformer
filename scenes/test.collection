@@ -1,0 +1,88 @@
+name: "test"
+instances {
+  id: "water"
+  prototype: "/components/gameobjects/props/water.go"
+  scale3 {
+    x: 100.0
+    y: 50.0
+  }
+}
+instances {
+  id: "waterfall"
+  prototype: "/components/gameobjects/props/waterfall.go"
+  position {
+    y: 137.0
+  }
+  scale3 {
+    x: 50.0
+    y: 100.0
+  }
+}
+scale_along_z: 0
+embedded_instances {
+  id: "go1"
+  data: "embedded_components {\n"
+  "  id: \"camera\"\n"
+  "  type: \"camera\"\n"
+  "  data: \"aspect_ratio: 1.0\\n"
+  "fov: 1.0\\n"
+  "near_z: -1.0\\n"
+  "far_z: 1.0\\n"
+  "auto_aspect_ratio: 1\\n"
+  "orthographic_projection: 1\\n"
+  "orthographic_zoom: 2.2\\n"
+  "\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "go2"
+  data: "components {\n"
+  "  id: \"test\"\n"
+  "  component: \"/scenes/test.script\"\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "go3"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"pink_man_player_idle\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/components/atlas/game.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    x: 47.0
+    z: -0.1
+  }
+}
+embedded_instances {
+  id: "go"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"default_animation: \\\"pink_man_player_idle\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "size {\\n"
+  "  x: 32.0\\n"
+  "  y: 32.0\\n"
+  "}\\n"
+  "textures {\\n"
+  "  sampler: \\\"texture_sampler\\\"\\n"
+  "  texture: \\\"/components/atlas/game.atlas\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+  position {
+    x: 97.0
+    y: -40.0
+    z: -0.1
+  }
+}

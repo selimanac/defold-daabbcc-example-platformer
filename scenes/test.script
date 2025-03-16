@@ -1,0 +1,20 @@
+function init(self)
+	self.t = 0 -- <1>
+	print("init")
+	msg.post("@render:", "clear_color", { color = vmath.vector4(53 / 255, 181 / 255, 92 / 255, 1) })
+	local col1 = vmath.vector3(0.510, 0.776, 0.486);
+	local col2 = vmath.vector3(0.200, 0.604, 0.318);
+	local col3 = vmath.vector3(0.145, 0.490, 0.278);
+	local col4 = vmath.vector3(0.059, 0.255, 0.251);
+
+	pprint(col1 * 255)
+	pprint(col2 * 255)
+	pprint(col3 * 255)
+	pprint(col4 * 255)
+end
+
+function update(self, dt)
+	self.t = self.t + dt                                             -- <2>
+	go.set("/waterfall#model", "uTime", vmath.vector4(self.t, 0, 0, 0)) -- <3>
+	go.set("/water#model", "uTime", vmath.vector4(self.t, 0, 0, 0))  -- <3>
+end

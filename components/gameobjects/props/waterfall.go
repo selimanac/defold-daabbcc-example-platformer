@@ -1,0 +1,15 @@
+embedded_components {
+  id: "model"
+  type: "model"
+  data: "mesh: \"/builtins/assets/meshes/quad_2x2.dae\"\n"
+  "name: \"{{NAME}}\"\n"
+  "materials {\n"
+  "  name: \"default\"\n"
+  "  material: \"/components/materials/waterfall.material\"\n"
+  "  textures {\n"
+  "    sampler: \"tex0\"\n"
+  "    texture: \"/assets/pixel_adventure/uniformclouds.jpg\"\n"
+  "  }\n"
+  "}\n"
+  ""
+}

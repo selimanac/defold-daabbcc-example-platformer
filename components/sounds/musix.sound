@@ -1,0 +1,3 @@
+sound: "/assets/audio/music.ogg"
+looping: 1
+gain: 0.6
