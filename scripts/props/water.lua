@@ -1,21 +1,31 @@
-local audio       = require("scripts.lib.audio")
-local collision   = require("scripts.lib.collision")
-local data        = require("scripts.lib.data")
-local const       = require("scripts.lib.const")
+local data         = require("scripts.lib.data")
+local const        = require("scripts.lib.const")
+local player_state = require("scripts.lib.player_state")
 
-local collectable = {}
+local water        = {}
 
-function collectable.enter(prop, query_result)
+function water.enter(prop, query_result)
 	if prop.status == false then
-		audio.play(const.AUDIO.COLLECT)
 		prop.status = true
-		collision.remove(prop.aabb_id)
-		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
-			go.delete(prop.id)
+
+		local water_splash_position = vmath.vector3(query_result.contact_point_x, query_result.contact_point_y, 0)
+		local water_splash = factory.create(const.FACTORIES.WATER_SPLASH, water_splash_position)
+
+		local water_splash_particle = msg.url(water_splash)
+		water_splash_particle.fragment = "water_splash"
+		particlefx.play(water_splash_particle, function(self, id, emitter, state)
+			if emitter == hash("emitter1") and state == particlefx.EMITTER_STATE_SLEEPING then
+				particlefx.stop(water_splash_particle)
+				go.delete(water_splash)
+			end
 		end)
 
-		data.props[prop.aabb_id] = nil
+		data.player.gravity_down = math.abs(data.player.gravity_down)
+
+		timer.delay(0.3, false, function()
+			player_state.die()
+		end)
 	end
 end
 
-return collectable
+return water

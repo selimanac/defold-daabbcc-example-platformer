@@ -1,21 +1,24 @@
-local audio       = require("scripts.lib.audio")
-local collision   = require("scripts.lib.collision")
-local data        = require("scripts.lib.data")
-local const       = require("scripts.lib.const")
+local audio        = require("scripts.lib.audio")
+local data         = require("scripts.lib.data")
+local const        = require("scripts.lib.const")
+local camera_fx    = require("scripts.lib.camera_fx")
+local player_state = require("scripts.lib.player_state")
 
-local collectable = {}
+local trampoline   = {}
 
-function collectable.enter(prop, query_result)
-	if prop.status == false then
-		audio.play(const.AUDIO.COLLECT)
+function trampoline.enter(prop, query_result)
+	if query_result.normal_y == 1 and prop.status == false then
+		audio.play(const.AUDIO.TRAMPOLINE)
 		prop.status = true
-		collision.remove(prop.aabb_id)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
-			go.delete(prop.id)
+			prop.status = false
 		end)
-
-		data.props[prop.aabb_id] = nil
+		camera_fx.shake(2, 4)
+		data.player.state.on_ground = false
+		data.player.state.jump_pressed = false
+		data.player.velocity.y = const.PLAYER.TRAMPOLINE_JUMP_FORCE
+		player_state.jump(0)
 	end
 end
 
-return collectable
+return trampoline

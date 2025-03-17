@@ -67,7 +67,7 @@
   </properties>
   <image source="Traps/Platforms/moving_platform.png" width="32" height="7"/>
  </tile>
- <tile id="27" type="END">
+ <tile id="27" type="FINISH">
   <image source="Items/Checkpoints/images/end_01.png" width="64" height="64"/>
  </tile>
  <tile id="28" type="WATER">

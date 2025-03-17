@@ -1,21 +1,10 @@
-local audio       = require("scripts.lib.audio")
-local collision   = require("scripts.lib.collision")
-local data        = require("scripts.lib.data")
-local const       = require("scripts.lib.const")
+local player_state = require("scripts.lib.player_state")
 
-local collectable = {}
+local spike        = {}
 
-function collectable.enter(prop, query_result)
-	if prop.status == false then
-		audio.play(const.AUDIO.COLLECT)
-		prop.status = true
-		collision.remove(prop.aabb_id)
-		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
-			go.delete(prop.id)
-		end)
-
-		data.props[prop.aabb_id] = nil
-	end
+function spike.enter(prop, query_result)
+	prop.status = true
+	player_state.die()
 end
 
-return collectable
+return spike

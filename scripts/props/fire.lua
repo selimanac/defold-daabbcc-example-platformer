@@ -1,21 +1,29 @@
-local audio       = require("scripts.lib.audio")
-local collision   = require("scripts.lib.collision")
-local data        = require("scripts.lib.data")
-local const       = require("scripts.lib.const")
+local audio        = require("scripts.lib.audio")
+local const        = require("scripts.lib.const")
+local player_state = require("scripts.lib.player_state")
 
-local collectable = {}
+local fire         = {}
 
-function collectable.enter(prop, query_result)
-	if prop.status == false then
-		audio.play(const.AUDIO.COLLECT)
+function fire.enter(prop, query_result)
+	if prop.status == false and prop.data.active == false then
 		prop.status = true
-		collision.remove(prop.aabb_id)
-		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
-			go.delete(prop.id)
+		prop.data.active = true
+		sprite.play_flipbook(prop.sprite, prop.anims.hit, function()
+			prop.data.burning = true
+			prop.status = false
+			audio.play(const.AUDIO.FIRE)
+			sprite.play_flipbook(prop.sprite, prop.anims.on)
+			prop.data.timer_handle = timer.delay(1.0, false, function()
+				sprite.play_flipbook(prop.sprite, prop.anims.idle)
+				prop.data.active = false
+				prop.data.burning = false
+			end)
 		end)
+	end
 
-		data.props[prop.aabb_id] = nil
+	if prop.data.burning == true then
+		player_state.die()
 	end
 end
 
-return collectable
+return fire

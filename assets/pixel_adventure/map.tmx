@@ -301,7 +301,7 @@
   <object id="268" name="FIRE" gid="262" x="4352" y="336" width="16" height="32"/>
   <object id="269" name="FIRE" gid="262" x="4336" y="336" width="16" height="32"/>
   <object id="270" name="FIRE" gid="262" x="4320" y="336" width="16" height="32"/>
-  <object id="283" name="END" gid="270" x="3816" y="272" width="64" height="64"/>
+  <object id="283" name="FINISH" gid="270" x="3816" y="272" width="64" height="64"/>
   <object id="284" name="APPLE" gid="259" x="4192" y="144" width="32" height="32"/>
   <object id="285" name="APPLE" gid="259" x="4216" y="144" width="32" height="32"/>
   <object id="286" name="APPLE" gid="259" x="4240" y="144" width="32" height="32"/>
@@ -398,7 +398,7 @@
   </object>
  </objectgroup>
  <objectgroup color="#cdc70d" id="3" name="entities">
-  <object id="57" name="PLAYER" gid="258" x="2112" y="56" width="32" height="32"/>
+  <object id="57" name="PLAYER" gid="258" x="272" y="256" width="32" height="32"/>
   <object id="177" name="ANGRY_PIG" gid="263" x="972" y="128" width="33" height="27">
    <properties>
     <property name="direction_x" type="int" value="-1"/>
@@ -410,9 +410,9 @@
     <property name="speed" type="int" value="100"/>
    </properties>
   </object>
-  <object id="227" name="ANGRY_PIG" gid="2147483911" x="144" y="112" width="33" height="27">
+  <object id="227" name="ANGRY_PIG" gid="263" x="200" y="112" width="33" height="27">
    <properties>
-    <property name="direction_x" type="int" value="1"/>
+    <property name="direction_x" type="int" value="-1"/>
    </properties>
   </object>
   <object id="258" name="ROCK_HEAD" gid="268" x="4108" y="144" width="32" height="32">

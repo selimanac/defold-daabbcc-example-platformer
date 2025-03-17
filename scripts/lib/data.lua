@@ -1,12 +1,16 @@
-local const          = require("scripts.lib.const")
+local const       = require("scripts.lib.const")
 
-local data           = {}
+local data        = {}
 
-data.map_width       = 0
-data.map_height      = 0
-data.map             = {}
-data.map_objects     = {}
-data.props           = {}
+data.map_width    = 0
+data.map_height   = 0
+data.map          = {}
+data.map_objects  = {}
+
+data.props        = {}
+data.moving_props = {}
+
+
 data.enemies         = {}
 data.backgrounds     = {}
 data.checkpoints     = {}
@@ -123,13 +127,15 @@ function data.final()
 	for _, enemy in pairs(data.enemies) do
 		go.delete(enemy.id)
 	end
-	data.shader_time = vmath.vector4(0)
-	data.enemies     = {}
-	data.directions  = {}
-	data.props       = {}
-	data.map_objects = {}
-	data.map         = {}
-	data.enemies     = {}
+	data.shader_time  = vmath.vector4(0)
+	data.enemies      = {}
+	data.directions   = {}
+	data.props        = {}
+	data.moving_props = {}
+
+	data.map_objects  = {}
+	data.map          = {}
+	data.enemies      = {}
 end
 
 return data

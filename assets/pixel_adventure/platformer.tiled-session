@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map.tmx",
+    "activeFile": "platformer.tsx",
     "expandedProjectPaths": [
         "."
     ],
@@ -35,11 +35,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 1.37,
-            "selectedLayer": 3,
+            "scale": 2.2824,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 475.91240875912416,
-                "y": 136.1313868613139
+                "x": 2331.756046267087,
+                "y": 156.19523308797756
             }
         },
         "platformer.tsx": {
@@ -97,9 +97,9 @@
     "project": "platformer.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "platformer.tsx",
-        "props.tsx",
         "map.tmx",
+        "props.tsx",
+        "platformer.tsx",
         "test2.tmx",
         "/Volumes/Work/Downloads/Fantasy Swamp Forest/Free/Free.tmx",
         "test1.tmx",

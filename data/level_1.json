@@ -2366,9 +2366,9 @@
                  "gid":270,
                  "height":64,
                  "id":283,
-                 "name":"END",
+                 "name":"FINISH",
                  "rotation":0,
-                 "type":"END",
+                 "type":"FINISH",
                  "visible":true,
                  "width":64,
                  "x":3816,
@@ -3383,7 +3383,7 @@
                  "y":236
                 }, 
                 {
-                 "gid":2147483911,
+                 "gid":263,
                  "height":27,
                  "id":227,
                  "name":"ANGRY_PIG",
@@ -3391,7 +3391,7 @@
                         {
                          "name":"direction_x",
                          "type":"int",
-                         "value":1
+                         "value":-1
                         }, 
                         {
                          "name":"direction_y",
@@ -3407,7 +3407,7 @@
                  "type":"ENEMY",
                  "visible":true,
                  "width":33,
-                 "x":144,
+                 "x":200,
                  "y":112
                 }, 
                 {

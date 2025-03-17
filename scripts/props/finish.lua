@@ -1,21 +1,22 @@
-local audio       = require("scripts.lib.audio")
-local collision   = require("scripts.lib.collision")
-local data        = require("scripts.lib.data")
-local const       = require("scripts.lib.const")
+local audio        = require("scripts.lib.audio")
+local collision    = require("scripts.lib.collision")
+local data         = require("scripts.lib.data")
+local const        = require("scripts.lib.const")
+local camera_fx    = require("scripts.lib.camera_fx")
+local player_state = require("scripts.lib.player_state")
 
-local collectable = {}
+local finish       = {}
 
-function collectable.enter(prop, query_result)
+function finish.enter(prop, query_result)
 	if prop.status == false then
-		audio.play(const.AUDIO.COLLECT)
 		prop.status = true
+		audio.play(const.AUDIO.END)
+		data.reset_checkpoints()
 		collision.remove(prop.aabb_id)
-		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
-			go.delete(prop.id)
-		end)
-
-		data.props[prop.aabb_id] = nil
+		--	data.props[prop.aabb_id] = nil
+		camera_fx.shake(2, 4)
+		player_state.die()
 	end
 end
 
-return collectable
+return finish

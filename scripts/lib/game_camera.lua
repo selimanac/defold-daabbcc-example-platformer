@@ -40,6 +40,7 @@ function game_camera.update(dt)
 	data.camera.base_position = new_cam_pos
 end
 
+-- TODO PAUSE
 local function window_resized(self, event, size)
 	if event == window.WINDOW_EVENT_FOCUS_LOST then
 		print("window.WINDOW_EVENT_FOCUS_LOST")

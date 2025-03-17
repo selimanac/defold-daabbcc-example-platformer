@@ -16,7 +16,7 @@ local slope_y                   = 0
 --Platforms
 local platform_back_ray_result  = {}
 local platform_front_ray_result = {}
-local platform_ray_result       = {} -- merge results from back and front
+local platform_ray_result       = {} -- merge results from back and front ray
 local platform_query            = {}
 local platform_count            = 0
 local platform_query_aabb_id    = 0

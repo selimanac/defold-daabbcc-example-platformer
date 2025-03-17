@@ -87,12 +87,7 @@ function map.load(level)
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
 
-				local properties = {}
-				if object_data.properties then
-					for _, property in ipairs(object_data.properties) do
-						properties[property.name] = property.value
-					end
-				end
+				local properties = utils.set_object_properties(object_data.properties)
 
 				local center_x = object_data.x + (object_data.width / 2)
 				local center_y = (data.map_height - object_data.y) - (object_data.height / 2)
@@ -147,12 +142,7 @@ function map.load(level)
 
 				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid) -- generic gid flip and rotate for tiles only
 
-				local properties = {}
-				if object_data.properties then
-					for _, property in ipairs(object_data.properties) do
-						properties[property.name] = property.value
-					end
-				end
+				local properties = utils.set_object_properties(object_data.properties)
 
 				props.add(object_data, hflip, vflip, properties)
 			end
@@ -168,12 +158,7 @@ function map.load(level)
 				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid)
 
 				if object_data.type == "ENEMY" then
-					local properties = {}
-					if object_data.properties then
-						for _, property in ipairs(object_data.properties) do
-							properties[property.name] = property.value
-						end
-					end
+					local properties = utils.set_object_properties(object_data.properties)
 
 					enemies.add(object_data, hflip, vflip, properties)
 				end
@@ -189,8 +174,6 @@ function map.load(level)
 					data.check_checkpoint()
 				end
 			end
-
-			--	pprint(data.enemies)
 		end
 
 		----------------------
@@ -202,7 +185,6 @@ function map.load(level)
 				directions.add(object_data)
 			end
 		end
-
 
 		-- loop end
 	end
