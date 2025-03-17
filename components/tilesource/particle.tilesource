@@ -1,0 +1,14 @@
+image: "/assets/particlefx/particles.png"
+tile_width: 8
+tile_height: 8
+collision_groups: "default"
+animations {
+  id: "circle"
+  start_tile: 1
+  end_tile: 1
+}
+animations {
+  id: "rect"
+  start_tile: 2
+  end_tile: 2
+}

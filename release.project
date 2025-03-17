@@ -1,0 +1,61 @@
+[bootstrap]
+main_collection = /scenes/game.collectionc
+render = /render/game.renderc
+
+[script]
+shared_state = 1
+
+[display]
+width = 640
+height = 360
+high_dpi = 1
+vsync = 1
+fullscreen = 0
+display_device_info = 0
+swap_interval = 1
+
+[android]
+input_method = HiddenInputField
+
+[html5]
+scale_mode = stretch
+
+[project]
+title = defold-daabbcc-platformer
+custom_resources = data
+dependencies#0 = https://github.com/selimanac/defold-daabbcc/archive/refs/heads/v3.x.zip
+dependencies#1 = https://github.com/selimanac/defold-random/archive/refs/heads/master.zip
+
+[daabbcc]
+max_group_count = 1
+max_gameobject_count = 128
+max_query_result_count = 32
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+
+[native_extension]
+app_manifest = /game.appmanifest
+
+[sprite]
+subpixels = 0
+max_count = 512
+
+[defos]
+view_width = 1280
+view_height = 720
+
+[input]
+repeat_delay = 0.0
+repeat_interval = 0.0
+use_accelerometer = 0
+game_binding = /input/game.input_bindingc
+gamepads = /builtins/input/default.gamepadsc
+
+[particle_fx]
+max_count = 128
+
+[platformer]
+debug = 0
+
