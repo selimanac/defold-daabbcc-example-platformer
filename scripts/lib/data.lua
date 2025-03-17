@@ -12,25 +12,32 @@ data.backgrounds     = {}
 data.checkpoints     = {}
 data.last_checkpoint = 0
 data.directions      = {}
-data.shader_time     = vmath.vector4(0)
 
-data.debug           = {
+-- Shaders
+data.shader_time     = vmath.vector4(0)
+data.dt              = vmath.vector4(0)
+
+-- Audio
+
+
+data.debug  = {
 	profiler  = false,
 	colliders = true,
 	imgui     = true,
-	init      = true
+	init      = sys.get_config_int("platformer.debug", 1) == 1 and true or false
 }
 
-data.game            = {
+data.game   = {
 	state = {
 		pause          = false,
 		input_pause    = false,
 		skip_colliders = false
 	},
-	level = 1
+	level = 1,
+	is_music = false
 }
 
-data.player          = {
+data.player = {
 	position          = vmath.vector3(),
 	initial_position  = vmath.vector3(),
 	aabb_id           = -1,
@@ -62,7 +69,7 @@ data.player          = {
 	}
 }
 
-data.camera          = {
+data.camera = {
 	zoom          = 0,
 	position      = vmath.vector3(),
 	base_position = vmath.vector3(),

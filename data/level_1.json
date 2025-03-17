@@ -2868,7 +2868,7 @@
                 }, 
                 {
                  "gid":271,
-                 "height":112,
+                 "height":116,
                  "id":358,
                  "name":"WATER",
                  "rotation":0,
@@ -3323,8 +3323,8 @@
                  "type":"PLAYER",
                  "visible":true,
                  "width":32,
-                 "x":236,
-                 "y":240
+                 "x":272,
+                 "y":256
                 }, 
                 {
                  "gid":263,

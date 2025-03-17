@@ -765,7 +765,6 @@ animations {
   images {
     image: "/assets/pixel_adventure/Items/Checkpoints/Checkpoint/images/checkpoint_flag_out_26.png"
   }
-  fps: 28
 }
 animations {
   id: "fire_idle"

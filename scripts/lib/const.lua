@@ -17,8 +17,7 @@ const.COLLISION_BITS   = {
 	DIRECTIONS = 256,
 	WATERFALL  = 512,
 
-
-	ALL = bit.bnot(0) -- -1 for all results
+	ALL        = bit.bnot(0) -- -1 for all results
 }
 
 const.FACTORIES        = {
@@ -40,6 +39,7 @@ const.FACTORIES        = {
 	CHECKPOINT       = "/props#checkpoint",
 	FIRE             = "/props#fire",
 	MOVING_PLATFORM  = "/props#moving_platform",
+	WATER_SPLASH     = "/props#water_splash",
 
 	-- Enemnies
 	ANGRY_PIG        = "/enemies#enemy_angry_pig",
@@ -124,7 +124,6 @@ const.AUDIO            = {
 	FIRE             = "/fx#fire",
 	CHECKPOINT       = "/fx#checkpoint",
 	END              = "/fx#end",
-
 }
 
 return const

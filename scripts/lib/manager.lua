@@ -66,13 +66,14 @@ function manager.init()
 	player.init()
 	game_camera.init()
 
+
 	if data.debug.init then
 		debug.init()
 	end
 
 	collect_garbage()
 
-	audio.play(const.AUDIO.MUSIC)
+	audio.play_music()
 end
 
 function manager.update(dt)
@@ -83,6 +84,9 @@ function manager.update(dt)
 	if data.game.state.pause then
 		return
 	end
+
+	data.shader_time.x = data.shader_time.x + dt
+	data.dt.x = dt
 
 	player.update(dt)
 	game_camera.update(dt)
@@ -112,7 +116,6 @@ function manager.message(message_id, message, sender)
 end
 
 function manager.final()
-	audio.stop(const.AUDIO.MUSIC)
 	particles.final()
 	map.final()
 	player.final()

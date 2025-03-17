@@ -123,6 +123,10 @@ embedded_instances {
   "  id: \"waterfall\"\n"
   "  component: \"/components/factories/props/waterfall.factory\"\n"
   "}\n"
+  "components {\n"
+  "  id: \"water_splash\"\n"
+  "  component: \"/components/factories/props/water_splash.factory\"\n"
+  "}\n"
   ""
 }
 embedded_instances {
@@ -241,7 +245,7 @@ embedded_instances {
   "}\n"
   "components {\n"
   "  id: \"end\"\n"
-  "  component: \"/components/factories/props/end.sound\"\n"
+  "  component: \"/components/sounds/end.sound\"\n"
   "}\n"
   ""
 }

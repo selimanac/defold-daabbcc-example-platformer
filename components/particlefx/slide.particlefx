@@ -6,8 +6,8 @@ emitters {
     z: 0.120849505
     w: 0.99267083
   }
-  tile_source: "/builtins/graphics/particle_blob.tilesource"
-  animation: "anim"
+  tile_source: "/components/tilesource/particle.tilesource"
+  animation: "circle"
   material: "/builtins/materials/particlefx.material"
   blend_mode: BLEND_MODE_ADD
   max_particle_count: 128
@@ -39,13 +39,13 @@ emitters {
   properties {
     key: EMITTER_KEY_PARTICLE_SPEED
     points {
-      y: 10.0
+      y: 5.0
     }
   }
   properties {
     key: EMITTER_KEY_PARTICLE_SIZE
     points {
-      y: 10.0
+      y: 5.0
     }
   }
   properties {

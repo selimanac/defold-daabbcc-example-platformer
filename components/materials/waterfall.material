@@ -25,6 +25,7 @@ fragment_constants {
     y: 200.0
   }
 }
+
 samplers {
   name: "tex0"
   wrap_u: WRAP_MODE_REPEAT

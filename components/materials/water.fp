@@ -28,12 +28,14 @@ void main()
 
     vec4  waterColour = vec4(0.0, 0.5, 0.9, 1.0);
     vec4  foamColour = vec4(0.8, 1.0, 1.0, 1.0);
+    vec4  topLineColor = vec4(1.0, 1.0, 1.0, 1.0); // Pure white for the top line
 
     float transparency = 0.4;
     float waveFrequency = 1.0; // Only whole numbers will tile
     float waveSpeed = 6.0;
     float waveStrength = 8.0;
     float foamDepth = 0.2;
+    float topLineThickness = 0.03; // Controls the thickness of the top white line
 
     float distortion = 0.1;
 
@@ -43,12 +45,19 @@ void main()
     waterHeight += sin((-uv.x * tiler) * waveFrequency * 1.3 + uTime.x * waveSpeed * 0.7);
 
     waterHeight *= waveStrength * 0.001; // Reduces the wave strength
-    waterHeight += 1.0;                  // Raises the water level from the bottom
+    waterHeight += 0.98;                 // Raises the water level from the bottom
 
     // Calculates if the pixel is part of the water
     float isWater = step(waterHeight, uv.y);
 
-    // vec2(uv.x + (waterHeight - 0.25) * distortion, uv.y)
+    // Create the bold white top line effect
+    // This measures how close we are to the exact wave height
+    float distanceToWaveSurface = abs(waterHeight - uv.y);
+    float isTopLine = 1.0 - step(topLineThickness, distanceToWaveSurface);
+
+    // Only show the line where there's water (below the wave)
+    isTopLine *= (1.0 - isWater);
+
     vec4 outColour = vec4(0.0, 0, 1.0, 0.0);
     // Adds transparency to the water colour
     outColour = mix(waterColour, outColour, transparency);
@@ -56,7 +65,9 @@ void main()
     // Creates the foam
     outColour = mix(foamColour, outColour, clamp((waterHeight - uv.y) / foamDepth, 0.0, 1.0));
 
+    // Add the bold white top line
+    outColour = mix(outColour, topLineColor, isTopLine);
+
     // Outputs a colour depending on if it's water or not (isWater)
-    // out_fragColor = backTex * isWater + outColour * (1.0 - isWater);
     out_fragColor = mix(outColour, backTex, isWater);
 }

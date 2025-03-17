@@ -1,3 +1,10 @@
+components {
+  id: "waterfall_splash"
+  component: "/components/particlefx/waterfall_splash.particlefx"
+  position {
+    y: -1.0
+  }
+}
 embedded_components {
   id: "model"
   type: "model"
@@ -8,7 +15,7 @@ embedded_components {
   "  material: \"/components/materials/waterfall.material\"\n"
   "  textures {\n"
   "    sampler: \"tex0\"\n"
-  "    texture: \"/assets/pixel_adventure/uniformclouds.jpg\"\n"
+  "    texture: \"/assets/uniform_clouds.jpg\"\n"
   "  }\n"
   "}\n"
   ""

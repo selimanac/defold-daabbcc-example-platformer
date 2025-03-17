@@ -113,9 +113,9 @@ function player.update(dt)
 
 			is_collectable = (is_prop and query_prop.collectable) and query_prop.collectable or false
 
-			if is_prop and query_prop.collectable then
-				pprint(query_prop)
-			end
+			-- if is_prop and query_prop.collectable then
+			-- 	pprint(query_prop)
+			-- end
 
 
 			---------------------------------------
@@ -158,7 +158,6 @@ function player.update(dt)
 			-- Prop & Enemy items
 			---------------------------------------
 			if is_prop and query_prop.status == false then
-				print("is_prop")
 				query_prop.fn(query_prop, query_result)
 			end
 

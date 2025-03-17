@@ -5,8 +5,8 @@ emitters {
   position {
     x: -6.0
   }
-  tile_source: "/builtins/graphics/particle_blob.tilesource"
-  animation: "anim"
+  tile_source: "/components/tilesource/particle.tilesource"
+  animation: "circle"
   material: "/builtins/materials/particlefx.material"
   blend_mode: BLEND_MODE_ADD
   max_particle_count: 128
@@ -44,7 +44,7 @@ emitters {
   properties {
     key: EMITTER_KEY_PARTICLE_SIZE
     points {
-      y: 10.0
+      y: 5.0
     }
   }
   properties {
@@ -141,8 +141,8 @@ emitters {
   position {
     x: 6.0
   }
-  tile_source: "/builtins/graphics/particle_blob.tilesource"
-  animation: "anim"
+  tile_source: "/components/tilesource/particle.tilesource"
+  animation: "circle"
   material: "/builtins/materials/particlefx.material"
   blend_mode: BLEND_MODE_ADD
   max_particle_count: 128
@@ -180,7 +180,7 @@ emitters {
   properties {
     key: EMITTER_KEY_PARTICLE_SIZE
     points {
-      y: 10.0
+      y: 5.0
     }
   }
   properties {

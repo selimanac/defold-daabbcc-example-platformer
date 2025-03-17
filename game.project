@@ -58,3 +58,6 @@ gamepads = /builtins/input/default.gamepadsc
 [particle_fx]
 max_count = 128
 
+[platformer]
+debug = 1
+

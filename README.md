@@ -6,4 +6,11 @@ Song by <a href="https://stocktune.com/free-music/pixels-of-rhythmic-bliss-60473
 https://www.shadertoy.com/view/flBGzm
 https://www.shadertoy.com/view/NtBGRw
 https://www.shadertoy.com/view/dd2fzG
-https://godotshaders.com/shader/2d-waterfall/
+
+https://www.shadertoy.com/view/MltyRs
+https://shadered.org/view?s=6Gny24_ojD
+
+
+https://forum.defold.com/t/how-exclude-native-extension-solved/64322/5
+https://forum.defold.com/t/how-to-exclude-a-native-extension-in-release-mode/59711
+https://defold.com/manuals/bob/

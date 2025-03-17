@@ -343,7 +343,7 @@
   <object id="341" name="SPIKES" gid="245" x="4432" y="144" width="16" height="8" rotation="-90"/>
   <object id="342" name="SPIKES" gid="245" x="4416" y="112" width="16" height="8" rotation="180"/>
   <object id="346" name="FIRE" gid="262" x="720" y="320" width="16" height="32"/>
-  <object id="358" name="WATER" gid="271" x="2496" y="336" width="640" height="112"/>
+  <object id="358" name="WATER" gid="271" x="2496" y="336" width="640" height="116"/>
   <object id="359" name="WATERFALL" gid="272" x="2768" y="228" width="112" height="196"/>
   <object id="363" name="MOVING_PLATFORM" gid="269" x="2592" y="132" width="32" height="8">
    <properties>
@@ -398,7 +398,7 @@
   </object>
  </objectgroup>
  <objectgroup color="#cdc70d" id="3" name="entities">
-  <object id="57" name="PLAYER" gid="258" x="236" y="240" width="32" height="32"/>
+  <object id="57" name="PLAYER" gid="258" x="2112" y="56" width="32" height="32"/>
   <object id="177" name="ANGRY_PIG" gid="263" x="972" y="128" width="33" height="27">
    <properties>
     <property name="direction_x" type="int" value="-1"/>
