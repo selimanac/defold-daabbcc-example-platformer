@@ -22,6 +22,12 @@ images {
 images {
   image: "/assets/pixel_adventure/Traps/Platforms/moving_platform.png"
 }
+images {
+  image: "/assets/pixel_adventure/Menu/Buttons/Play.png"
+}
+images {
+  image: "/assets/pixel_adventure/Menu/Buttons/pause.png"
+}
 animations {
   id: "pink_man_player_idle"
   images {

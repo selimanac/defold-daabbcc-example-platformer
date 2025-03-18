@@ -5,24 +5,11 @@ local collision  = require("scripts.lib.collision")
 
 local directions = {}
 
-local function direction_right()
-end
-
-local function direction_left()
-end
-
-local function direction_up()
-end
-
-local function direction_down()
-end
-
-directions.TYPE = {
+directions.TYPE  = {
 	DIRECTION_RIGHT = {
 		size = { width = 16, height = 16 },
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
-		fn = direction_right,
 		position = vmath.vector3(),
 		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = 1,
@@ -32,7 +19,6 @@ directions.TYPE = {
 		size = { width = 16, height = 16 },
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
-		fn = direction_left,
 		position = vmath.vector3(),
 		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = -1,
@@ -42,7 +28,6 @@ directions.TYPE = {
 		size = { width = 16, height = 16 },
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
-		fn = direction_up,
 		position = vmath.vector3(),
 		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = 0,
@@ -52,7 +37,6 @@ directions.TYPE = {
 		size = { width = 16, height = 16 },
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
-		fn = direction_down,
 		position = vmath.vector3(),
 		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = 0,

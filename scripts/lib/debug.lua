@@ -36,7 +36,7 @@ end
 function toogle_profiler()
 	if profiler then
 		profiler.enable_ui(data.debug.profiler)
-		profiler.set_ui_view_mode(profiler.VIEW_MODE_MINIMIZED)
+	--	profiler.set_ui_view_mode(profiler.VIEW_MODE_MINIMIZED)
 	end
 end
 
@@ -114,7 +114,7 @@ function debug.update()
 		imgui.text("GAME STATE")
 
 		if imgui.button("Reset Checkpoints") then
-			data.reset_checkpoints()
+			--	data.reset_checkpoints()
 		end
 
 

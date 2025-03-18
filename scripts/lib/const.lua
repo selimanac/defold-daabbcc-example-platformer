@@ -59,8 +59,10 @@ const.PLAYER           = {
 	GRAVITY_DOWN          = -1500,
 	GRAVITY_SLIDE         = -200,
 	GRAVITY_WALL_JUMP     = -800,
+	MAX_VELOCITY_Y        = -600, -- <- Too much speed may cause collision to skip.
 	MAX_JUMP_HOLD_TIME    = 1,
 	PLATFORM_JUMP_OFFSET  = 10,
+	HEALTH                = 3,
 
 	ANIM                  = {
 		IDLE = hash("virtual_guy_player_idle"),
@@ -98,12 +100,16 @@ const.URLS             = {
 	MAP_CONTANINER   = "",
 	GAME             = "/script#game",
 	BACKGROUND       = "/background",
-	BACKGROUND_MODEL = "/background#model"
+	BACKGROUND_MODEL = "/background#model",
+	GUI              = "/gui#game"
 }
 
 const.MSG              = {
 	RESTART = hash("restart"),
-	PLAYER_DEATH = hash("player_death")
+	PLAYER_DIE = hash("player_die"),
+	GAME_PAUSE = hash("game_pause"),
+	COLLECT = hash("collect"),
+	PLAYER_HEALTH_UPDATE = hash("player_health_update")
 }
 
 const.AUDIO            = {
@@ -111,7 +117,7 @@ const.AUDIO            = {
 	JUMP             = "/fx#jump",
 	RUN              = "/fx#run",
 	TRAMPOLINE       = "/fx#trampoline",
-	MUSIC            = "/fx#musix",
+	MUSIC            = "/audio#music",
 	COLLECT          = "/fx#collect",
 	WALL_JUMP        = "/fx#wall_jump",
 	BOX_CRACK        = "/fx#box_crack",

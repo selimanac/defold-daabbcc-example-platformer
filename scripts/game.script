@@ -13,18 +13,18 @@ function init(self)
 	manager.init()
 end
 
-function final(self)
+function final()
 	manager.final()
 end
 
-function update(self, dt)
+function update(_, dt)
 	manager.update(dt)
 end
 
-function on_message(self, message_id, message, sender)
+function on_message(_, message_id, message, sender)
 	manager.message(message_id, message, sender)
 end
 
-function on_input(self, action_id, action)
+function on_input(_, action_id, action)
 	manager.input(action_id, action)
 end

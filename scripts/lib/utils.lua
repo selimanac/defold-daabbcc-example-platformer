@@ -86,8 +86,8 @@ function utils.set_object_properties(object_properties)
 end
 
 function utils.flip_object_sprite(object_sprite, hflip, vflip)
-	sprite.set_hflip(object_sprite, hflip == true or hflip == 1) 
-	sprite.set_vflip(object_sprite, vflip == true or vflip == 1) 
+	sprite.set_hflip(object_sprite, hflip == true or hflip == 1)
+	sprite.set_vflip(object_sprite, vflip == true or vflip == 1)
 end
 
 function utils.rotate_object_collider(rotation, object)

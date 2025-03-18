@@ -1,4 +1,8 @@
 script: "/scripts/gui/game.gui_script"
+fonts {
+  name: "fff"
+  font: "/components/font/fff.font"
+}
 textures {
   name: "game"
   texture: "/components/atlas/game.atlas"
@@ -11,6 +15,7 @@ nodes {
   type: TYPE_BOX
   texture: "game/Restart"
   id: "restart_btn"
+  layer: "gfx"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }
@@ -20,27 +25,148 @@ nodes {
     y: 339.0
   }
   type: TYPE_BOX
-  texture: "game/Restart"
+  texture: "game/pause"
   id: "pause_btn"
+  layer: "gfx"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
   position {
-    x: 554.0
-    y: 339.0
+    x: 320.0
+    y: 180.0
+  }
+  size {
+    x: 640.0
+    y: 360.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
   }
   type: TYPE_BOX
-  texture: "game/Restart"
-  id: "pause_btn1"
+  id: "pause_box"
+  layer: "gfx"
   inherit_alpha: true
+  alpha: 0.3
   size_mode: SIZE_MODE_AUTO
+  enabled: false
+}
+nodes {
+  size {
+    x: 64.0
+    y: 64.0
+  }
+  type: TYPE_BOX
+  texture: "game/Play"
+  id: "play_btn"
+  parent: "pause_box"
+  layer: "gfx"
+}
+nodes {
+  position {
+    x: 14.0
+    y: 344.0
+  }
+  size {
+    x: 16.0
+    y: 16.0
+  }
+  type: TYPE_BOX
+  texture: "game/virtual_guy_player_idle"
+  id: "life"
+  layer: "gfx"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 24.0
+    y: -4.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+  }
+  type: TYPE_TEXT
+  text: "3"
+  font: "fff"
+  id: "life_count_txt"
+  parent: "life"
+  layer: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 14.0
+    y: -4.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+  }
+  type: TYPE_TEXT
+  text: "x"
+  font: "fff"
+  id: "x1"
+  parent: "life"
+  layer: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 14.0
+    y: 321.0
+  }
+  size {
+    x: 24.0
+    y: 24.0
+  }
+  type: TYPE_BOX
+  texture: "game/prop_apple_idle"
+  id: "apples"
+  layer: "gfx"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 24.0
+    y: 1.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+  }
+  type: TYPE_TEXT
+  text: "0"
+  font: "fff"
+  id: "apple_count_txt"
+  parent: "apples"
+  layer: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 14.0
+    y: 1.0
+  }
+  size {
+    x: 20.0
+    y: 20.0
+  }
+  type: TYPE_TEXT
+  text: "x"
+  font: "fff"
+  id: "x"
+  parent: "apples"
+  layer: "text"
+  inherit_alpha: true
 }
 layers {
   name: "text"
 }
 layers {
-  name: "font"
+  name: "gfx"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

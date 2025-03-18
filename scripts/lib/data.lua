@@ -1,15 +1,15 @@
-local const       = require("scripts.lib.const")
+local const          = require("scripts.lib.const")
 
-local data        = {}
+local data           = {}
 
-data.map_width    = 0
-data.map_height   = 0
-data.map          = {}
-data.map_objects  = {}
+data.map_width       = 0
+data.map_height      = 0
+data.map             = {}
+data.map_objects     = {}
 
-data.props        = {}
-data.moving_props = {}
-
+data.props           = {}
+data.moving_props    = {}
+data.collected_props = {} -- keep track of falling platforms.
 
 data.enemies         = {}
 data.backgrounds     = {}
@@ -21,31 +21,33 @@ data.directions      = {}
 data.shader_time     = vmath.vector4(0)
 data.dt              = vmath.vector4(0)
 
--- Audio
-
-
-data.debug  = {
+-- Debug
+data.debug           = {
 	profiler  = false,
 	colliders = true,
 	imgui     = true,
 	init      = sys.get_config_int("platformer.debug", 1) == 1 and true or false
 }
 
-data.game   = {
+data.game            = {
 	state = {
 		pause          = false,
 		input_pause    = false,
 		skip_colliders = false
 	},
 	level = 1,
-	is_music = false
+	is_music_playing = false,
+	is_music = true,
+	is_sound_fx = true,
 }
 
-data.player = {
-	position          = vmath.vector3(),
-	initial_position  = vmath.vector3(),
+data.player          = {
+	position          = vmath.vector3(0.9), -- <- Z position
+	initial_position  = vmath.vector3(0.9),
 	aabb_id           = -1,
 	velocity          = vmath.vector3(0, 0, 0),
+	collected_apples  = 0,
+	health            = const.PLAYER.HEALTH,
 	direction         = 0,
 	current_direction = 0,
 	gravity_down      = 0,
@@ -67,13 +69,14 @@ data.player = {
 		is_walking         = false,
 		is_sliding         = false,
 		is_falling         = false,
+		is_hit             = false,
 		over_platform      = false,
 		on_moving_platform = false
 
 	}
 }
 
-data.camera = {
+data.camera          = {
 	zoom          = 0,
 	position      = vmath.vector3(),
 	base_position = vmath.vector3(),
@@ -81,39 +84,10 @@ data.camera = {
 	view          = vmath.matrix4()
 }
 
-function data.reset_checkpoints()
-	data.checkpoints     = {}
-	data.last_checkpoint = 0
-end
-
-function data.check_checkpoint()
-	local player_z = 0.9
-	if data.last_checkpoint > 0 then
-		data.player.position = vmath.vector3()
-		local checkpoint = data.checkpoints[data.last_checkpoint]
-		data.player.position = vmath.vector3(checkpoint.x, checkpoint.y, player_z)
-		data.player.position.z = player_z
-		data.player.position.y = data.player.position.y - const.PLAYER.HALF_SIZE.h
-		data.player.position.x = data.player.position.x + 10
-
-		for _, checkpoint in pairs(data.checkpoints) do
-			if checkpoint.active then
-				local checkpoint_prop = data.props[checkpoint.aabb_id]
-				checkpoint_prop.fn(checkpoint_prop)
-			end
-		end
-	end
-end
-
-function data.toggle_game_pause(state)
-	print(state)
+function data.set_game_pause(state)
 	data.game.state.pause = state
-
-	if state then
-		daabbcc.run(false)
-	else
-		daabbcc.run(true)
-	end
+	daabbcc.run(not state)
+	msg.post(const.URLS.GUI, const.MSG.GAME_PAUSE)
 end
 
 function data.final()
@@ -127,15 +101,18 @@ function data.final()
 	for _, enemy in pairs(data.enemies) do
 		go.delete(enemy.id)
 	end
-	data.shader_time  = vmath.vector4(0)
-	data.enemies      = {}
-	data.directions   = {}
-	data.props        = {}
-	data.moving_props = {}
 
-	data.map_objects  = {}
-	data.map          = {}
-	data.enemies      = {}
+	data.shader_time             = vmath.vector4(0)
+	data.enemies                 = {}
+	data.directions              = {}
+	data.props                   = {}
+	data.moving_props            = {}
+	data.collected_props         = {}
+	data.player.collected_apples = 0
+
+	data.map_objects             = {}
+	data.map                     = {}
+	data.enemies                 = {}
 end
 
 return data

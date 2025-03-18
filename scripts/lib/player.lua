@@ -4,6 +4,7 @@ local collision          = require("scripts.lib.collision")
 local player_collisions  = require("scripts.lib.player_collisions")
 local player_input       = require("scripts.lib.player_input")
 local audio              = require("scripts.lib.audio")
+local checkpoint         = require("scripts.props.checkpoint")
 
 local player             = {}
 
@@ -25,7 +26,9 @@ local is_enemy           = false
 local is_collectable     = false
 
 function player.init()
-	--data.check_checkpoint()
+	checkpoint.check()
+
+
 	local player_ids               = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
 	local player_sprite            = msg.url(player_ids[hash("/player")])
 	player_sprite.fragment         = "sprite"
@@ -80,8 +83,7 @@ function player.update(dt)
 	-- Update aabb position with new position before query so we are checking for next frame
 	collision.update_aabb(data.player.aabb_id, data.player.position.x, data.player.position.y, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h)
 
-	-- Player to tiles collision
-	tile_query_results, tile_query_count = collision.tiles(data.player.aabb_id)
+
 
 	---------------------
 	-- SLOPE
@@ -96,6 +98,10 @@ function player.update(dt)
 	---------------------
 	-- TILE(MAP) QUERY
 	---------------------
+
+	-- Player to tiles collision
+	tile_query_results, tile_query_count = collision.tiles(data.player.aabb_id)
+
 	if tile_query_results then
 		for i = 1, tile_query_count do
 			query_result = tile_query_results[i]
@@ -144,9 +150,6 @@ function player.update(dt)
 			---------------------------------------
 			-- Side (Left / Right) Collision: normal_x == 1 or normal_x == -1
 			---------------------------------------
-
-
-
 			if (query_result.normal_x == 1 or query_result.normal_x == -1)
 				and is_collectable == false
 				and not data.player.state.on_slope
@@ -165,8 +168,6 @@ function player.update(dt)
 				query_enemy.fn(query_enemy, query_result)
 			end
 
-
-
 			-- end for
 		end
 	elseif not data.player.state.on_slope and not data.player.state.over_platform then -- no result
@@ -179,15 +180,29 @@ function player.update(dt)
 	go.set_position(data.player.position, data.player.ids.CONTAINER)
 end
 
-function player.final()
+function player.final(reset_health)
+	--reset_health = reset_health and reset_health or false
+	if reset_health then
+		data.player.health = const.PLAYER.HEALTH
+		msg.post(const.URLS.GUI, const.MSG.PLAYER_HEALTH_UPDATE)
+
+		data.player.collected_apples = 0
+		msg.post(const.URLS.GUI, const.MSG.COLLECT)
+	end
+
 	collision.remove(data.player.aabb_id)
+
 	go.delete(data.player.ids.CONTAINER)
+
+	is_collectable                 = false
+	is_prop                        = false
+	is_enemy                       = false
+
 	data.player.velocity           = vmath.vector3()
 	data.player.direction          = 0
 	data.player.current_direction  = 0
+	data.player.is_hit             = false
 
-	is_collectable                 = false
-	data.player.velocity           = vmath.vector3()
 	data.player.state.on_slope     = false
 	data.player.state.jump_pressed = false
 	data.player.state.is_jumping   = false

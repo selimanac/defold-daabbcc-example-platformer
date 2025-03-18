@@ -5,6 +5,7 @@ local player_state = require("scripts.lib.player_state")
 local water        = {}
 
 function water.enter(prop, query_result)
+	print("water prop.status", prop.status)
 	if prop.status == false then
 		prop.status = true
 
@@ -24,6 +25,7 @@ function water.enter(prop, query_result)
 
 		timer.delay(0.3, false, function()
 			player_state.die()
+			prop.status = false
 		end)
 	end
 end

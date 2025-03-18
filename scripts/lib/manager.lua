@@ -12,6 +12,7 @@ local props        = require("scripts.lib.props")
 local camera_fx    = require("scripts.lib.camera_fx")
 local player_input = require("scripts.lib.player_input")
 local audio        = require("scripts.lib.audio")
+local checkpoint   = require("scripts.props.checkpoint")
 
 local manager      = {}
 
@@ -66,6 +67,11 @@ function manager.init()
 	player.init()
 	game_camera.init()
 
+	if defos and defos.is_fullscreen() == false then
+		defos.set_fullscreen(true)
+		defos.set_borderless(true)
+		defos.activate()
+	end
 
 	if data.debug.init then
 		debug.init()
@@ -106,19 +112,21 @@ end
 
 function manager.message(message_id, message, sender)
 	if message_id == const.MSG.RESTART then
-		print("RESTART")
+		checkpoint.reset()
 		manager.final()
 		manager.init()
-		--[[elseif message_id == const.MSG.PLAYER_DEATH then
-		player.final()
-		player.init()]]
+	elseif message_id == const.MSG.PLAYER_DIE then
+		player.final(false)
+		props.set_collected()
+		collect_garbage()
+		player.init()
 	end
 end
 
 function manager.final()
 	particles.final()
 	map.final()
-	player.final()
+	player.final(true)
 	data.final()
 	collision.final()
 end

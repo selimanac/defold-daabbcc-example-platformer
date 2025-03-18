@@ -143,14 +143,13 @@ function map.load(level)
 				local local_tile_id, hflip, vflip, rotation = tile_flip(object_data.gid) -- generic gid flip and rotate for tiles only
 
 				local properties = utils.set_object_properties(object_data.properties)
-
 				props.add(object_data, hflip, vflip, properties)
 			end
 		end
 
-		----------------------
+		--------------------------------------
 		-- Entities (Player, enemies...)
-		----------------------
+		--------------------------------------
 		if layer.name == "entities" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
@@ -159,19 +158,17 @@ function map.load(level)
 
 				if object_data.type == "ENEMY" then
 					local properties = utils.set_object_properties(object_data.properties)
-
 					enemies.add(object_data, hflip, vflip, properties)
 				end
 
 				-- Player init position
 				if object_data.name == "PLAYER" then
-					local player_z = 0.9
+					data.player.position = vmath.vector3(object_data.x + (object_data.width / 2), (data.map_height - object_data.y) - (object_data.height / 2), data.player.position.z)
 
-					data.player.position = vmath.vector3(object_data.x + (object_data.width / 2), (data.map_height - object_data.y) - (object_data.height / 2), player_z)
 					data.player.initial_position = data.player.position
 
 					-- Checkpoints
-					data.check_checkpoint()
+					--data.check_checkpoint()
 				end
 			end
 		end

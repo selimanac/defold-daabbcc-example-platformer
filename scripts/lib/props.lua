@@ -3,30 +3,49 @@ local data              = require("scripts.lib.data")
 local collision         = require("scripts.lib.collision")
 local utils             = require("scripts.lib.utils")
 local entities          = require("scripts.lib.entities")
+local checkpoint        = require("scripts.props.checkpoint")
 
 local props             = {}
 
 local prop_query_result = {}
 local prop_direction    = 0
 
+function props.set_collected()
+	for _, prop in ipairs(data.collected_props) do
+		prop.status = false
+		prop.id = factory.create(prop.factory, prop.position, prop.rotation, nil, prop.scale)
+		prop.sprite = msg.url(prop.id)
+		prop.sprite.fragment = "sprite"
+
+		if not prop.is_fixed then
+			prop.aabb_id = collision.insert_gameobject(prop.id, prop.collider_size.width, prop.collider_size.height, prop.collision_bit)
+		else
+			prop.aabb_id = collision.insert_aabb(prop.center.x, prop.center.y, prop.collider_size.width, prop.collider_size.height, prop.collision_bit)
+		end
+
+		data.props[prop.aabb_id] = prop
+	end
+
+	data.collected_props = {}
+end
+
 function props.add(object_data, hflip, vflip, properties)
 	hflip = hflip and hflip or false
 	vflip = vflip and vflip or false
 
-	-- Object rotation
-	local rotation = utils.object_rotate(object_data)
-
 	-- Copy from table
 	local prop = utils.table_copy(entities.PROP[object_data.type])
 
+	prop.rotation = utils.object_rotate(object_data)
+
 	-- Scale water and waterfall quads
-	local object_scale = vmath.vector3(1)
+	prop.scale = vmath.vector3(1)
 	if object_data.type == "WATER" or object_data.type == "WATERFALL" then
 		prop.size.width = object_data.width
 		prop.size.height = object_data.height
 		prop.collider_size.width = object_data.width
 		prop.collider_size.height = object_data.height
-		object_scale = vmath.vector3(prop.size.width / 2, prop.size.height / 2, 1)
+		prop.scale = vmath.vector3(prop.size.width / 2, prop.size.height / 2, 1)
 	end
 
 	prop.name = object_data.name
@@ -37,8 +56,9 @@ function props.add(object_data, hflip, vflip, properties)
 	prop.center.y = (data.map_height - object_data.y) + (prop.size.height / 2)
 	prop.position = vmath.vector3(prop.center.x, prop.center.y, 0.1)
 
+
 	-- factory
-	prop.id = factory.create(prop.factory, prop.position, rotation, nil, object_scale)
+	prop.id = factory.create(prop.factory, prop.position, prop.rotation, nil, prop.scale)
 	prop.sprite = msg.url(prop.id)
 	prop.sprite.fragment = "sprite"
 
@@ -53,15 +73,14 @@ function props.add(object_data, hflip, vflip, properties)
 			particlefx.play(prop.pfx)
 		end
 
-		go.set(prop.model, "uResolution", vmath.vector4(object_scale.x, object_scale.y, 1, 1))
-	else
-		-- Only set if it is sprite
+		go.set(prop.model, "uResolution", vmath.vector4(prop.scale.x, prop.scale.y, 1, 1))
+	else -- Only set if it is sprite
 		-- h-v flip
 		utils.flip_object_sprite(prop.sprite, hflip, vflip)
 	end
 
 	-- rotate collider
-	utils.rotate_object_collider(rotation, prop)
+	utils.rotate_object_collider(prop.rotation, prop)
 
 	-- apply offset
 	prop.center.x = prop.center.x - prop.offset.x
@@ -75,28 +94,8 @@ function props.add(object_data, hflip, vflip, properties)
 	end
 
 	-- add checkpoints
-	-- TODO THIS HAS PROBLEM
-	-- TODO MOVE THIS TO IT IS OWN LUA
 	if object_data.type == "CHECKPOINT" then
-		local checkpoint = {
-			position = prop.position,
-			x = prop.position.x,
-			y = prop.position.y,
-			active = false,
-			aabb_id = prop.aabb_id,
-			id = prop.id
-		}
-
-		if data.last_checkpoint == 0 then
-			data.checkpoints[object_data.id] = checkpoint
-		else
-			-- just update the aabb id
-			data.checkpoints[object_data.id].aabb_id = prop.aabb_id
-		end
-
-		prop.data = {
-			checkpoint_id = object_data.id
-		}
+		checkpoint.add(prop, object_data)
 	end
 
 	--add to props table
@@ -109,7 +108,7 @@ function props.add(object_data, hflip, vflip, properties)
 end
 
 function props.update(dt)
-	for _, prop in ipairs(data.props) do
+	for _, prop in ipairs(data.moving_props) do
 		if not prop.is_fixed and prop.status == false then
 			-- there is a Vsyc problem going on here.....
 			-- If Vsyc is set to ON there is a interpolation or timing mismatches.

@@ -11,11 +11,11 @@ function finish.enter(prop, query_result)
 	if prop.status == false then
 		prop.status = true
 		audio.play(const.AUDIO.END)
-		data.reset_checkpoints()
+		--data.reset_checkpoints()
 		collision.remove(prop.aabb_id)
 		--	data.props[prop.aabb_id] = nil
 		camera_fx.shake(2, 4)
-		player_state.die()
+		player_state.die(true)
 	end
 end
 

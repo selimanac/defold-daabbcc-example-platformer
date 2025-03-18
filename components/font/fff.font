@@ -1,0 +1,5 @@
+font: "/assets/font/ffff.ttf"
+material: "/builtins/fonts/font.material"
+size: 8
+antialias: 0
+characters: "1234567890xX"

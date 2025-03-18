@@ -35,7 +35,8 @@ function player_input.vertical_movement(dt)
 				if not data.player.state.is_falling and not data.player.state.is_sliding then
 					player_state.fall()
 				end
-				data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
+				--data.player.velocity.y = data.player.velocity.y + data.player.gravity_down * dt
+				data.player.velocity.y = math.max(data.player.velocity.y + data.player.gravity_down * dt, const.PLAYER.MAX_VELOCITY_Y)
 			end
 		end
 	end

@@ -4,8 +4,8 @@ local audio             = require("scripts.lib.audio")
 
 local particles         = {}
 
-local GRAVITY           = -900 -- gravity (pixels/sec²); adjust as needed
-local DEFAULT_LIFETIME  = 1.0  -- seconds
+local GRAVITY           = -900
+local DEFAULT_LIFETIME  = 1.0
 
 local spawned_particles = {}
 
@@ -25,10 +25,9 @@ function particles.spawn(ids, count, gravity, life_time, collectable)
 
 		local angle = math.rad(rnd.range(70, 110)) --rnd.double() * math.pi
 		local speed = rnd.range(150, 250)
-
 		local collision_bit = collectable and const.COLLISION_BITS.PROP or const.COLLISION_BITS.PARTICLES
-
 		local aabb_id = collision.insert_gameobject(part_id, sprite_size.x, sprite_size.y, collision_bit, false)
+
 		local particle = {
 			pos = vmath.vector3(position.x, position.y, 0),
 			vel = vmath.vector3(math.cos(angle) * speed, math.sin(angle) * speed, 0),
@@ -70,7 +69,8 @@ function particles.update(dt)
 						particle.on_ground = true
 					end
 
-					particle.pos = particle.pos + vmath.vector3(offset_x, offset_y, particle.pos.z)
+					particle.pos.x = particle.pos.x + offset_x
+					particle.pos.y = particle.pos.y + offset_y
 				end
 			end
 

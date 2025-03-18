@@ -9,7 +9,6 @@ local enemies         = {}
 local query_result    = {}
 local enemy_direction = 0
 
-
 function enemies.add(object_data, hflip, vflip, properties)
 	hflip = hflip and hflip or false
 	vflip = vflip and vflip or false

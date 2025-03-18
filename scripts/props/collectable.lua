@@ -10,6 +10,8 @@ function collectable.enter(prop, query_result)
 		audio.play(const.AUDIO.COLLECT)
 		prop.status = true
 		collision.remove(prop.aabb_id)
+		data.player.collected_apples = data.player.collected_apples + 1
+		msg.post(const.URLS.GUI, const.MSG.COLLECT)
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			go.delete(prop.id)
 		end)
