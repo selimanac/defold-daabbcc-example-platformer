@@ -28,6 +28,9 @@ images {
 images {
   image: "/assets/pixel_adventure/Menu/Buttons/pause.png"
 }
+images {
+  image: "/assets/pixel_adventure/Menu/Buttons/Volume.png"
+}
 animations {
   id: "pink_man_player_idle"
   images {

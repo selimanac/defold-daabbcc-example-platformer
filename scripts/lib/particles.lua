@@ -87,7 +87,7 @@ function particles.update(dt)
 
 				go.animate(particle.sprite_url, "tint", go.PLAYBACK_ONCE_PINGPONG, vmath.vector4(1, 1, 1, 3), go.EASING_INCIRC, 0.2, 0, function()
 					collision.remove(particle.aabb_id)
-					go.delete(particle.id)
+					go.delete(particle.id, true)
 					spawned_particles[aabb_id] = nil
 				end)
 			end

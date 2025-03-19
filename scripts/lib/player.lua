@@ -28,6 +28,7 @@ local is_collectable     = false
 function player.init()
 	checkpoint.check()
 
+	print("PLAYER INIT")
 
 	local player_ids               = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
 	local player_sprite            = msg.url(player_ids[hash("/player")])
@@ -181,6 +182,7 @@ function player.update(dt)
 end
 
 function player.final(reset_health)
+	print("PLAYER FINAL")
 	--reset_health = reset_health and reset_health or false
 	if reset_health then
 		data.player.health = const.PLAYER.HEALTH
@@ -192,7 +194,9 @@ function player.final(reset_health)
 
 	collision.remove(data.player.aabb_id)
 
-	go.delete(data.player.ids.CONTAINER)
+	go.delete(data.player.ids.CONTAINER, true)
+
+	data.player.ids.CONTAINER      = nil
 
 	is_collectable                 = false
 	is_prop                        = false

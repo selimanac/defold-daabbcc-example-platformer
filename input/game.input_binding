@@ -188,11 +188,11 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_LSTICK_DOWN
-  action: "gamepad_lstick_down"
+  action: "GAMEPAD_LSTICK_DOWN"
 }
 gamepad_trigger {
   input: GAMEPAD_LSTICK_UP
-  action: "gamepad_lstick_up"
+  action: "GAMEPAD_LSTICK_UP"
 }
 gamepad_trigger {
   input: GAMEPAD_LSTICK_CLICK
@@ -256,7 +256,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_RIGHT
-  action: "JUMP"
+  action: "GAMEPAD_RPAD_RIGHT"
 }
 gamepad_trigger {
   input: GAMEPAD_RPAD_DOWN
@@ -268,7 +268,7 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_START
-  action: "gamepad_start"
+  action: "GAMEPAD_START"
 }
 gamepad_trigger {
   input: GAMEPAD_BACK
@@ -280,11 +280,11 @@ gamepad_trigger {
 }
 gamepad_trigger {
   input: GAMEPAD_CONNECTED
-  action: "gamepad_connected"
+  action: "GAMEPAD_CONNECTED"
 }
 gamepad_trigger {
   input: GAMEPAD_DISCONNECTED
-  action: "gamepad_disconnected"
+  action: "GAMEPAD_DISCONNECTED"
 }
 touch_trigger {
   input: TOUCH_MULTI

@@ -1,20 +1,76 @@
-local data  = require("scripts.lib.data")
-local const = require("scripts.lib.const")
+local data                       = require("scripts.lib.data")
+local const                      = require("scripts.lib.const")
 
-local nodes = {
+local nodes                      = {
 	restart_btn = 0,
 	pause_btn = 0,
 	pause_box = 0,
 	play_btn = 0,
 	apple_count_txt = 0,
-	life_count_txt = 0
+	life_count_txt = 0,
+	mouse_menu = 0,
+	audio_btn = 0,
+	gamepad_menu = 0,
+	gamepad_restart_btn = 0,
+	gamepad_audio_btn = 0,
+	gamepad_status = 0
 }
+
+local gamepad_status_text        = {
+	CONNECTED = "GAMEPAD CONNECTED",
+	DISCONNECTED = "GAMEPAD DISCONNECTED"
+}
+local upscale                    = vmath.vector3(1.5)
+local scale                      = vmath.vector3(1)
+
+local is_gamepad_menu            = false
+local gamepad_menu_selected      = 0
+local gamepad_menu_selected_item = nil
+
+local function game_restart()
+	data.game.state.input_pause = true
+	data.game.state.skip_colliders = true
+	msg.post(const.URLS.GAME, const.MSG.RESTART)
+end
+
+local function toggle_audio()
+	data.set_audio(not data.game.is_music)
+	msg.post(const.URLS.GAME, const.MSG.TOGGLE_AUDIO)
+end
+
+local gamepad_menu_items = {
+	[1] = {
+		node = "gamepad_restart_btn",
+		fn = game_restart
+	},
+	[2] = {
+		node = "gamepad_audio_btn",
+		fn = toggle_audio
+	}
+}
+
+
+local function selet_gamepad_menu_item()
+	if gamepad_menu_selected_item then
+		gui.set_color(gamepad_menu_selected_item.node, vmath.vector3(1))
+	end
+
+	gamepad_menu_selected_item = gamepad_menu_items[gamepad_menu_selected]
+
+	if gamepad_menu_selected_item and gamepad_menu_selected_item.node then
+		gui.set_color(gamepad_menu_selected_item.node, vmath.vector3(1, 1, 0))
+	end
+end
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
 
 	for key, node in pairs(nodes) do
 		nodes[key] = gui.get_node(key)
+	end
+
+	for i, item in ipairs(gamepad_menu_items) do
+		item.node = gui.get_node(item.node)
 	end
 end
 
@@ -34,9 +90,7 @@ local function set_pause()
 	gui.set_enabled(nodes.pause_box, data.game.state.pause)
 end
 
-local upscale      = vmath.vector3(1.5)
-local scale        = vmath.vector3(1)
-local is_animating = false
+
 local function collect()
 	if not is_animating then
 		is_animating = true
@@ -56,13 +110,14 @@ local function remove_health()
 		is_animating = false
 	end, gui.PLAYBACK_ONCE_PINGPONG)
 
-
 	gui.set_text(nodes.life_count_txt, data.player.health)
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == const.MSG.GAME_PAUSE then
-		set_pause()
+		if not is_gamepad_menu then
+			set_pause()
+		end
 	elseif message_id == const.MSG.COLLECT then
 		collect()
 	elseif message_id == const.MSG.PLAYER_HEALTH_UPDATE then
@@ -70,21 +125,86 @@ function on_message(self, message_id, message, sender)
 	end
 end
 
+local function gamepad_status()
+	window.set_mouse_lock(data.game.is_gamepad_connected)
+	gui.set_enabled(nodes.mouse_menu, not data.game.is_gamepad_connected)
+
+	local status = data.game.is_gamepad_connected and gamepad_status_text.CONNECTED or gamepad_status_text.DISCONNECTED
+
+	gui.set_enabled(nodes.gamepad_status, true)
+	gui.set_text(nodes.gamepad_status, status)
+	local status_txt_position = gui.get_position(nodes.gamepad_status)
+	gui.animate(nodes.gamepad_status, "position.y", math.abs(status_txt_position.y), gui.EASING_INSINE, 0.5, 0, function()
+		gui.animate(nodes.gamepad_status, "position.y", status_txt_position.y, gui.EASING_OUTCIRC, 0.5, 1, function()
+			gui.set_enabled(nodes.gamepad_status, false)
+			gui.set_position(nodes.gamepad_status, status_txt_position)
+		end, gui.PLAYBACK_ONCE_FORWARD)
+	end, gui.PLAYBACK_ONCE_FORWARD)
+end
+
+
+local function toggle_gamepad_menu()
+	is_gamepad_menu = not is_gamepad_menu
+	data.set_game_pause(not data.game.state.pause)
+	gui.set_enabled(nodes.gamepad_menu, is_gamepad_menu)
+end
+
+
+
+
+
+
+
+
 -- TODO: CHECK FOR GAMEPAD CONNECTED
 function on_input(self, action_id, action)
+	-- Gamepad
+	if action_id == const.TRIGGERS.GAMEPAD_CONNECTED then
+		data.game.is_gamepad_connected = true
+		gamepad_status()
+	elseif action_id == const.TRIGGERS.GAMEPAD_DISCONNECTED then
+		data.game.is_gamepad_connected = false
+		gamepad_status()
+	elseif data.game.is_gamepad_connected then
+		if action_id == const.TRIGGERS.GAMEPAD_START and action.pressed then
+			-- Trigger Menu
+			toggle_gamepad_menu()
+		elseif action_id == const.TRIGGERS.JUMP and action.pressed and data.game.state.pause == true and not is_gamepad_menu then
+			data.set_game_pause(not data.game.state.pause)
+		end
+	end
+
 	if action_id == const.TRIGGERS.MOUSE_BUTTON_LEFT and action.pressed then
 		if not data.game.state.pause then
 			if gui.pick_node(nodes.restart_btn, action.x, action.y) then
-				data.game.state.input_pause = true
-				data.game.state.skip_colliders = true
-				msg.post(const.URLS.GAME, const.MSG.RESTART)
+				game_restart()
 			elseif gui.pick_node(nodes.pause_btn, action.x, action.y) then
 				data.set_game_pause(not data.game.state.pause)
+			elseif gui.pick_node(nodes.audio_btn, action.x, action.y) then
+				toggle_audio()
 			end
 		else
 			if gui.pick_node(nodes.play_btn, action.x, action.y) then
 				data.set_game_pause(not data.game.state.pause)
 			end
+		end
+	end
+
+	if is_gamepad_menu then
+		if action.pressed then
+			if action_id == const.TRIGGERS.GAMEPAD_LSTICK_UP then
+				--	gamepad_menu_selected = math.min(gamepad_menu_selected + 1, 2)
+				gamepad_menu_selected = (gamepad_menu_selected == 2) and 1 or 2
+			elseif action_id == const.TRIGGERS.GAMEPAD_LSTICK_DOWN then
+				--	gamepad_menu_selected = math.max(gamepad_menu_selected - 1, 1)
+				gamepad_menu_selected = (gamepad_menu_selected == 1) and 2 or 1
+			elseif action_id == const.TRIGGERS.JUMP then
+				gamepad_menu_selected_item.fn()
+				toggle_gamepad_menu()
+			elseif action_id == const.TRIGGERS.GAMEPAD_RPAD_RIGHT then
+				toggle_gamepad_menu()
+			end
+			selet_gamepad_menu_item()
 		end
 	end
 end

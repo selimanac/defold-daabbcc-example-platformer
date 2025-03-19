@@ -54,7 +54,7 @@ function manager.init()
 	msg.post("@render:", "clear_color", { color = const.BACKGROUND_COLOR })
 
 	setup_urls()
-
+	print("MANAGER_INIT")
 	if defos then
 		const.DISPLAY_WIDTH  = sys.get_config_number("defos.view_width")
 		const.DISPLAY_HEIGHT = sys.get_config_number("defos.view_height")
@@ -112,14 +112,22 @@ end
 
 function manager.message(message_id, message, sender)
 	if message_id == const.MSG.RESTART then
+		print("RESTART")
 		checkpoint.reset()
 		manager.final()
 		manager.init()
 	elseif message_id == const.MSG.PLAYER_DIE then
+		print("PLAYER_DIE")
 		player.final(false)
 		props.set_collected()
 		collect_garbage()
 		player.init()
+	elseif const.MSG.TOGGLE_AUDIO then
+		if not data.game.is_music then
+			audio.stop_music()
+		else
+			audio.play_music()
+		end
 	end
 end
 

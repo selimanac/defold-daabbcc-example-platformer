@@ -1,20 +1,30 @@
-local const          = require("scripts.lib.const")
+local const = require("scripts.lib.const")
+
 
 local data           = {}
 
+-- Tile map
 data.map_width       = 0
 data.map_height      = 0
 data.map             = {}
 data.map_objects     = {}
 
+-- Props
 data.props           = {}
 data.moving_props    = {}
 data.collected_props = {} -- keep track of falling platforms.
 
+-- Enemies
 data.enemies         = {}
+
+-- Background images
 data.backgrounds     = {}
+
+-- Checkpoints
 data.checkpoints     = {}
 data.last_checkpoint = 0
+
+-- Map directions
 data.directions      = {}
 
 -- Shaders
@@ -39,6 +49,7 @@ data.game            = {
 	is_music_playing = false,
 	is_music = true,
 	is_sound_fx = true,
+	is_gamepad_connected = false,
 }
 
 data.player          = {
@@ -88,6 +99,11 @@ function data.set_game_pause(state)
 	data.game.state.pause = state
 	daabbcc.run(not state)
 	msg.post(const.URLS.GUI, const.MSG.GAME_PAUSE)
+end
+
+function data.set_audio(state)
+	data.game.is_sound_fx = state
+	data.game.is_music = state
 end
 
 function data.final()

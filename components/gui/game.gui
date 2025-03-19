@@ -9,30 +9,6 @@ textures {
 }
 nodes {
   position {
-    x: 615.0
-    y: 339.0
-  }
-  type: TYPE_BOX
-  texture: "game/Restart"
-  id: "restart_btn"
-  layer: "gfx"
-  inherit_alpha: true
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
-    x: 588.0
-    y: 339.0
-  }
-  type: TYPE_BOX
-  texture: "game/pause"
-  id: "pause_btn"
-  layer: "gfx"
-  inherit_alpha: true
-  size_mode: SIZE_MODE_AUTO
-}
-nodes {
-  position {
     x: 320.0
     y: 180.0
   }
@@ -160,6 +136,127 @@ nodes {
   id: "x"
   parent: "apples"
   layer: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 180.0
+  }
+  size {
+    x: 640.0
+    y: 360.0
+  }
+  color {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  type: TYPE_BOX
+  id: "gamepad_menu"
+  inherit_alpha: true
+  alpha: 0.3
+  size_mode: SIZE_MODE_AUTO
+  enabled: false
+}
+nodes {
+  position {
+    x: -1.0
+    y: 18.0
+  }
+  size {
+    x: 32.0
+    y: 32.0
+  }
+  type: TYPE_BOX
+  texture: "game/Restart"
+  id: "gamepad_restart_btn"
+  parent: "gamepad_menu"
+  layer: "gfx"
+}
+nodes {
+  position {
+    x: -1.0
+    y: -17.0
+  }
+  size {
+    x: 32.0
+    y: 32.0
+  }
+  type: TYPE_BOX
+  texture: "game/Volume"
+  id: "gamepad_audio_btn"
+  parent: "gamepad_menu"
+  layer: "gfx"
+}
+nodes {
+  position {
+    x: 590.0
+    y: 335.0
+  }
+  size {
+    x: 100.0
+    y: 50.0
+  }
+  type: TYPE_BOX
+  id: "mouse_menu"
+  layer: "gfx"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+  visible: false
+}
+nodes {
+  position {
+    x: 34.0
+    y: 9.0
+  }
+  type: TYPE_BOX
+  texture: "game/Restart"
+  id: "restart_btn"
+  parent: "mouse_menu"
+  layer: "gfx"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 10.0
+    y: 9.0
+  }
+  type: TYPE_BOX
+  texture: "game/pause"
+  id: "pause_btn"
+  parent: "mouse_menu"
+  layer: "gfx"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: -14.0
+    y: 9.0
+  }
+  type: TYPE_BOX
+  texture: "game/Volume"
+  id: "audio_btn"
+  parent: "mouse_menu"
+  layer: "gfx"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 320.0
+    y: -30.0
+  }
+  size {
+    x: 150.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "GAMEPAD CONNECTED"
+  font: "fff"
+  id: "gamepad_status"
   inherit_alpha: true
 }
 layers {

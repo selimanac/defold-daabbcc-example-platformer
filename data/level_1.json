@@ -30,7 +30,7 @@
          "name":"map",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":300,
          "x":0,
          "y":0
@@ -1218,7 +1218,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -4118,7 +4118,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -4138,7 +4138,7 @@
                  "visible":true,
                  "width":32,
                  "x":288,
-                 "y":244
+                 "y":240
                 }, 
                 {
                  "gid":263,
@@ -4591,7 +4591,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }],

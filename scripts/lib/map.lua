@@ -166,9 +166,6 @@ function map.load(level)
 					data.player.position = vmath.vector3(object_data.x + (object_data.width / 2), (data.map_height - object_data.y) - (object_data.height / 2), data.player.position.z)
 
 					data.player.initial_position = data.player.position
-
-					-- Checkpoints
-					--data.check_checkpoint()
 				end
 			end
 		end

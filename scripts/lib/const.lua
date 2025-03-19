@@ -89,8 +89,12 @@ const.TRIGGERS         = {
 	MOVE_RIGHT = hash("MOVE_RIGHT"),
 	JUMP = hash("JUMP"),
 	MOUSE_BUTTON_LEFT = hash("MOUSE_BUTTON_LEFT"),
-	GAMEPAD_CONNECTED = hash("gamepad_connected"),
-	GAMEPAD_DISCONNECTED = hash("gamepad_disconnected")
+	GAMEPAD_CONNECTED = hash("GAMEPAD_CONNECTED"),
+	GAMEPAD_DISCONNECTED = hash("GAMEPAD_DISCONNECTED"),
+	GAMEPAD_START = hash("GAMEPAD_START"),
+	GAMEPAD_LSTICK_DOWN = hash("GAMEPAD_LSTICK_DOWN"),
+	GAMEPAD_LSTICK_UP = hash("GAMEPAD_LSTICK_UP"),
+	GAMEPAD_RPAD_RIGHT = hash("GAMEPAD_RPAD_RIGHT")
 }
 
 const.URLS             = {
@@ -109,7 +113,8 @@ const.MSG              = {
 	PLAYER_DIE = hash("player_die"),
 	GAME_PAUSE = hash("game_pause"),
 	COLLECT = hash("collect"),
-	PLAYER_HEALTH_UPDATE = hash("player_health_update")
+	PLAYER_HEALTH_UPDATE = hash("player_health_update"),
+	TOGGLE_AUDIO = hash("toggle_audio")
 }
 
 const.AUDIO            = {

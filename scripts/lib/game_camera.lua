@@ -47,19 +47,11 @@ function game_camera.set_zoom(size)
 	go.set(const.URLS.CAMERA_ID, "orthographic_zoom", new_camera_zoom)
 end
 
--- TODO PAUSE
 local function window_resized(self, event, size)
 	if event == window.WINDOW_EVENT_FOCUS_LOST then
-		print("window.WINDOW_EVENT_FOCUS_LOST")
-
 		data.set_game_pause(true)
-	elseif event == window.WINDOW_EVENT_FOCUS_GAINED then
-		print("window.WINDOW_EVENT_FOCUS_GAINED")
-		--	data.toggle_game_pause(false)
 	elseif event == window.WINDOW_EVENT_ICONFIED then
-		print("window.WINDOW_EVENT_ICONFIED")
-	elseif event == window.WINDOW_EVENT_DEICONIFIED then
-		print("window.WINDOW_EVENT_DEICONIFIED")
+		data.set_game_pause(true)
 	elseif event == window.WINDOW_EVENT_RESIZED then
 		print("Window resized: ", data.width, data.height)
 		data.set_game_pause(true)

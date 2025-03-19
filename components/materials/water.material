@@ -1,7 +1,7 @@
 name: "water"
 tags: "water"
 vertex_program: "/components/materials/water.vp"
-fragment_program: "/components/materials/water.fp"
+fragment_program: "/components/materials/water_pixel.fp"
 vertex_space: VERTEX_SPACE_LOCAL
 vertex_constants {
   name: "mtx_view"
