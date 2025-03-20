@@ -1,5 +1,5 @@
 emitters {
-  id: "emitter1"
+  id: "splash_left"
   mode: PLAY_MODE_ONCE
   duration: 1.0
   space: EMISSION_SPACE_WORLD
@@ -141,7 +141,7 @@ emitters {
   start_offset: 1.0
 }
 emitters {
-  id: "emitter2"
+  id: "splash_right"
   mode: PLAY_MODE_ONCE
   duration: 1.0
   space: EMISSION_SPACE_WORLD

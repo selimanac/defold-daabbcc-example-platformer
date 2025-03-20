@@ -1,0 +1,47 @@
+script: "/scripts/gui/loading.gui_script"
+fonts {
+  name: "fff"
+  font: "/components/font/fff.font"
+}
+textures {
+  name: "game"
+  texture: "/components/atlas/game.atlas"
+}
+nodes {
+  position {
+    x: 320.0
+    y: 199.0
+  }
+  size {
+    x: 64.0
+    y: 64.0
+  }
+  type: TYPE_BOX
+  texture: "game/virtual_guy_player_idle"
+  id: "guy"
+  inherit_alpha: true
+  alpha: 0.0
+}
+nodes {
+  position {
+    y: -48.0
+  }
+  size {
+    x: 100.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "loading"
+  font: "fff"
+  id: "text"
+  parent: "guy"
+  inherit_alpha: true
+}
+layers {
+  name: "text"
+}
+layers {
+  name: "gfx"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

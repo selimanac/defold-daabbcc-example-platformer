@@ -56,7 +56,6 @@ function props.add(object_data, hflip, vflip, properties)
 	prop.center.y = (data.map_height - object_data.y) + (prop.size.height / 2)
 	prop.position = vmath.vector3(prop.center.x, prop.center.y, 0.1)
 
-
 	-- factory
 	prop.id = factory.create(prop.factory, prop.position, prop.rotation, nil, prop.scale)
 	prop.sprite = msg.url(prop.id)

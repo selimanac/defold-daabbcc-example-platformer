@@ -4,6 +4,8 @@ local const       = require("scripts.lib.const")
 local game_camera = {}
 
 local new_cam_pos = vmath.vector3()
+local is_init     = false
+
 
 local function get_target_camera_pos(cam_pos, player_pos, deadzone)
 	local offset = player_pos - cam_pos
@@ -47,26 +49,36 @@ function game_camera.set_zoom(size)
 	go.set(const.URLS.CAMERA_ID, "orthographic_zoom", new_camera_zoom)
 end
 
-local function window_resized(self, event, size)
+local function window_event(self, event, size)
 	if event == window.WINDOW_EVENT_FOCUS_LOST then
 		data.set_game_pause(true)
 	elseif event == window.WINDOW_EVENT_ICONFIED then
 		data.set_game_pause(true)
 	elseif event == window.WINDOW_EVENT_RESIZED then
-		print("Window resized: ", data.width, data.height)
 		data.set_game_pause(true)
 		game_camera.set_zoom(size)
+		data.window_size = size
+		msg.post(const.URLS.GUI, const.MSG.UPDATE_SIZE)
 	end
 end
 
 function game_camera.init()
 	data.camera.position = data.player.position
 
-	data.camera.zoom = go.get(const.URLS.CAMERA_ID, "orthographic_zoom")
-
 	go.set_position(data.camera.position, const.URLS.CAMERA_CONTAINER)
 
-	window.set_listener(window_resized)
+	if is_init == false then
+		data.camera.zoom = go.get(const.URLS.CAMERA_ID, "orthographic_zoom")
+
+		local x, y, w, h = defos.get_view_size()
+
+		data.window_size.width = w
+		data.window_size.height = h
+		game_camera.set_zoom(data.window_size)
+		window.set_listener(window_event)
+	end
+
+	is_init = true
 end
 
 return game_camera

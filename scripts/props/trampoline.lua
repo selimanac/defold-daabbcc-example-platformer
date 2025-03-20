@@ -8,15 +8,19 @@ local trampoline   = {}
 
 function trampoline.enter(prop, query_result)
 	if query_result.normal_y == 1 and prop.status == false then
-		audio.play(const.AUDIO.TRAMPOLINE)
 		prop.status = true
-		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
-			prop.status = false
-		end)
-		camera_fx.shake(2, 4)
 		data.player.state.on_ground = false
 		data.player.state.jump_pressed = false
 		data.player.velocity.y = const.PLAYER.TRAMPOLINE_JUMP_FORCE
+
+		audio.play(const.AUDIO.TRAMPOLINE)
+
+		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
+			prop.status = false
+		end)
+
+		camera_fx.shake(2, 4)
+
 		player_state.jump(0)
 	end
 end

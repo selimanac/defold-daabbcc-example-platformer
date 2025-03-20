@@ -13,6 +13,7 @@ local camera_fx    = require("scripts.lib.camera_fx")
 local player_input = require("scripts.lib.player_input")
 local audio        = require("scripts.lib.audio")
 local checkpoint   = require("scripts.props.checkpoint")
+local utils        = require("scripts.lib.utils")
 
 local manager      = {}
 
@@ -54,11 +55,6 @@ function manager.init()
 	msg.post("@render:", "clear_color", { color = const.BACKGROUND_COLOR })
 
 	setup_urls()
-	print("MANAGER_INIT")
-	if defos then
-		const.DISPLAY_WIDTH  = sys.get_config_number("defos.view_width")
-		const.DISPLAY_HEIGHT = sys.get_config_number("defos.view_height")
-	end
 
 	collision.init()
 	map.init()
@@ -66,12 +62,6 @@ function manager.init()
 	background.init()
 	player.init()
 	game_camera.init()
-
-	if defos and defos.is_fullscreen() == false then
-		defos.set_fullscreen(true)
-		defos.set_borderless(true)
-		defos.activate()
-	end
 
 	if data.debug.init then
 		debug.init()

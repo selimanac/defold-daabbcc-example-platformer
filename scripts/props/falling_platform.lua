@@ -2,7 +2,6 @@ local audio            = require("scripts.lib.audio")
 local collision        = require("scripts.lib.collision")
 local data             = require("scripts.lib.data")
 local const            = require("scripts.lib.const")
-local utils            = require("scripts.lib.utils")
 
 local falling_platform = {}
 

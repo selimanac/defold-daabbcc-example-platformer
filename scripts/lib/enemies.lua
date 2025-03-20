@@ -57,6 +57,7 @@ function enemies.update(dt)
 	for _, enemy in pairs(data.enemies) do
 		if not enemy.is_fixed and enemy.status == false then
 			go.set_position(enemy.position, enemy.id)
+
 			if not enemy.state.is_moving then
 				enemy.state.is_moving = true
 				enemy.state.is_idle = false

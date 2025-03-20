@@ -17,13 +17,13 @@ local slope_y                   = 0
 local platform_back_ray_result  = {}
 local platform_front_ray_result = {}
 local platform_ray_result       = {} -- merge results from back and front ray
+local platform_ray_count        = 0
 local platform_query            = {}
 local platform_count            = 0
 local platform_query_aabb_id    = 0
 local platform_query_tile       = {}
 local platform_player_offset_y  = 0
 local platform_query_result     = {}
-
 
 ---------------------------------------
 -- Bottom Collision: normal_y == 1
@@ -145,28 +145,27 @@ function player_collisions.platform(dt)
 		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
 		const.COLLISION_BITS.PLATFORM)
 
-
 	if platform_back_ray_result or platform_front_ray_result then
 		-- Maybe I should add a batch raycast function to daabbcc....
 		-- merge ray results
 		platform_ray_result = utils.merge_tables(platform_back_ray_result, platform_front_ray_result)
 
-		platform_query_aabb_id = platform_ray_result[1]
+		for i = 1, #platform_ray_result do
+			platform_query_aabb_id = platform_ray_result[i]
 
-		platform_query_tile = data.map_objects[platform_query_aabb_id] and data.map_objects[platform_query_aabb_id] or data.props[platform_query_aabb_id]
+			platform_query_tile = data.map_objects[platform_query_aabb_id] and data.map_objects[platform_query_aabb_id] or data.props[platform_query_aabb_id]
 
-		is_moving_patform = data.props[platform_query_aabb_id] and true or false
+			is_moving_patform = data.props[platform_query_aabb_id] and true or false
 
+			local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
 
-		local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
-
-		if player_bottom_y >= platform_query_tile.y + const.PLAYER.PLATFORM_JUMP_OFFSET then -- jump offset
-			data.player.state.over_platform = true
+			if player_bottom_y >= platform_query_tile.y + const.PLAYER.PLATFORM_JUMP_OFFSET then -- jump offset
+				data.player.state.over_platform = true
+			end
 		end
 	else
 		data.player.state.over_platform = false
 	end
-
 
 	if data.player.state.over_platform then
 		platform_query, platform_count = collision.query_id(data.player.aabb_id, const.COLLISION_BITS.PLATFORM, true)

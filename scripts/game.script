@@ -7,9 +7,10 @@ go.property("background_6", resource.texture("/assets/pixel_adventure/Background
 go.property("background_7", resource.texture("/assets/pixel_adventure/Background/background_yellow.png"))
 
 local manager = require("scripts.lib.manager")
-
+local game_camera = require("scripts.lib.game_camera")
 function init(self)
 	manager.add_backgrounds(self)
+
 	manager.init()
 end
 

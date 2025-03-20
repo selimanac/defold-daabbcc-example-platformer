@@ -26,7 +26,6 @@ nodes {
   layer: "gfx"
   inherit_alpha: true
   alpha: 0.3
-  size_mode: SIZE_MODE_AUTO
   enabled: false
 }
 nodes {
@@ -156,7 +155,6 @@ nodes {
   id: "gamepad_menu"
   inherit_alpha: true
   alpha: 0.3
-  size_mode: SIZE_MODE_AUTO
   enabled: false
 }
 nodes {
@@ -191,8 +189,8 @@ nodes {
 }
 nodes {
   position {
-    x: 590.0
-    y: 335.0
+    x: 640.0
+    y: 360.0
   }
   size {
     x: 100.0
@@ -200,6 +198,9 @@ nodes {
   }
   type: TYPE_BOX
   id: "mouse_menu"
+  xanchor: XANCHOR_RIGHT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NE
   layer: "gfx"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
@@ -207,8 +208,8 @@ nodes {
 }
 nodes {
   position {
-    x: 34.0
-    y: 9.0
+    x: -21.0
+    y: -19.0
   }
   type: TYPE_BOX
   texture: "game/Restart"
@@ -220,8 +221,8 @@ nodes {
 }
 nodes {
   position {
-    x: 10.0
-    y: 9.0
+    x: -45.0
+    y: -19.0
   }
   type: TYPE_BOX
   texture: "game/pause"
@@ -233,8 +234,8 @@ nodes {
 }
 nodes {
   position {
-    x: -14.0
-    y: 9.0
+    x: -69.0
+    y: -19.0
   }
   type: TYPE_BOX
   texture: "game/Volume"
@@ -258,6 +259,7 @@ nodes {
   font: "fff"
   id: "gamepad_status"
   inherit_alpha: true
+  enabled: false
 }
 layers {
   name: "text"

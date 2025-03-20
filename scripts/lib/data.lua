@@ -1,7 +1,21 @@
-local const = require("scripts.lib.const")
-
+local const          = require("scripts.lib.const")
 
 local data           = {}
+
+data.window_size     = { width = 0, height = 0 }
+
+-- Loading proxy
+data.proxy           = {
+	loaded = false,
+	gui_container = msg.url("loading:/gui"),
+	gui = msg.url("loading:/gui#loading"),
+	script = msg.url("loading:/script#loading"),
+	msg = {
+		proxy_loaded = hash("proxy_loaded"),
+		guy_removed = hash("guy_removed"),
+		enable_game = hash("enable_game")
+	}
+}
 
 -- Tile map
 data.map_width       = 0
@@ -99,6 +113,14 @@ function data.set_game_pause(state)
 	data.game.state.pause = state
 	daabbcc.run(not state)
 	msg.post(const.URLS.GUI, const.MSG.GAME_PAUSE)
+
+	if data.proxy.loaded then
+		if data.game.state.pause then
+			msg.post(const.PROXY, "set_time_step", { factor = 0, mode = 0 })
+		else
+			msg.post(const.PROXY, "set_time_step", { factor = 1, mode = 1 })
+		end
+	end
 end
 
 function data.set_audio(state)

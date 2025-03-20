@@ -1,5 +1,5 @@
 [bootstrap]
-main_collection = /scenes/game.collectionc
+main_collection = /scenes/loading.collectionc
 render = /render/game.renderc
 
 [script]
@@ -24,9 +24,9 @@ scale_mode = no_scale
 title = defold-daabbcc-platformer
 custom_resources = data
 dependencies#0 = https://github.com/selimanac/defold-daabbcc/archive/refs/heads/v3.x.zip
-dependencies#1 = https://github.com/subsoap/defos/archive/refs/heads/master.zip
-dependencies#2 = https://github.com/britzl/extension-imgui/archive/refs/heads/master.zip
-dependencies#3 = https://github.com/selimanac/defold-random/archive/refs/heads/master.zip
+dependencies#1 = https://github.com/britzl/extension-imgui/archive/refs/heads/master.zip
+dependencies#2 = https://github.com/selimanac/defold-random/archive/refs/heads/master.zip
+dependencies#3 = https://github.com/selimanac/defos/archive/refs/heads/master.zip
 
 [daabbcc]
 max_group_count = 1
@@ -38,15 +38,11 @@ default_texture_min_filter = nearest
 default_texture_mag_filter = nearest
 
 [native_extension]
-app_manifest = /game.appmanifest
+app_manifest = /components/manifest/development.appmanifest
 
 [sprite]
 subpixels = 0
 max_count = 512
-
-[defos]
-view_width = 1280
-view_height = 720
 
 [input]
 repeat_delay = 0.0
@@ -59,5 +55,10 @@ gamepads = /builtins/input/default.gamepadsc
 max_count = 128
 
 [platformer]
-debug = 0
+debug = 1
+
+[render]
+clear_color_red = 0.129412
+clear_color_green = 0.121569
+clear_color_blue = 0.188235
 

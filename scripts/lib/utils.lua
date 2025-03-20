@@ -16,17 +16,26 @@ function utils.merge_tables(t1, t2)
 	-- If one of them is nil, return the other
 	if not t1 then return t2 or {} end
 	if not t2 then return t1 end
-
+	local lookup = {}
 	local result = {}
+	local index = 1
 
-	-- Copy t1
-	for i, v in ipairs(t1) do
-		result[i] = v
+	-- Add first table elements
+	for _, v in ipairs(t1) do
+		if not lookup[v] then
+			lookup[v] = true
+			result[index] = v
+			index = index + 1
+		end
 	end
 
-	-- Overwrite with values from t2
-	for i, v in ipairs(t2) do
-		result[i] = v
+	-- Add second table elements
+	for _, v in ipairs(t2) do
+		if not lookup[v] then
+			lookup[v] = true
+			result[index] = v
+			index = index + 1
+		end
 	end
 
 	return result

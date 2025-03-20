@@ -28,8 +28,6 @@ local is_collectable     = false
 function player.init()
 	checkpoint.check()
 
-	print("PLAYER INIT")
-
 	local player_ids               = collectionfactory.create(const.FACTORIES.PLAYER, data.player.position)
 	local player_sprite            = msg.url(player_ids[hash("/player")])
 	player_sprite.fragment         = "sprite"
@@ -84,8 +82,6 @@ function player.update(dt)
 	-- Update aabb position with new position before query so we are checking for next frame
 	collision.update_aabb(data.player.aabb_id, data.player.position.x, data.player.position.y, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h)
 
-
-
 	---------------------
 	-- SLOPE
 	---------------------
@@ -119,11 +115,6 @@ function player.update(dt)
 			is_prop = query_prop and true or false
 
 			is_collectable = (is_prop and query_prop.collectable) and query_prop.collectable or false
-
-			-- if is_prop and query_prop.collectable then
-			-- 	pprint(query_prop)
-			-- end
-
 
 			---------------------------------------
 			-- Bottom Collision: normal_y == 1

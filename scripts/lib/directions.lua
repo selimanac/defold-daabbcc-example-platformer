@@ -11,7 +11,6 @@ directions.TYPE  = {
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
 		position = vmath.vector3(),
-		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = 1,
 		direction_y = 0
 	},
@@ -20,7 +19,6 @@ directions.TYPE  = {
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
 		position = vmath.vector3(),
-		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = -1,
 		direction_y = 0
 	},
@@ -29,7 +27,6 @@ directions.TYPE  = {
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
 		position = vmath.vector3(),
-		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = 0,
 		direction_y = 1
 	},
@@ -38,7 +35,6 @@ directions.TYPE  = {
 		collider_size = { width = 1, height = 1 },
 		center = { x = 0, y = 0 },
 		position = vmath.vector3(),
-		collision_bit = const.COLLISION_BITS.DIRECTIONS,
 		direction_x = 0,
 		direction_y = -1
 	},
@@ -52,7 +48,7 @@ function directions.add(object_data)
 
 	direction.position = vmath.vector3(direction.center.x, direction.center.y, 0)
 
-	direction.aabb_id = collision.insert_aabb(direction.center.x, direction.center.y, direction.collider_size.width, direction.collider_size.height, direction.collision_bit)
+	direction.aabb_id = collision.insert_aabb(direction.center.x, direction.center.y, direction.collider_size.width, direction.collider_size.height, const.COLLISION_BITS.DIRECTIONS)
 
 	data.directions[direction.aabb_id] = direction
 end

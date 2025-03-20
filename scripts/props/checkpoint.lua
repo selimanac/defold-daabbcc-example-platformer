@@ -1,5 +1,4 @@
 local audio      = require("scripts.lib.audio")
-local collision  = require("scripts.lib.collision")
 local data       = require("scripts.lib.data")
 local const      = require("scripts.lib.const")
 
@@ -11,7 +10,7 @@ function checkpoint.enter(prop, query_result)
 
 		local checkpoint_item = data.checkpoints[prop.data.checkpoint_id]
 		audio.play(const.AUDIO.CHECKPOINT)
-		--	collision.remove(prop.aabb_id)
+
 		sprite.play_flipbook(prop.sprite, prop.anims.on, function()
 			sprite.play_flipbook(prop.sprite, prop.anims.on_idle)
 		end)

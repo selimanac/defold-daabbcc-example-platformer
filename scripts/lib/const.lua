@@ -15,9 +15,7 @@ const.COLLISION_BITS   = {
 	SLOPE      = 64,
 	PLATFORM   = 128,
 	DIRECTIONS = 256,
-	WATERFALL  = 512,
-
-	ALL        = bit.bnot(0) -- -1 for all results
+	WATERFALL  = 512
 }
 
 const.FACTORIES        = {
@@ -97,6 +95,8 @@ const.TRIGGERS         = {
 	GAMEPAD_RPAD_RIGHT = hash("GAMEPAD_RPAD_RIGHT")
 }
 
+const.PROXY            = msg.url("loading:/proxy#game_proxy")
+
 const.URLS             = {
 	CAMERA_CONTAINER = "/camera",
 	CAMERA_ID        = "/camera#camera",
@@ -114,7 +114,8 @@ const.MSG              = {
 	GAME_PAUSE = hash("game_pause"),
 	COLLECT = hash("collect"),
 	PLAYER_HEALTH_UPDATE = hash("player_health_update"),
-	TOGGLE_AUDIO = hash("toggle_audio")
+	TOGGLE_AUDIO = hash("toggle_audio"),
+	UPDATE_SIZE = hash("update_size")
 }
 
 const.AUDIO            = {
