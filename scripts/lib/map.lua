@@ -136,7 +136,7 @@ function map.load(level)
 		----------------------
 		-- Prop objects
 		----------------------
-		if layer.name == "prop_collision" then
+		if layer.name == "props" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
 
@@ -148,9 +148,9 @@ function map.load(level)
 		end
 
 		--------------------------------------
-		-- Entities (Player, enemies...)
+		-- Actors (Player, enemies...)
 		--------------------------------------
-		if layer.name == "entities" then
+		if layer.name == "actors" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
 
@@ -163,7 +163,8 @@ function map.load(level)
 
 				-- Player init position
 				if object_data.name == "PLAYER" then
-					data.player.position = vmath.vector3(object_data.x + (object_data.width / 2), (data.map_height - object_data.y) - (object_data.height / 2), data.player.position.z)
+					data.player.position.x = object_data.x + (object_data.width / 2)
+					data.player.position.y = (data.map_height - object_data.y) - (object_data.height / 2)
 
 					data.player.initial_position = data.player.position
 				end

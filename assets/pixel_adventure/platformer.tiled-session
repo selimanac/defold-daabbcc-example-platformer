@@ -33,15 +33,15 @@
         },
         "map.tmx": {
             "expandedObjectLayers": [
-                2,
                 6,
+                2,
                 3
             ],
             "scale": 1.6733,
-            "selectedLayer": 4,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 2748.1623139903186,
-                "y": 290.74284348293793
+                "x": 4099.38444988944,
+                "y": 295.52381521544254
             }
         },
         "platformer.tsx": {

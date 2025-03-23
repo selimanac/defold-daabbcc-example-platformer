@@ -1,8 +1,9 @@
 local data     = require("scripts.lib.data")
-
+local const    = require("scripts.lib.const")
 local guy_node = nil
 
 function init(_)
+	msg.post(".", "acquire_input_focus")
 	guy_node = gui.get_node("guy")
 	gui.animate(guy_node, "color.w", 1.0, gui.EASING_LINEAR, 0.3, 0)
 end
@@ -14,5 +15,11 @@ function on_message(_, message_id, _, _)
 				msg.post(data.proxy.script, data.proxy.msg.guy_removed)
 			end)
 		end)
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == const.TRIGGERS.GAMEPAD_CONNECTED then
+		data.game.is_gamepad_connected = true
 	end
 end

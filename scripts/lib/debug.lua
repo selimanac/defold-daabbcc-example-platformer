@@ -1,24 +1,40 @@
-local data           = require("scripts.lib.data")
-local const          = require("scripts.lib.const")
+local data            = require("scripts.lib.data")
+local const           = require("scripts.lib.const")
+local checkpoints     = require("scripts.props.checkpoint")
 
-local debug          = {}
+local debug           = {}
 
-local debug_instance = nil
+local debug_instance  = nil
+local ray_start_point = vmath.vector3()
+local ray_end_point   = vmath.vector3()
+local changed         = false
+local checked         = false
+local int             = 0
+local float           = 0.0
+local x               = 0.0
+local y               = 0.0
+local z               = 0.0
+local colors          = {
+	RED    = vmath.vector4(1, 0, 0, 1),
+	BLUE   = vmath.vector4(0, 0, 1, 1),
+	YELLOW = vmath.vector4(1, 1, 0, 1),
+	GREEN  = vmath.vector4(0, 1, 0, 1)
+}
 
-function debug.draw_aabb(x, y, width, height, color)
+local function draw_aabb(x, y, width, height, color)
 	msg.post("@render:", "draw_line", { start_point = vmath.vector3(x, y, 0), end_point = vmath.vector3(x + width, y, 0), color = color })
 	msg.post("@render:", "draw_line", { start_point = vmath.vector3(x, y, 0), end_point = vmath.vector3(x, y + height, 0), color = color })
 	msg.post("@render:", "draw_line", { start_point = vmath.vector3(x + width, y, 0), end_point = vmath.vector3(x + width, y + height, 0), color = color })
 	msg.post("@render:", "draw_line", { start_point = vmath.vector3(x, y + height, 0), end_point = vmath.vector3(x + width, y + height, 0), color = color })
 end
 
-function debug.debug_draw_aabb(aabb_data, color)
+local function debug_draw_aabb(aabb_data, color)
 	for _, data in ipairs(aabb_data) do
-		debug.draw_aabb(data.x, data.y, data.size.width, data.size.height, color)
+		draw_aabb(data.x, data.y, data.size.width, data.size.height, color)
 	end
 end
 
-function debug.debug_draw_center_aabb(aabb_data, color)
+local function debug_draw_center_aabb(aabb_data, color)
 	for _, data in pairs(aabb_data) do
 		local size = { width = data.size.width, height = data.size.height }
 		if data.collider_size then
@@ -26,22 +42,23 @@ function debug.debug_draw_center_aabb(aabb_data, color)
 		end
 
 		if data.name == "SLOPE" then
-			msg.post("@render:", "draw_line", { start_point = vmath.vector3(data.properties.slope.x1, data.properties.slope.y1, 0), end_point = vmath.vector3(data.properties.slope.x2, data.properties.slope.y2, 0), color = vmath.vector4(0, 1, 1, 1) })
+			msg.post("@render:", "draw_line", { start_point = vmath.vector3(data.properties.slope.x1, data.properties.slope.y1, 0), end_point = vmath.vector3(data.properties.slope.x2, data.properties.slope.y2, 0), color = colors.RED })
 		end
 
-		debug.draw_aabb(data.center.x - (size.width / 2), data.center.y - (size.height / 2), size.width, size.height, color)
+		draw_aabb(data.center.x - (size.width / 2), data.center.y - (size.height / 2), size.width, size.height, color)
 	end
 end
 
-function toogle_profiler()
+local function toogle_profiler()
 	if profiler then
 		profiler.enable_ui(data.debug.profiler)
-	--	profiler.set_ui_view_mode(profiler.VIEW_MODE_MINIMIZED)
+		profiler.set_ui_view_mode(profiler.VIEW_MODE_MINIMIZED)
 	end
 end
 
 function debug.init()
 	if debug_instance == nil then
+		factory.unload("/factories#debug")
 		debug_instance = factory.create("/factories#debug")
 		imgui.set_ini_filename("editor_imgui.ini")
 		toogle_profiler()
@@ -54,181 +71,163 @@ end
 
 function debug.update()
 	if data.debug.colliders then
-		debug.debug_draw_center_aabb(data.map_objects, vmath.vector4(1, 0, 0, 1))
-		debug.debug_draw_center_aabb(data.props, vmath.vector4(0, 0, 1, 1))
-		debug.debug_draw_center_aabb(data.enemies, vmath.vector4(1, 1, 0, 1))
-		debug.debug_draw_center_aabb(data.directions, vmath.vector4(1, 1, 0, 1))
+		debug_draw_center_aabb(data.map_objects, colors.RED)
+		debug_draw_center_aabb(data.props, colors.BLUE)
+		debug_draw_center_aabb(data.enemies, colors.YELLOW)
+		debug_draw_center_aabb(data.directions, colors.YELLOW)
 
-		debug.draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, vmath.vector4(1, 0, 0, 1))
+		-- player
+		draw_aabb(data.player.position.x - const.PLAYER.HALF_SIZE.w, data.player.position.y - const.PLAYER.HALF_SIZE.h, const.PLAYER.SIZE.w, const.PLAYER.SIZE.h, colors.RED)
 
 		-- camera deadzone
-		debug.draw_aabb(data.camera.position.x - (const.CAMERA.DEADZONE.x * 2 / 2), data.camera.position.y - (const.CAMERA.DEADZONE.y * 2 / 2), const.CAMERA.DEADZONE.x * 2, const.CAMERA.DEADZONE.y * 2, vmath.vector4(0, 1, 0, 1))
+		draw_aabb(data.camera.position.x - (const.CAMERA.DEADZONE.x * 2 / 2), data.camera.position.y - (const.CAMERA.DEADZONE.y * 2 / 2), const.CAMERA.DEADZONE.x * 2, const.CAMERA.DEADZONE.y * 2, colors.GREEN)
 
+		--------------------------
+		-- Player Rays
+		--------------------------
 
+		--Slope
+		ray_start_point.x = data.player.position.x
+		ray_start_point.y = data.player.position.y
 
-		--SLOPE RAY
-		local start_point = vmath.vector3(
-			data.player.position.x,
-			data.player.position.y,
-			0)
-		local end_point = vmath.vector3(
-			data.player.position.x,
-			data.player.position.y - (const.PLAYER.SIZE.h + 16),
-			0)
+		ray_end_point.x = data.player.position.x
+		ray_end_point.y = data.player.position.y - const.PLAYER.RAY_Y
 
-		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 1, 0, 1) })
-
+		msg.post("@render:", "draw_line", { start_point = ray_start_point, end_point = ray_end_point, color = colors.YELLOW })
 
 		--Back ray for platforms
-		local start_point = vmath.vector3(
-			data.player.position.x,
-			data.player.position.y,
-			0)
-		local end_point = vmath.vector3(
-			data.player.position.x - const.PLAYER.HALF_SIZE.w,
-			data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
-			0)
+		ray_start_point.x = data.player.position.x
+		ray_start_point.y = data.player.position.y
 
-		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 0, 0, 1) })
+		ray_end_point.x = data.player.position.x - const.PLAYER.HALF_SIZE.w
+		ray_end_point.y = data.player.position.y - const.PLAYER.RAY_Y
+
+		msg.post("@render:", "draw_line", { start_point = ray_start_point, end_point = ray_end_point, color = colors.RED })
 
 
 		--Front ray for platforms
-		local start_point = vmath.vector3(
-			data.player.position.x,
-			data.player.position.y,
-			0)
-		local end_point = vmath.vector3(
-			data.player.position.x + const.PLAYER.HALF_SIZE.w,
-			data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
-			0)
+		ray_start_point.x = data.player.position.x
+		ray_start_point.y = data.player.position.y
 
-		msg.post("@render:", "draw_line", { start_point = start_point, end_point = end_point, color = vmath.vector4(1, 0, 0, 1) })
+		ray_end_point.x = data.player.position.x + const.PLAYER.HALF_SIZE.w
+		ray_end_point.y = data.player.position.y - const.PLAYER.RAY_Y
+
+		msg.post("@render:", "draw_line", { start_point = ray_start_point, end_point = ray_end_point, color = colors.RED })
 	end
 
+	----------------------
+	-- Imgui
+	----------------------
+
 	if data.debug.imgui then
-		----------------------
-		-- Imgui
-		----------------------
 		imgui.begin_window("Properties", nil, imgui.WINDOWFLAGS_MENUBAR)
 
 		imgui.text("GAME STATE")
 
 		if imgui.button("Reset Checkpoints") then
-			--	data.reset_checkpoints()
+			checkpoints.reset()
 		end
 
-
-		local changed, checked = imgui.checkbox("pause", data.game.state.pause)
+		changed, checked = imgui.checkbox("pause", data.game.state.pause)
 		if changed then
-			data.game.state.pause = checked
+			data.set_game_pause(checked)
 		end
 
-		local changed, checked = imgui.checkbox("input_pause", data.game.state.input_pause)
-		if changed then
-			data.game.state.input_pause = checked
-		end
+		imgui.checkbox("input_pause", data.game.state.input_pause)
+		imgui.checkbox("skip_colliders", data.game.state.skip_colliders)
 
-		local changed, checked = imgui.checkbox("skip_colliders", data.game.state.skip_colliders)
-		if changed then
-			data.game.state.skip_colliders = checked
-		end
-
-
+		---------------------------------------------------
 		imgui.separator()
+		---------------------------------------------------
+
 		imgui.text("DEBUG")
 
-		local changed, checked = imgui.checkbox("Colliders", data.debug.colliders)
+		changed, checked = imgui.checkbox("Colliders", data.debug.colliders)
 		if changed then
 			data.debug.colliders = checked
 		end
 
-
-		local changed, checked = imgui.checkbox("Imgui", data.debug.imgui)
+		changed, checked = imgui.checkbox("Imgui", data.debug.imgui)
 		if changed then
 			data.debug.imgui = checked
 		end
 
-
-
-		local changed, checked = imgui.checkbox("Profiler", data.debug.profiler)
+		changed, checked = imgui.checkbox("Profiler", data.debug.profiler)
 		if changed then
 			data.debug.profiler = checked
 			toogle_profiler()
 		end
 
+		---------------------------------------------------
 		imgui.separator()
+		---------------------------------------------------
+
 		imgui.text("\nPLAYER")
+
 		imgui.text(("Position = %d %d %d"):format(data.player.position.x, data.player.position.y, data.player.position.z))
 
 		imgui.text(("Velocity = %d %d %d"):format(data.player.velocity.x, data.player.velocity.y, data.player.velocity.z))
 
 		imgui.text(("Gravity Down = %d"):format(data.player.gravity_down))
 
+		imgui.text(("Health = %d"):format(data.player.health))
+
+		imgui.text(("Apples = %d"):format(data.player.collected_apples))
 
 		imgui.text("\nStates")
 
-		local changed, checked = imgui.checkbox("on_ground", data.player.state.on_ground)
+		changed, checked = imgui.checkbox("on_ground", data.player.state.on_ground)
 		if changed then
 			data.player.state.on_ground = checked
 		end
 
-		local changed, checked = imgui.checkbox("jump_pressed", data.player.state.jump_pressed)
+		changed, checked = imgui.checkbox("jump_pressed", data.player.state.jump_pressed)
 		if changed then
 			data.player.state.jump_pressed = checked
 		end
 
-		local changed, checked = imgui.checkbox("is_jumping", data.player.state.is_jumping)
+		changed, checked = imgui.checkbox("is_jumping", data.player.state.is_jumping)
 		if changed then
 			data.player.state.is_jumping = checked
 		end
 
-		local changed, checked = imgui.checkbox("is_walking", data.player.state.is_walking)
+		changed, checked = imgui.checkbox("is_walking", data.player.state.is_walking)
 		if changed then
 			data.player.state.is_walking = checked
 		end
 
-		local changed, checked = imgui.checkbox("is_sliding", data.player.state.is_sliding)
+		changed, checked = imgui.checkbox("is_sliding", data.player.state.is_sliding)
 		if changed then
 			data.player.state.is_sliding = checked
 		end
 
-		local changed, checked = imgui.checkbox("is_falling", data.player.state.is_falling)
+		changed, checked = imgui.checkbox("is_falling", data.player.state.is_falling)
 		if changed then
 			data.player.state.is_sliding = checked
 		end
 
-		local changed, checked = imgui.checkbox("on_slope", data.player.state.on_slope)
+		changed, checked = imgui.checkbox("on_slope", data.player.state.on_slope)
 		if changed then
 			data.player.state.on_slope = checked
 		end
 
-		local changed, checked = imgui.checkbox("over_platform", data.player.state.over_platform)
+		changed, checked = imgui.checkbox("over_platform", data.player.state.over_platform)
 		if changed then
 			data.player.state.over_platform = checked
 		end
 
-		local changed, checked = imgui.checkbox("on_moving_platform", data.player.state.on_moving_platform)
+		changed, checked = imgui.checkbox("on_moving_platform", data.player.state.on_moving_platform)
 		if changed then
 			data.player.state.on_moving_platform = checked
 		end
 
-
-
-
-		-- local changed, checked = imgui.checkbox("is_wall_jump", data.player.state.is_wall_jump)
-		-- if changed then
-		-- 	data.player.state.is_wall_jump = checked
-		-- end
-		-- imgui.text(("on_ground: %a"):format(data.player.state.on_ground))
-		-- imgui.text(("jump_pressed: %a"):format(data.player.state.jump_pressed))
-		-- imgui.text(("is_walking: %a"):format(data.player.state.is_walking))
-		-- imgui.text(("is_sliding: %a"):format(data.player.state.is_sliding))
-		-- imgui.text(("is_falling: %a"):format(data.player.state.is_falling))
-		-- mgui.text(("is_wall_jump: %a"):format(data.player.state.is_wall_jump))
+		---------------------------------------------------
+		imgui.separator()
+		---------------------------------------------------
 
 		imgui.text("\nSettings")
 
-		local changed, int = imgui.input_int("MOVE_ACCELERATION", const.PLAYER.MOVE_ACCELERATION)
+		changed, int = imgui.input_int("MOVE_ACCELERATION", const.PLAYER.MOVE_ACCELERATION)
 		if changed then
 			const.PLAYER.MOVE_ACCELERATION = int
 		end
@@ -238,9 +237,9 @@ function debug.update()
 			const.PLAYER.MAX_MOVE_SPEED = int
 		end
 
-		local changed, p = imgui.drag_float("DECELERATION_LERP", const.PLAYER.DECELERATION_LERP, 0.01, 0.0, 100.0)
+		changed, float = imgui.drag_float("DECELERATION_LERP", const.PLAYER.DECELERATION_LERP, 0.01, 0.0, 100.0)
 		if changed then
-			const.PLAYER.DECELERATION_LERP = p
+			const.PLAYER.DECELERATION_LERP = float
 		end
 
 		changed, int = imgui.input_int("JUMP_FORCE", const.PLAYER.JUMP_FORCE)
@@ -257,15 +256,16 @@ function debug.update()
 			const.PLAYER.TRAMPOLINE_JUMP_FORCE = int
 		end
 
-
 		changed, int = imgui.input_int("GRAVITY_UP", const.PLAYER.GRAVITY_UP)
 		if changed then
 			const.PLAYER.GRAVITY_UP = int
 		end
+
 		changed, int = imgui.input_int("GRAVITY_DOWN", const.PLAYER.GRAVITY_DOWN)
 		if changed then
 			const.PLAYER.GRAVITY_DOWN = int
 		end
+
 		changed, int = imgui.input_int("GRAVITY_SLIDE", const.PLAYER.GRAVITY_SLIDE)
 		if changed then
 			const.PLAYER.GRAVITY_SLIDE = int
@@ -281,23 +281,23 @@ function debug.update()
 			const.PLAYER.MAX_JUMP_HOLD_TIME = int
 		end
 
+		---------------------------------------------------
 		imgui.separator()
+		---------------------------------------------------
+
 		imgui.text("\nCAMERA")
 
 		imgui.text(("Zoom = %d"):format(go.get(const.URLS.CAMERA_ID, "orthographic_zoom")))
 		imgui.text(("Position = %d %d %d"):format(data.camera.position.x, data.camera.position.y, data.camera.position.z))
 
-
-
-		local changed, x, y, z = imgui.input_float3("DEADZONE", const.CAMERA.DEADZONE.x, const.CAMERA.DEADZONE.y, const.CAMERA.DEADZONE.z)
+		changed, x, y, z = imgui.input_float3("DEADZONE", const.CAMERA.DEADZONE.x, const.CAMERA.DEADZONE.y, const.CAMERA.DEADZONE.z)
 		if changed then
 			const.CAMERA.DEADZONE.x = x
 			const.CAMERA.DEADZONE.y = y
 			const.CAMERA.DEADZONE.z = z
 		end
 
-
-		local changed, x, y, z = imgui.input_float3("BOUNDS_MIN", const.CAMERA.BOUNDS_MIN.x, const.CAMERA.BOUNDS_MIN.y, const.CAMERA.BOUNDS_MIN.z)
+		changed, x, y, z = imgui.input_float3("BOUNDS_MIN", const.CAMERA.BOUNDS_MIN.x, const.CAMERA.BOUNDS_MIN.y, const.CAMERA.BOUNDS_MIN.z)
 		if changed then
 			const.CAMERA.BOUNDS_MIN.x = x
 			const.CAMERA.BOUNDS_MIN.y = y
@@ -306,7 +306,7 @@ function debug.update()
 		imgui.same_line()
 		imgui.text("Minimum camera bound position (left/bottom)")
 
-		local changed, x, y, z = imgui.input_float3("BOUNDS_MAX", const.CAMERA.BOUNDS_MAX.x, const.CAMERA.BOUNDS_MAX.y, const.CAMERA.BOUNDS_MAX.z)
+		changed, x, y, z = imgui.input_float3("BOUNDS_MAX", const.CAMERA.BOUNDS_MAX.x, const.CAMERA.BOUNDS_MAX.y, const.CAMERA.BOUNDS_MAX.z)
 		if changed then
 			const.CAMERA.BOUNDS_MAX.x = x
 			const.CAMERA.BOUNDS_MAX.y = y
@@ -315,12 +315,11 @@ function debug.update()
 		imgui.same_line()
 		imgui.text("Maximum camera bound position (right/top)")
 
-		local changed, p = imgui.drag_float("CAMERA_LERP", const.CAMERA.CAMERA_LERP, 0.1, 0.0, 100.0)
+		local changed, float = imgui.drag_float("CAMERA_LERP", const.CAMERA.CAMERA_LERP, 0.1, 0.0, 100.0)
 		if changed then
-			const.CAMERA.CAMERA_LERP = p
+			const.CAMERA.CAMERA_LERP = float
 		end
 
-		imgui.separator()
 		imgui.end_window()
 	end
 end

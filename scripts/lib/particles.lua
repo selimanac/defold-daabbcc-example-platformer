@@ -6,8 +6,8 @@ local particles         = {}
 
 local GRAVITY           = -900
 local DEFAULT_LIFETIME  = 1.0
-
 local spawned_particles = {}
+local tint_offset       = vmath.vector4(1, 1, 1, 3)
 
 function particles.spawn(ids, count, gravity, life_time, collectable)
 	gravity = gravity or GRAVITY
@@ -29,9 +29,9 @@ function particles.spawn(ids, count, gravity, life_time, collectable)
 		local aabb_id = collision.insert_gameobject(part_id, sprite_size.x, sprite_size.y, collision_bit, false)
 
 		local particle = {
-			pos = vmath.vector3(position.x, position.y, 0),
-			vel = vmath.vector3(math.cos(angle) * speed, math.sin(angle) * speed, 0),
-			life = DEFAULT_LIFETIME,
+			position = vmath.vector3(position.x, position.y, 0),
+			velocity = vmath.vector3(math.cos(angle) * speed, math.sin(angle) * speed, 0),
+			life_time = DEFAULT_LIFETIME,
 			id = part_id,
 			aabb_id = aabb_id,
 			sprite_size = sprite_size,
@@ -41,7 +41,6 @@ function particles.spawn(ids, count, gravity, life_time, collectable)
 			collectable = collectable,
 			gravity = gravity,
 			hit_ground = false
-
 		}
 		spawned_particles[aabb_id] = particle
 	end
@@ -49,12 +48,12 @@ end
 
 function particles.update(dt)
 	for aabb_id, particle in pairs(spawned_particles) do
-		particle.vel.y = particle.vel.y + particle.gravity * dt
-		particle.pos = particle.pos + particle.vel * dt
-		particle.life = particle.life - dt
+		particle.velocity.y = particle.velocity.y + particle.gravity * dt
+		particle.position = particle.position + particle.velocity * dt
+		particle.life_time = particle.life_time - dt
 
 		if particle.on_ground == false then
-			collision.update_aabb(particle.aabb_id, particle.pos.x, particle.pos.y, particle.sprite_size.x, particle.sprite_size.y)
+			collision.update_aabb(particle.aabb_id, particle.position.x, particle.position.y, particle.sprite_size.x, particle.sprite_size.y)
 			local result, count = collision.query_id(particle.aabb_id, const.COLLISION_BITS.TILE, true)
 
 			if count > 0 then
@@ -63,18 +62,18 @@ function particles.update(dt)
 					local offset_y = result[i].normal_y * result[i].depth
 
 					if (result[i].normal_x == 1 or result[i].normal_x == -1) then
-						particle.vel.x = 0
+						particle.velocity.x = 0
 					end
 					if result[i].normal_y == 1 then
 						particle.on_ground = true
 					end
 
-					particle.pos.x = particle.pos.x + offset_x
-					particle.pos.y = particle.pos.y + offset_y
+					particle.position.x = particle.position.x + offset_x
+					particle.position.y = particle.position.y + offset_y
 				end
 			end
 
-			go.set_position(particle.pos, particle.id)
+			go.set_position(particle.position, particle.id)
 		end
 
 		if particle.on_ground and particle.collectable == false then
@@ -82,10 +81,10 @@ function particles.update(dt)
 				particle.hit_ground = true
 				audio.play(const.AUDIO.PIECE_DROP)
 			end
-			if particle.life <= 0 and particle.active == true then
+			if particle.life_time <= 0 and particle.active == true then
 				particle.active = false
 
-				go.animate(particle.sprite_url, "tint", go.PLAYBACK_ONCE_PINGPONG, vmath.vector4(1, 1, 1, 3), go.EASING_INCIRC, 0.2, 0, function()
+				go.animate(particle.sprite_url, "tint", go.PLAYBACK_ONCE_PINGPONG, tint_offset, go.EASING_INCIRC, 0.2, 0, function()
 					collision.remove(particle.aabb_id)
 					go.delete(particle.id, true)
 					spawned_particles[aabb_id] = nil

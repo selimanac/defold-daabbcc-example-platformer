@@ -55,7 +55,7 @@ gamepads = /builtins/input/default.gamepadsc
 max_count = 128
 
 [platformer]
-debug = 1
+debug = 0
 
 [render]
 clear_color_red = 0.129412

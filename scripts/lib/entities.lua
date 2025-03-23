@@ -286,7 +286,7 @@ entities.PROP          = {
 		offset = vmath.vector3(0, 0, 0),
 		center = { x = 0, y = 0 },
 		fn = finish.enter,
-		factory = const.FACTORIES.END,
+		factory = const.FACTORIES.FINISH,
 		position = vmath.vector3(),
 		status = false,
 		collectable = true,
@@ -296,7 +296,7 @@ entities.PROP          = {
 		sprite = nil,
 		collision_bit = const.COLLISION_BITS.PROP,
 		anims = {
-			idle = hash("prop_end_idle"),
+			idle = hash("prop_finish_idle"),
 		}
 	},
 	WATER = {

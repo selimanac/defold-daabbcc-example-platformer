@@ -62,6 +62,7 @@ function player.init()
 	data.game.state.skip_colliders = true
 
 	audio.play(const.AUDIO.PLAYER_APPEAR)
+
 	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.APPEARING, function()
 		data.game.state.input_pause    = false
 		data.game.state.skip_colliders = false
@@ -95,7 +96,6 @@ function player.update(dt)
 	---------------------
 	-- TILE(MAP) QUERY
 	---------------------
-
 	-- Player to tiles collision
 	tile_query_results, tile_query_count = collision.tiles(data.player.aabb_id)
 
@@ -173,8 +173,6 @@ function player.update(dt)
 end
 
 function player.final(reset_health)
-	print("PLAYER FINAL")
-	--reset_health = reset_health and reset_health or false
 	if reset_health then
 		data.player.health = const.PLAYER.HEALTH
 		msg.post(const.URLS.GUI, const.MSG.PLAYER_HEALTH_UPDATE)

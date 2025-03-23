@@ -84,7 +84,7 @@ key_trigger {
 }
 key_trigger {
   input: KEY_ESC
-  action: "key_esc"
+  action: "KEY_ESC"
 }
 key_trigger {
   input: KEY_KP_ENTER

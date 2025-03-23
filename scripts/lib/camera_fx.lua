@@ -11,7 +11,6 @@ local shake     = {
     offset = vmath.vector3()
 }
 
-
 function camera_fx.shake(intensity, duration, decay)
     shake.intensity = intensity or 0.5
     shake.duration = duration or 0.5

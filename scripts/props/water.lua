@@ -22,7 +22,7 @@ function water.enter(prop, query_result)
 		water_splash_particle = msg.url(water_splash_id)
 		water_splash_particle.fragment = "water_splash"
 
-		particlefx.play(water_splash_particle, function(self, id, emitter, state)
+		particlefx.play(water_splash_particle, function(_, _, emitter, state)
 			if emitter == splash_left and state == particlefx.EMITTER_STATE_SLEEPING then
 				particlefx.stop(water_splash_particle)
 				go.delete(water_splash_id)

@@ -20,7 +20,7 @@ data.proxy           = {
 -- Tile map
 data.map_width       = 0
 data.map_height      = 0
-data.map             = {}
+data.map             = {} -- <- Map tile data. Not using this.
 data.map_objects     = {}
 
 -- Props
@@ -48,8 +48,8 @@ data.dt              = vmath.vector4(0)
 -- Debug
 data.debug           = {
 	profiler  = false,
-	colliders = true,
-	imgui     = true,
+	colliders = false,
+	imgui     = false,
 	init      = sys.get_config_int("platformer.debug", 1) == 1 and true or false
 }
 

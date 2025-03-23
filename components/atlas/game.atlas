@@ -1076,7 +1076,7 @@ animations {
   fps: 8
 }
 animations {
-  id: "prop_end_idle"
+  id: "prop_finish_idle"
   images {
     image: "/assets/pixel_adventure/Items/Checkpoints/images/end_01.png"
   }

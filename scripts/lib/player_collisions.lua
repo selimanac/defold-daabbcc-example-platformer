@@ -88,7 +88,7 @@ function player_collisions.slope()
 		data.player.position.x,
 		data.player.position.y,
 		data.player.position.x,
-		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 16),
+		data.player.position.y - const.PLAYER.RAY_Y,
 		const.COLLISION_BITS.SLOPE)
 
 	data.player.state.on_slope = slope_ray_count > 0 and true or false
@@ -135,14 +135,14 @@ function player_collisions.platform(dt)
 		data.player.position.x,
 		data.player.position.y,
 		data.player.position.x - const.PLAYER.HALF_SIZE.w,
-		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
+		data.player.position.y - const.PLAYER.RAY_Y,
 		const.COLLISION_BITS.PLATFORM)
 
 	platform_front_ray_result, _ = collision.raycast(
 		data.player.position.x,
 		data.player.position.y,
 		data.player.position.x + const.PLAYER.HALF_SIZE.w,
-		data.player.position.y - (const.PLAYER.HALF_SIZE.h + 14),
+		data.player.position.y - const.PLAYER.RAY_Y,
 		const.COLLISION_BITS.PLATFORM)
 
 	if platform_back_ray_result or platform_front_ray_result then

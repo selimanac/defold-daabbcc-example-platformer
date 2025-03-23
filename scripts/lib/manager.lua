@@ -2,7 +2,7 @@ local map          = require("scripts.lib.map")
 local collision    = require("scripts.lib.collision")
 local player       = require("scripts.lib.player")
 local data         = require("scripts.lib.data")
-local debug        = require("scripts.lib.debug")
+
 local const        = require("scripts.lib.const")
 local game_camera  = require("scripts.lib.game_camera")
 local particles    = require("scripts.lib.particles")
@@ -13,7 +13,7 @@ local camera_fx    = require("scripts.lib.camera_fx")
 local player_input = require("scripts.lib.player_input")
 local audio        = require("scripts.lib.audio")
 local checkpoint   = require("scripts.props.checkpoint")
-local utils        = require("scripts.lib.utils")
+local debug        = nil
 
 local manager      = {}
 
@@ -64,6 +64,7 @@ function manager.init()
 	game_camera.init()
 
 	if data.debug.init then
+		debug = require("scripts.lib.debug")
 		debug.init()
 	end
 
@@ -102,12 +103,10 @@ end
 
 function manager.message(message_id, message, sender)
 	if message_id == const.MSG.RESTART then
-		print("RESTART")
 		checkpoint.reset()
 		manager.final()
 		manager.init()
 	elseif message_id == const.MSG.PLAYER_DIE then
-		print("PLAYER_DIE")
 		player.final(false)
 		props.set_collected()
 		collect_garbage()

@@ -42,8 +42,9 @@ function player_state.die(restart)
 	end
 
 	data.player.is_hit = true
-	print("PLAYER DIE")
+
 	audio.stop(const.AUDIO.RUN)
+
 	data.game.state.input_pause = true
 	data.game.state.skip_colliders = true
 
@@ -66,10 +67,8 @@ function player_state.die(restart)
 					msg.post(const.URLS.GAME, const.MSG.RESTART)
 				else
 					if data.player.health == 0 then
-						print("RESTART")
 						msg.post(const.URLS.GAME, const.MSG.RESTART)
 					else
-						print("DIE")
 						msg.post(const.URLS.GAME, const.MSG.PLAYER_DIE)
 					end
 				end
