@@ -19,3 +19,4 @@ RELEASE-NOTES.md
 /.editor_settings
 build_config.json
 bob.jar
+/production/bundle
