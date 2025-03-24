@@ -2,7 +2,7 @@ local audio        = require("scripts.lib.audio")
 local data         = require("scripts.lib.data")
 local const        = require("scripts.lib.const")
 local camera_fx    = require("scripts.lib.camera_fx")
-local player_state = require("scripts.lib.player_state")
+local player_state = require("scripts.game.player.player_state")
 
 local trampoline   = {}
 

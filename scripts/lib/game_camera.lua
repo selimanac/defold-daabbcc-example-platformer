@@ -42,13 +42,15 @@ function game_camera.update(dt)
 	next_camera_position.y = math.max(const.CAMERA.BOUNDS_MIN.y, math.min(const.CAMERA.BOUNDS_MAX.y, next_camera_position.y))
 
 	go.set_position(next_camera_position, const.URLS.CAMERA_CONTAINER)
+
 	data.camera.position = next_camera_position
 	data.camera.base_position = next_camera_position
 end
 
 function game_camera.set_zoom(size)
-	--  Might require scale factor : https://github.com/britzl/defold-orthographic?tab=readme-ov-file#cameraset_window_scaling_factorscaling_factor
-	local new_camera_zoom = math.floor(math.max(size.width / const.DISPLAY_WIDTH, size.height / const.DISPLAY_HEIGHT) * data.camera.zoom)
+	--local new_camera_zoom = math.floor(math.max(size.width / const.DISPLAY_WIDTH, size.height / const.DISPLAY_HEIGHT) * data.camera.zoom) / scale
+	print("scale:", scale)
+	local new_camera_zoom = math.min(size.width / const.DISPLAY_WIDTH, size.height / const.DISPLAY_HEIGHT) * data.camera.zoom / data.window_scale
 
 	go.set(const.URLS.CAMERA_ID, "orthographic_zoom", new_camera_zoom)
 end

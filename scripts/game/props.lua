@@ -3,7 +3,7 @@ local data              = require("scripts.lib.data")
 local collision         = require("scripts.lib.collision")
 local utils             = require("scripts.lib.utils")
 local entities          = require("scripts.lib.entities")
-local checkpoint        = require("scripts.props.checkpoint")
+local checkpoint        = require("scripts.game.props.checkpoint")
 
 local props             = {}
 

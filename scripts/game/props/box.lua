@@ -2,7 +2,7 @@ local audio        = require("scripts.lib.audio")
 local collision    = require("scripts.lib.collision")
 local data         = require("scripts.lib.data")
 local const        = require("scripts.lib.const")
-local player_state = require("scripts.lib.player_state")
+local player_state = require("scripts.game.player.player_state")
 local particles    = require("scripts.lib.particles")
 local camera_fx    = require("scripts.lib.camera_fx")
 

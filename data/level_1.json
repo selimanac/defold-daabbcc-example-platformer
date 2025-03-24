@@ -1226,7 +1226,6 @@
          "color":"#395cd3",
          "draworder":"topdown",
          "id":6,
-         "locked":true,
          "name":"props",
          "objects":[
                 {
@@ -2922,8 +2921,8 @@
                  "type":"MOVING_PLATFORM",
                  "visible":true,
                  "width":32,
-                 "x":2592,
-                 "y":132
+                 "x":2600,
+                 "y":140
                 }, 
                 {
                  "gid":250,
@@ -4138,8 +4137,8 @@
                  "type":"PLAYER",
                  "visible":true,
                  "width":32,
-                 "x":288,
-                 "y":240
+                 "x":2440,
+                 "y":52
                 }, 
                 {
                  "gid":263,
@@ -4431,8 +4430,8 @@
                  "type":"DIRECTION_RIGHT",
                  "visible":true,
                  "width":16,
-                 "x":2496,
-                 "y":136
+                 "x":2512,
+                 "y":144
                 }, 
                 {
                  "gid":265,
@@ -4444,7 +4443,7 @@
                  "visible":true,
                  "width":16,
                  "x":2640,
-                 "y":136
+                 "y":144
                 }, 
                 {
                  "gid":264,
@@ -4597,7 +4596,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":513,
+ "nextobjectid":517,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
@@ -4605,11 +4604,11 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/assets\/pixel_adventure\/platformer.tsx"
+         "source":"..\/assets\/tiled\/platformer.tsx"
         }, 
         {
          "firstgid":243,
-         "source":"..\/assets\/pixel_adventure\/props.tsx"
+         "source":"..\/assets\/tiled\/entities.tsx"
         }],
  "tilewidth":16,
  "type":"map",

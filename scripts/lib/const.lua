@@ -94,7 +94,8 @@ const.TRIGGERS         = {
 	GAMEPAD_LSTICK_DOWN  = hash("GAMEPAD_LSTICK_DOWN"),
 	GAMEPAD_LSTICK_UP    = hash("GAMEPAD_LSTICK_UP"),
 	GAMEPAD_RPAD_RIGHT   = hash("GAMEPAD_RPAD_RIGHT"),
-	KEY_ESC              = hash("KEY_ESC")
+	KEY_ESC              = hash("KEY_ESC"),
+	TOUCH_MULTI          = hash("TOUCH_MULTI")
 }
 
 const.PROXY            = msg.url("loading:/proxy#game_proxy")

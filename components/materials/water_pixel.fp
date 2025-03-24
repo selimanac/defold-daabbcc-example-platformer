@@ -13,6 +13,19 @@ uniform fs_uniforms
 };
 
 const float PI = 3.14159265359;
+const float pixelScale = 128.0; // Higher number = more pixels (smaller pixels)
+
+const vec4  backTex = vec4(0.0, 0.0, 0.0, 0.0);
+const vec4  waterColour = vec4(0.0, 0.5, 0.9, 1.0);
+const vec4  foamColour = vec4(0.8, 1.0, 1.0, 1.0);
+const vec4  topLineColor = vec4(1.0, 1.0, 1.0, 1.0); // Pure white for the top line
+
+const float transparency = 0.4;
+const float waveFrequency = 1.0; // Only whole numbers will tile
+const float waveSpeed = 6.0;
+const float waveStrength = 8.0;
+const float foamDepth = 0.2;
+const float topLineThickness = 0.03; // Controls the thickness of the top white line
 
 // From https://www.shadertoy.com/view/MltyRs
 // + claude 3.7
@@ -22,10 +35,6 @@ void main()
     float aspectRatio = uResolution.x / uResolution.y;
     uv.x *= aspectRatio;
 
-    // PIXEL ART PARAMETERS - ADJUST THESE
-    float pixelScale = 128.0; // Higher number = more pixels (smaller pixels)
-                              // Try values between 8.0 (very chunky) and 64.0 (fine)
-
     // Create a pixelated grid effect by quantizing coordinates
     float gridX = floor(uv.x * pixelScale) / pixelScale;
     float gridY = floor(uv.y * pixelScale) / pixelScale;
@@ -33,19 +42,6 @@ void main()
     // Calculate a pixel-perfect water height for each pixel column
     // Makes sure the wave will tile
     float tiler = PI * 10.0 / aspectRatio;
-
-    vec4  backTex = vec4(0.0, 0.0, 0.0, 0.0);
-
-    vec4  waterColour = vec4(0.0, 0.5, 0.9, 1.0);
-    vec4  foamColour = vec4(0.8, 1.0, 1.0, 1.0);
-    vec4  topLineColor = vec4(1.0, 1.0, 1.0, 1.0); // Pure white for the top line
-
-    float transparency = 0.4;
-    float waveFrequency = 1.0; // Only whole numbers will tile
-    float waveSpeed = 6.0;
-    float waveStrength = 8.0;
-    float foamDepth = 0.2;
-    float topLineThickness = 0.03; // Controls the thickness of the top white line
 
     // Quantize time for stepped animation
     float quantizedTime = floor(uTime.x * 8.0) / 8.0;

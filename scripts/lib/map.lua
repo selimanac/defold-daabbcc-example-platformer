@@ -1,9 +1,9 @@
 local data                      = require("scripts.lib.data")
 local const                     = require("scripts.lib.const")
 local collision                 = require("scripts.lib.collision")
-local props                     = require("scripts.lib.props")
+local props                     = require("scripts.game.props")
 local utils                     = require("scripts.lib.utils")
-local enemies                   = require("scripts.lib.enemies")
+local enemies                   = require("scripts.game.enemies")
 local directions                = require("scripts.lib.directions")
 
 local map                       = {}

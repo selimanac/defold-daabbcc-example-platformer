@@ -111,7 +111,7 @@ local function update_health()
 	gui.set_text(nodes.life_count_txt, data.player.health)
 end
 
--- This is ugly and not correct way to do it. But I'm lazy :)
+-- This is a lazy and not correct way to do it.
 local function resize_gui()
 	gui.set_size(nodes.pause_box, vmath.vector3(data.window_size.width, data.window_size.height, 0))
 	gui.set_size(nodes.gamepad_menu, vmath.vector3(data.window_size.width, data.window_size.height, 0))
@@ -137,8 +137,6 @@ function init(_)
 	if data.game.is_gamepad_connected then
 		gamepad_status()
 	end
-
-	pprint(nodes)
 end
 
 function on_message(self, message_id, message, sender)
@@ -159,11 +157,8 @@ function on_input(self, action_id, action)
 	----------------------
 	-- Gamepad
 	----------------------
-	if action_id == const.TRIGGERS.GAMEPAD_CONNECTED then
-		data.game.is_gamepad_connected = true
-		gamepad_status()
-	elseif action_id == const.TRIGGERS.GAMEPAD_DISCONNECTED then
-		data.game.is_gamepad_connected = false
+	if action_id == const.TRIGGERS.GAMEPAD_CONNECTED or action_id == const.TRIGGERS.GAMEPAD_DISCONNECTED then
+		data.game.is_gamepad_connected = (action_id == const.TRIGGERS.GAMEPAD_CONNECTED)
 		gamepad_status()
 	elseif data.game.is_gamepad_connected then
 		-- Gamepad menu

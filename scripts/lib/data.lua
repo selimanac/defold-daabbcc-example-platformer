@@ -1,8 +1,11 @@
 local const          = require("scripts.lib.const")
+--local device         = require("scripts.lib.device")
 
 local data           = {}
 
 data.window_size     = { width = 0, height = 0 }
+data.is_mobile       = false
+data.window_scale    = 1
 
 -- Loading proxy
 data.proxy           = {

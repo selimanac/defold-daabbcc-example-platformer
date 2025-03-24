@@ -1,19 +1,19 @@
 local const            = require("scripts.lib.const")
 
 -- PROPS
-local box              = require("scripts.props.box")
-local checkpoint       = require("scripts.props.checkpoint")
-local collectable      = require("scripts.props.collectable")
-local falling_platform = require("scripts.props.falling_platform")
-local finish           = require("scripts.props.finish")
-local fire             = require("scripts.props.fire")
-local spike            = require("scripts.props.spike")
-local trampoline       = require("scripts.props.trampoline")
-local water            = require("scripts.props.water")
+local box              = require("scripts.game.props.box")
+local checkpoint       = require("scripts.game.props.checkpoint")
+local collectable      = require("scripts.game.props.collectable")
+local falling_platform = require("scripts.game.props.falling_platform")
+local finish           = require("scripts.game.props.finish")
+local fire             = require("scripts.game.props.fire")
+local spike            = require("scripts.game.props.spike")
+local trampoline       = require("scripts.game.props.trampoline")
+local water            = require("scripts.game.props.water")
 
 -- ENEMIES
-local angry_pig        = require("scripts.enemies.angry_pig")
-local rock_head        = require("scripts.enemies.rock_head")
+local angry_pig        = require("scripts.game.enemies.angry_pig")
+local rock_head        = require("scripts.game.enemies.rock_head")
 
 local entities         = {}
 

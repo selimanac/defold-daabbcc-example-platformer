@@ -15,7 +15,7 @@ embedded_components {
   "  material: \"/components/materials/waterfall.material\"\n"
   "  textures {\n"
   "    sampler: \"tex0\"\n"
-  "    texture: \"/assets/uniform_clouds.jpg\"\n"
+  "    texture: \"/assets/uniform_clouds_512.png\"\n"
   "  }\n"
   "}\n"
   ""

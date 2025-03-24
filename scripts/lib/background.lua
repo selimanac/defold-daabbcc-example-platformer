@@ -1,5 +1,5 @@
-local data = require("scripts.lib.data")
-local const = require("scripts.lib.const")
+local data       = require("scripts.lib.data")
+local const      = require("scripts.lib.const")
 
 local background = {}
 

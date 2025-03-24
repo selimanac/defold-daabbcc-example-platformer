@@ -1,6 +1,6 @@
 local data            = require("scripts.lib.data")
 local const           = require("scripts.lib.const")
-local checkpoints     = require("scripts.props.checkpoint")
+local checkpoints     = require("scripts.game.props.checkpoint")
 
 local debug           = {}
 

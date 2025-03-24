@@ -1,7 +1,9 @@
 https://pixelfrog-assets.itch.io/pixel-adventure-1
-
+https://kenney.nl/assets/onscreen-controls
 https://pixabay.com/music/upbeat-game-music-player-console-8bit-background-intro-theme-297305/
 Song by <a href="https://stocktune.com/free-music/pixels-of-rhythmic-bliss-60473-53735">StockTune</a>
+
+https://github.com/britzl/defold-input
 
 https://www.shadertoy.com/view/flBGzm
 https://www.shadertoy.com/view/NtBGRw

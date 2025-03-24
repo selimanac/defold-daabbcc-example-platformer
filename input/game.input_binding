@@ -288,7 +288,7 @@ gamepad_trigger {
 }
 touch_trigger {
   input: TOUCH_MULTI
-  action: "touch_multi"
+  action: "TOUCH_MULTI"
 }
 text_trigger {
   input: TEXT

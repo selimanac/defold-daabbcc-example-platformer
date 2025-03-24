@@ -1,6 +1,6 @@
 local const                     = require("scripts.lib.const")
 local data                      = require("scripts.lib.data")
-local player_state              = require("scripts.lib.player_state")
+local player_state              = require("scripts.game.player.player_state")
 local collision                 = require("scripts.lib.collision")
 local utils                     = require("scripts.lib.utils")
 
@@ -159,7 +159,9 @@ function player_collisions.platform(dt)
 
 			local player_bottom_y = data.player.position.y - const.PLAYER.HALF_SIZE.h
 
-			if player_bottom_y >= platform_query_tile.y + const.PLAYER.PLATFORM_JUMP_OFFSET then -- jump offset
+			if player_bottom_y >= platform_query_tile.y + const.PLAYER.PLATFORM_JUMP_OFFSET
+				or (data.player.state.on_ground and player_bottom_y >= platform_query_tile.y)
+			then -- jump offset
 				data.player.state.over_platform = true
 			end
 		end
@@ -182,6 +184,10 @@ function player_collisions.platform(dt)
 					end
 				end
 			end
+		elseif not data.player.state.over_platform then
+			data.player.state.on_ground = false
+			data.player.gravity_down = const.PLAYER.GRAVITY_DOWN
+			player_state.fall()
 		end
 	end
 

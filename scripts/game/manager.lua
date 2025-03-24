@@ -1,18 +1,20 @@
 local map          = require("scripts.lib.map")
 local collision    = require("scripts.lib.collision")
-local player       = require("scripts.lib.player")
+local audio        = require("scripts.lib.audio")
 local data         = require("scripts.lib.data")
-
 local const        = require("scripts.lib.const")
 local game_camera  = require("scripts.lib.game_camera")
 local particles    = require("scripts.lib.particles")
 local background   = require("scripts.lib.background")
-local enemies      = require("scripts.lib.enemies")
-local props        = require("scripts.lib.props")
 local camera_fx    = require("scripts.lib.camera_fx")
-local player_input = require("scripts.lib.player_input")
-local audio        = require("scripts.lib.audio")
-local checkpoint   = require("scripts.props.checkpoint")
+local device       = require("scripts.lib.device")
+
+local player_input = require("scripts.game.player.player_input")
+local enemies      = require("scripts.game.enemies")
+local props        = require("scripts.game.props")
+local checkpoint   = require("scripts.game.props.checkpoint")
+local player       = require("scripts.game.player")
+
 local debug        = nil
 
 local manager      = {}
@@ -21,9 +23,6 @@ local function collect_garbage()
 	print("garbage before: ", collectgarbage("count"))
 	collectgarbage("collect")
 	print("garbage after: ", collectgarbage("count"))
-
-	collectgarbage("setstepmul", 1000);
-	collectgarbage('setpause', 1000);
 end
 
 local function setup_urls()
@@ -55,6 +54,12 @@ function manager.init()
 	msg.post("@render:", "clear_color", { color = const.BACKGROUND_COLOR })
 
 	setup_urls()
+
+	data.is_mobile = device.mobile()
+	data.window_scale = window.get_display_scale()
+	if data.is_mobile then
+		data.window_scale = (data.window_scale * 0.7)
+	end
 
 	collision.init()
 	map.init()

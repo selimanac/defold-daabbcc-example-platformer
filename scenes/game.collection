@@ -135,6 +135,10 @@ embedded_instances {
   "  id: \"game\"\n"
   "  component: \"/components/gui/game.gui\"\n"
   "}\n"
+  "components {\n"
+  "  id: \"on_screen\"\n"
+  "  component: \"/components/gui/on_screen.gui\"\n"
+  "}\n"
   ""
 }
 embedded_instances {

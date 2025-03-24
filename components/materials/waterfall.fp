@@ -14,6 +14,15 @@ uniform fs_uniforms
     mediump vec4 uResolution;
 };
 
+const vec4  col1 = vec4(0.7843, 0.9607, 1, 1.0);
+const vec4  col2 = vec4(0.5098, 0.7058, 0.9607, 1.0);
+const vec4  col3 = vec4(0.3137, 0.5098, 0.9019, 1.0);
+const vec4  col4 = vec4(0.7843, 0.9607, 1, 1.0);
+
+const float edgeWidth = 0.02;     // Controls how wide the wavy edge is
+const float waveFrequency = 5.0;  // Controls how many waves appear
+const float waveAmplitude = 0.02; // Controls how pronounced the waves are
+const float waveSpeed = 15.0;     // Controls how fast the waves move
 // Wave function
 float edgeWave(float x, float time, float frequency, float amplitude)
 {
@@ -40,11 +49,6 @@ void main()
     wavyUV.x = clamp(wavyUV.x, 0.0, 1.0);
 
     vec2 uv_pixel = floor(wavyUV * (uResolution.xy / 2)) / (uResolution.xy / 2);
-
-    vec4 col1 = vec4(0.7843, 0.9607, 1, 1.0);
-    vec4 col2 = vec4(0.5098, 0.7058, 0.9607, 1.0);
-    vec4 col3 = vec4(0.3137, 0.5098, 0.9019, 1.0);
-    vec4 col4 = vec4(0.7843, 0.9607, 1, 1.0);
 
     // Add vertical displacement that varies based on horizontal position
     vec3 displace = texture(tex0, vec2(uv_pixel.x, (uv_pixel.y + time) * 0.05)).xyz;
@@ -84,10 +88,6 @@ void main()
     color.rgb += vec3(edgeHighlight);
 
     // edge mask
-    float edgeWidth = 0.02;     // Controls how wide the wavy edge is
-    float waveFrequency = 5.0;  // Controls how many waves appear
-    float waveAmplitude = 0.02; // Controls how pronounced the waves are
-    float waveSpeed = 15.0;     // Controls how fast the waves move
 
     // sine wave offset for left and right edges
     float leftEdge = edgeWidth + waveAmplitude * sin(waveFrequency * uv.y + time * waveSpeed);

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="280" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="513">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="280" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="517">
  <editorsettings>
   <export target="../../data/level_1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="platformer.tsx"/>
- <tileset firstgid="243" source="props.tsx"/>
+ <tileset firstgid="243" source="entities.tsx"/>
  <layer id="1" name="map" width="280" height="22">
   <data encoding="csv">
 112,92,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,93,
@@ -206,7 +206,7 @@
   <object id="460" x="1840" y="96" width="32" height="48"/>
   <object id="485" x="192" y="160" width="64" height="16"/>
  </objectgroup>
- <objectgroup color="#395cd3" id="6" name="props" locked="1">
+ <objectgroup color="#395cd3" id="6" name="props">
   <object id="39" name="FALLING_PLATFORM" gid="250" x="2192" y="156" width="32" height="10"/>
   <object id="42" name="FALLING_PLATFORM" gid="250" x="2260" y="128" width="32" height="10"/>
   <object id="67" name="APPLE" gid="259" x="568" y="184" width="32" height="32"/>
@@ -346,7 +346,7 @@
   <object id="346" name="FIRE" gid="262" x="720" y="320" width="16" height="32"/>
   <object id="358" name="WATER" gid="271" x="2496" y="336" width="640" height="116"/>
   <object id="359" name="WATERFALL" gid="272" x="2768" y="228" width="112" height="196"/>
-  <object id="363" name="MOVING_PLATFORM" gid="269" x="2592" y="132" width="32" height="8">
+  <object id="363" name="MOVING_PLATFORM" gid="269" x="2600" y="140" width="32" height="8">
    <properties>
     <property name="direction_x" type="int" value="1"/>
     <property name="direction_y" type="int" value="0"/>
@@ -470,7 +470,7 @@
   <object id="512" name="APPLE" gid="259" x="112" y="320" width="32" height="32"/>
  </objectgroup>
  <objectgroup color="#cdc70d" id="3" name="actors">
-  <object id="57" name="PLAYER" gid="258" x="288" y="240" width="32" height="32"/>
+  <object id="57" name="PLAYER" gid="258" x="2440" y="52" width="32" height="32"/>
   <object id="177" name="ANGRY_PIG" gid="263" x="972" y="128" width="33" height="27">
    <properties>
     <property name="direction_x" type="int" value="-1"/>
@@ -519,8 +519,8 @@
   <object id="247" gid="265" x="304" y="112" width="16" height="16"/>
   <object id="259" gid="266" x="3900" y="136" width="16" height="16"/>
   <object id="260" gid="265" x="4332" y="136" width="16" height="16"/>
-  <object id="368" gid="266" x="2496" y="136" width="16" height="16"/>
-  <object id="369" gid="265" x="2640" y="136" width="16" height="16"/>
+  <object id="368" gid="266" x="2512" y="144" width="16" height="16"/>
+  <object id="369" gid="265" x="2640" y="144" width="16" height="16"/>
   <object id="372" gid="264" x="3264" y="64" width="16" height="16"/>
   <object id="373" gid="267" x="3264" y="320" width="16" height="16"/>
   <object id="378" gid="266" x="2880" y="184" width="16" height="16"/>

@@ -31,6 +31,18 @@ images {
 images {
   image: "/assets/pixel_adventure/Menu/Buttons/Volume.png"
 }
+images {
+  image: "/assets/on_screen/on_screen_base.png"
+}
+images {
+  image: "/assets/on_screen/on_screen_button.png"
+}
+images {
+  image: "/assets/on_screen/on_screen_left_button.png"
+}
+images {
+  image: "/assets/on_screen/on_screen_right_button.png"
+}
 animations {
   id: "pink_man_player_idle"
   images {

@@ -1,4 +1,4 @@
-local player_state = require("scripts.lib.player_state")
+local player_state = require("scripts.game.player.player_state")
 
 local rock_head = {}
 

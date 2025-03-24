@@ -1,0 +1,91 @@
+script: "/scripts/gui/on_screen.gui_script"
+textures {
+  name: "game"
+  texture: "/components/atlas/game.atlas"
+}
+nodes {
+  position {
+    x: 98.0
+    y: 78.0
+  }
+  size {
+    x: 110.0
+    y: 110.0
+  }
+  type: TYPE_BOX
+  texture: "game/on_screen_base"
+  id: "on_screen_base"
+  layer: "gdx"
+  inherit_alpha: true
+  alpha: 0.65
+  enabled: false
+}
+nodes {
+  position {
+    x: 98.0
+    y: 78.0
+  }
+  size {
+    x: 75.0
+    y: 75.0
+  }
+  type: TYPE_BOX
+  texture: "game/on_screen_base"
+  id: "on_screen_pad"
+  layer: "gdx"
+  inherit_alpha: true
+  enabled: false
+}
+nodes {
+  position {
+    x: 571.0
+    y: 94.0
+  }
+  size {
+    x: 75.0
+    y: 75.0
+  }
+  type: TYPE_BOX
+  texture: "game/on_screen_button"
+  id: "on_screen_btn"
+  layer: "gdx"
+  inherit_alpha: true
+  alpha: 0.6
+}
+nodes {
+  position {
+    x: 65.0
+    y: 77.0
+  }
+  size {
+    x: 65.0
+    y: 65.0
+  }
+  type: TYPE_BOX
+  texture: "game/on_screen_left_button"
+  id: "on_screen_left_btn"
+  layer: "gdx"
+  inherit_alpha: true
+  alpha: 0.7
+}
+nodes {
+  position {
+    x: 134.0
+    y: 77.0
+  }
+  size {
+    x: 65.0
+    y: 65.0
+  }
+  type: TYPE_BOX
+  texture: "game/on_screen_right_button"
+  id: "on_screen_right_btn"
+  layer: "gdx"
+  inherit_alpha: true
+  alpha: 0.6
+}
+layers {
+  name: "gdx"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

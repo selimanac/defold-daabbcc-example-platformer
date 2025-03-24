@@ -16,9 +16,10 @@ swap_interval = 1
 
 [android]
 input_method = HiddenInputField
+package = com.daabbcc.platformer
 
 [html5]
-scale_mode = no_scale
+scale_mode = downscale_fit
 
 [project]
 title = defold-daabbcc-platformer
@@ -60,4 +61,10 @@ debug = 0
 clear_color_red = 0.129412
 clear_color_green = 0.121569
 clear_color_blue = 0.188235
+
+[osx]
+bundle_identifier = com.daabbcc.platformer
+
+[ios]
+bundle_identifier = com.daabbcc.platformer
 

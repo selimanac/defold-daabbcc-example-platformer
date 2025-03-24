@@ -1,10 +1,10 @@
 local const              = require("scripts.lib.const")
 local data               = require("scripts.lib.data")
 local collision          = require("scripts.lib.collision")
-local player_collisions  = require("scripts.lib.player_collisions")
-local player_input       = require("scripts.lib.player_input")
+local player_collisions  = require("scripts.game.player.player_collisions")
+local player_input       = require("scripts.game.player.player_input")
 local audio              = require("scripts.lib.audio")
-local checkpoint         = require("scripts.props.checkpoint")
+local checkpoint         = require("scripts.game.props.checkpoint")
 
 local player             = {}
 

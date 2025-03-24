@@ -1,6 +1,6 @@
 local const        = require("scripts.lib.const")
 local data         = require("scripts.lib.data")
-local player_state = require("scripts.lib.player_state")
+local player_state = require("scripts.game.player.player_state")
 local audio        = require("scripts.lib.audio")
 
 local player_input = {}
