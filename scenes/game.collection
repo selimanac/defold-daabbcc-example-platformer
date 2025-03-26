@@ -63,6 +63,10 @@ embedded_instances {
   "  id: \"level\"\n"
   "  component: \"/components/factories/level.collectionfactory\"\n"
   "}\n"
+  "components {\n"
+  "  id: \"mobile_gui\"\n"
+  "  component: \"/components/factories/mobile_gui.factory\"\n"
+  "}\n"
   ""
 }
 embedded_instances {
@@ -134,10 +138,6 @@ embedded_instances {
   data: "components {\n"
   "  id: \"game\"\n"
   "  component: \"/components/gui/game.gui\"\n"
-  "}\n"
-  "components {\n"
-  "  id: \"on_screen\"\n"
-  "  component: \"/components/gui/on_screen.gui\"\n"
   "}\n"
   ""
 }

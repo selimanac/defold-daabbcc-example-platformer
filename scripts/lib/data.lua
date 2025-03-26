@@ -1,10 +1,8 @@
 local const          = require("scripts.lib.const")
---local device         = require("scripts.lib.device")
 
 local data           = {}
 
 data.window_size     = { width = 0, height = 0 }
-data.is_mobile       = false
 data.window_scale    = 1
 
 -- Loading proxy
@@ -57,16 +55,19 @@ data.debug           = {
 }
 
 data.game            = {
-	state = {
+	state                = {
 		pause          = false,
 		input_pause    = false,
 		skip_colliders = false
 	},
-	level = 1,
-	is_music_playing = false,
-	is_music = true,
-	is_sound_fx = true,
+	level                = 1,
+	is_music_playing     = false,
+	is_music             = true,
+	is_sound_fx          = true,
 	is_gamepad_connected = false,
+	is_mobile_init       = false,
+	is_mobile            = false,
+	is_landscape         = true
 }
 
 data.player          = {
@@ -100,7 +101,6 @@ data.player          = {
 		is_hit             = false,
 		over_platform      = false,
 		on_moving_platform = false
-
 	}
 }
 
@@ -113,15 +113,20 @@ data.camera          = {
 }
 
 function data.set_game_pause(state)
-	data.game.state.pause = state
-	daabbcc.run(not state)
-	msg.post(const.URLS.GUI, const.MSG.GAME_PAUSE)
+	if data.game.state.pause ~= state then
+		data.game.state.pause = state
+		daabbcc.run(not state)
 
-	if data.proxy.loaded then
-		if data.game.state.pause then
-			msg.post(const.PROXY, "set_time_step", { factor = 0, mode = 0 })
-		else
-			msg.post(const.PROXY, "set_time_step", { factor = 1, mode = 1 })
+		if data.game.is_landscape then
+			msg.post(const.URLS.GUI, const.MSG.GAME_PAUSE)
+		end
+
+		if data.proxy.loaded then
+			if data.game.state.pause then
+				msg.post(const.PROXY, "set_time_step", { factor = 0, mode = 0 })
+			else
+				msg.post(const.PROXY, "set_time_step", { factor = 1, mode = 1 })
+			end
 		end
 	end
 end

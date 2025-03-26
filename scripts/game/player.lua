@@ -132,7 +132,7 @@ function player.update(dt)
 			-- Top Collision: normal_y == -1
 			---------------------------------------
 			if query_result.normal_y == -1
-				and data.player.state.is_jumping
+				--	and data.player.state.is_jumping -- <- TOD CHECK THIS
 				and is_collectable == false
 				and not data.player.state.on_slope
 			then

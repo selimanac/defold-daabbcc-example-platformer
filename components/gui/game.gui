@@ -26,6 +26,7 @@ nodes {
   layer: "gfx"
   inherit_alpha: true
   alpha: 0.3
+  size_mode: SIZE_MODE_AUTO
   enabled: false
 }
 nodes {
@@ -41,8 +42,8 @@ nodes {
 }
 nodes {
   position {
-    x: 14.0
-    y: 344.0
+    x: 15.0
+    y: 350.0
   }
   size {
     x: 16.0
@@ -51,47 +52,56 @@ nodes {
   type: TYPE_BOX
   texture: "game/virtual_guy_player_idle"
   id: "life"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
   layer: "gfx"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 24.0
-    y: -4.0
+    x: 26.0
+    y: -5.0
   }
   size {
     x: 20.0
-    y: 20.0
+    y: 10.0
   }
   type: TYPE_TEXT
   text: "3"
   font: "fff"
   id: "life_count_txt"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
   parent: "life"
   layer: "text"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 14.0
+    x: 18.0
     y: -4.0
   }
   size {
-    x: 20.0
-    y: 20.0
+    x: 5.0
+    y: 10.0
   }
   type: TYPE_TEXT
   text: "x"
   font: "fff"
   id: "x1"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
   parent: "life"
   layer: "text"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 14.0
-    y: 321.0
+    x: 11.0
+    y: 327.0
   }
   size {
     x: 24.0
@@ -100,39 +110,48 @@ nodes {
   type: TYPE_BOX
   texture: "game/prop_apple_idle"
   id: "apples"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
   layer: "gfx"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 24.0
-    y: 1.0
+    x: 30.0
+    y: -7.0
   }
   size {
     x: 20.0
-    y: 20.0
+    y: 10.0
   }
   type: TYPE_TEXT
   text: "0"
   font: "fff"
   id: "apple_count_txt"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
   parent: "apples"
   layer: "text"
   inherit_alpha: true
 }
 nodes {
   position {
-    x: 14.0
-    y: 1.0
+    x: 22.0
+    y: -6.0
   }
   size {
-    x: 20.0
-    y: 20.0
+    x: 5.0
+    y: 10.0
   }
   type: TYPE_TEXT
   text: "x"
   font: "fff"
   id: "x"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
   parent: "apples"
   layer: "text"
   inherit_alpha: true
@@ -155,6 +174,7 @@ nodes {
   id: "gamepad_menu"
   inherit_alpha: true
   alpha: 0.3
+  size_mode: SIZE_MODE_AUTO
   enabled: false
 }
 nodes {
@@ -258,14 +278,15 @@ nodes {
   text: "GAMEPAD CONNECTED"
   font: "fff"
   id: "gamepad_status"
+  layer: "text"
   inherit_alpha: true
   enabled: false
 }
 layers {
-  name: "text"
+  name: "gfx"
 }
 layers {
-  name: "gfx"
+  name: "text"
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT

@@ -1,5 +1,6 @@
 local data                 = require("scripts.lib.data")
 local const                = require("scripts.lib.const")
+local device               = require("scripts.lib.device")
 
 local game_camera          = {}
 
@@ -48,11 +49,32 @@ function game_camera.update(dt)
 end
 
 function game_camera.set_zoom(size)
-	--local new_camera_zoom = math.floor(math.max(size.width / const.DISPLAY_WIDTH, size.height / const.DISPLAY_HEIGHT) * data.camera.zoom) / scale
-	print("scale:", scale)
 	local new_camera_zoom = math.min(size.width / const.DISPLAY_WIDTH, size.height / const.DISPLAY_HEIGHT) * data.camera.zoom / data.window_scale
 
 	go.set(const.URLS.CAMERA_ID, "orthographic_zoom", new_camera_zoom)
+end
+
+function game_camera.check_orientation()
+	if not data.game.is_mobile then
+		return
+	end
+
+	if not device.landscape() then
+		if data.game.is_landscape then
+			msg.post(const.PROXY_SCRIPT, const.MSG.LANDSCAPE_PAUSE)
+			msg.post(const.URLS.GUI, const.MSG.LANDSCAPE_PAUSE)
+		end
+
+		data.game.is_landscape = false
+
+		data.set_game_pause(true)
+	else
+		if not data.game.is_landscape then
+			msg.post(const.PROXY_SCRIPT, const.MSG.LANDSCAPE_PAUSE)
+			msg.post(const.URLS.GUI, const.MSG.LANDSCAPE_PAUSE)
+		end
+		data.game.is_landscape = true
+	end
 end
 
 local function window_event(self, event, size)
@@ -61,12 +83,19 @@ local function window_event(self, event, size)
 	elseif event == window.WINDOW_EVENT_ICONFIED then
 		data.set_game_pause(true)
 	elseif event == window.WINDOW_EVENT_RESIZED then
+		game_camera.check_orientation()
+
 		data.set_game_pause(true)
+
 		game_camera.set_zoom(size)
+
 		data.window_size = size
+
 		msg.post(const.URLS.GUI, const.MSG.UPDATE_SIZE)
 	end
 end
+
+
 
 function game_camera.init()
 	data.camera.position = data.player.position
@@ -76,12 +105,13 @@ function game_camera.init()
 	if is_init == false then
 		data.camera.zoom = go.get(const.URLS.CAMERA_ID, "orthographic_zoom")
 
-		local _, _, w, h = defos.get_view_size()
+		local w, h = window.get_size()
 
 		data.window_size.width = w
 		data.window_size.height = h
 
 		game_camera.set_zoom(data.window_size)
+
 		window.set_listener(window_event)
 	end
 

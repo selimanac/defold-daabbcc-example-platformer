@@ -1,5 +1,8 @@
 local data = require("scripts.lib.data")
 
+local u_offset = vmath.vector4()
+local scroll_speed = 1 -- adjust as needed
+
 -- Copyright 2020-2025 The Defold Foundation
 -- Copyright 2014-2020 King
 -- Copyright 2009-2014 Ragnar Svensson, Christian Murray
@@ -172,7 +175,7 @@ local function reset_camera_world(state)
 end
 
 function init(self)
-    self.predicates = create_predicates("tile", "gui", "particle", "background", "water", "particle_front", "waterfall", "model_transparent", "model", "debug_text")
+    self.predicates = create_predicates("tile", "orientation_gui", "gui", "particle", "background", "water", "particle_front", "waterfall", "model_transparent", "model", "debug_text")
 
     -- default is stretch projection. copy from builtins and change for different projection
     -- or send a message to the render script to change projection:
@@ -195,8 +198,6 @@ function init(self)
     update_state(state)
 end
 
-local u_offset = vmath.vector4()
-local scroll_speed = 1 -- adjust as needed
 function update(self)
     local state = self.state
     if not state.valid then
@@ -218,9 +219,11 @@ function update(self)
     local draw_options_world = set_camera_world(state)
     render.set_viewport(0, 0, state.window_width, state.window_height)
 
-    -- set states used for all the world predicates
+    -- -- set states used for all the world predicates
     render.set_blend_func(graphics.BLEND_FACTOR_SRC_ALPHA, graphics.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA)
     render.enable_state(graphics.STATE_DEPTH_TEST)
+
+
 
     -- render `model` predicate for default 3D material
     --
@@ -262,7 +265,6 @@ function update(self)
 
     render.enable_state(graphics.STATE_STENCIL_TEST)
     render.draw(predicates.gui, camera_gui.options)
-    render.draw(predicates.debug_text, camera_gui.options)
     render.disable_state(graphics.STATE_STENCIL_TEST)
     render.disable_state(graphics.STATE_BLEND)
 end

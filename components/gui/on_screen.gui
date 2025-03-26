@@ -38,8 +38,8 @@ nodes {
 }
 nodes {
   position {
-    x: 571.0
-    y: 94.0
+    x: 608.0
+    y: 48.0
   }
   size {
     x: 75.0
@@ -48,14 +48,17 @@ nodes {
   type: TYPE_BOX
   texture: "game/on_screen_button"
   id: "on_screen_btn"
+  xanchor: XANCHOR_RIGHT
+  yanchor: YANCHOR_BOTTOM
+  pivot: PIVOT_SE
   layer: "gdx"
   inherit_alpha: true
   alpha: 0.6
 }
 nodes {
   position {
-    x: 65.0
-    y: 77.0
+    x: 30.0
+    y: 41.0
   }
   size {
     x: 65.0
@@ -64,14 +67,17 @@ nodes {
   type: TYPE_BOX
   texture: "game/on_screen_left_button"
   id: "on_screen_left_btn"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_BOTTOM
+  pivot: PIVOT_SW
   layer: "gdx"
   inherit_alpha: true
   alpha: 0.7
 }
 nodes {
   position {
-    x: 134.0
-    y: 77.0
+    x: 99.0
+    y: 41.0
   }
   size {
     x: 65.0
@@ -80,6 +86,9 @@ nodes {
   type: TYPE_BOX
   texture: "game/on_screen_right_button"
   id: "on_screen_right_btn"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_BOTTOM
+  pivot: PIVOT_SW
   layer: "gdx"
   inherit_alpha: true
   alpha: 0.6

@@ -24,13 +24,13 @@ const float waveFrequency = 5.0;  // Controls how many waves appear
 const float waveAmplitude = 0.02; // Controls how pronounced the waves are
 const float waveSpeed = 15.0;     // Controls how fast the waves move
 // Wave function
-float edgeWave(float x, float time, float frequency, float amplitude)
+/* float edgeWave(float x, float time, float frequency, float amplitude)
 {
     float distFromCenter = abs(x - 0.5) * 2.0;
     float edgeFactor = smoothstep(0.0, 1.0, pow(distFromCenter, 1.5));
     float wave = sin(time * frequency + x * 10.0) * amplitude;
     return wave * edgeFactor;
-}
+} */
 
 // FROM: https://shadered.org/view?s=6Gny24_ojD
 void main()
@@ -39,11 +39,11 @@ void main()
     float time = uTime.x * 0.4;
 
     // Apply horizontal wave displacement based on position
-    float xDisplacement = edgeWave(uv.x, time, 2.0, 0.01);
+    // float xDisplacement = edgeWave(uv.x, time, 2.0, 0.01);
 
     // Apply the displacement to the UV coordinates
     vec2 wavyUV = uv;
-    wavyUV.x += xDisplacement;
+    //  wavyUV.x += xDisplacement;
 
     // Ensure UV stays within bounds (optional, creates a "cropped" effect)
     wavyUV.x = clamp(wavyUV.x, 0.0, 1.0);
@@ -86,8 +86,6 @@ void main()
     // Add a slight edge highlight to emphasize the wavy sides
     float edgeHighlight = smoothstep(0.9, 1.0, edgeEffect) * 0.15;
     color.rgb += vec3(edgeHighlight);
-
-    // edge mask
 
     // sine wave offset for left and right edges
     float leftEdge = edgeWidth + waveAmplitude * sin(waveFrequency * uv.y + time * waveSpeed);

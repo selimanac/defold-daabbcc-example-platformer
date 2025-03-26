@@ -1,5 +1,6 @@
-local data                       = require("scripts.lib.data")
-local const                      = require("scripts.lib.const")
+local data  = require("scripts.lib.data")
+local const = require("scripts.lib.const")
+
 
 local nodes                      = {
 	restart_btn         = "",
@@ -20,6 +21,7 @@ local gamepad_status_text        = {
 	CONNECTED    = "GAMEPAD CONNECTED",
 	DISCONNECTED = "GAMEPAD DISCONNECTED"
 }
+
 local scale_up                   = vmath.vector3(1.5)
 local scale_default              = vmath.vector3(1)
 local is_gamepad_menu            = false
@@ -62,8 +64,7 @@ local function select_gamepad_menu_item()
 end
 
 local function gamepad_status()
-	--	window.set_mouse_lock(data.game.is_gamepad_connected)
-	defos.set_cursor_visible(not data.game.is_gamepad_connected)
+	window.set_mouse_lock(not data.game.is_gamepad_connected)
 
 	gui.set_enabled(nodes.mouse_menu, not data.game.is_gamepad_connected)
 
@@ -123,6 +124,7 @@ local function toggle_gamepad_menu()
 	gui.set_enabled(nodes.gamepad_menu, is_gamepad_menu)
 end
 
+
 function init(_)
 	msg.post(".", "acquire_input_focus")
 
@@ -149,7 +151,9 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == const.MSG.PLAYER_HEALTH_UPDATE then
 		update_health()
 	elseif message_id == const.MSG.UPDATE_SIZE then
-		resize_gui()
+		--resize_gui()
+	elseif message_id == const.MSG.LANDSCAPE_PAUSE then
+		gui.set_enabled(nodes.pause_box, data.game.is_landscape)
 	end
 end
 

@@ -1,8 +1,9 @@
-local data      = require("scripts.lib.data")
-local const     = require("scripts.lib.const")
-local on_screen = require("scripts.lib.on_screen")
+local data         = require("scripts.lib.data")
+local const        = require("scripts.lib.const")
+local on_screen    = require("scripts.lib.on_screen")
+local player_input = require("scripts.game.player.player_input")
 
-local nodes     = {
+local nodes        = {
 	on_screen_base      = "",
 	on_screen_pad       = "",
 	on_screen_btn       = "",
@@ -10,6 +11,19 @@ local nodes     = {
 	on_screen_right_btn = ""
 
 }
+
+local function move_left(action, node, touch)
+	player_input.movement_dheck(touch, -1)
+end
+
+
+local function move_right(action, node, touch)
+	player_input.movement_dheck(touch, 1)
+end
+
+local function jump(action, node, touch)
+	player_input.jump_check(touch)
+end
 
 function init(_)
 	msg.post(".", "acquire_input_focus")
@@ -31,63 +45,15 @@ function init(_)
 	-- 	end
 	-- end)
 
-	on_screen.register_button(nodes.on_screen_left_btn, nil, function(action, node, touch)
-		if touch.pressed then
-			data.player.direction = -1
-		elseif touch.released then
-			data.player.direction = 0
-		end
-	end)
-
-	on_screen.register_button(nodes.on_screen_right_btn, nil, function(action, node, touch)
-		if touch.pressed then
-			data.player.direction = 1
-		elseif touch.released then
-			data.player.direction = 0
-		end
-	end)
-
-
-	on_screen.register_button(nodes.on_screen_btn, nil, function(action, node, touch)
-		-- TODO this is repeating. <- Merge
-		if touch.pressed then
-			data.player.state.jump_pressed = true
-			if data.player.state.on_ground then
-				data.player.velocity.y = const.PLAYER.JUMP_FORCE
-				data.player.state.on_ground = false
-				data.player.state.on_slope = false
-				data.player.jump_timer = 0
-			end
-		elseif touch.released then
-			data.player.state.jump_pressed = false
-		end
-	end)
-end
-
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
+	on_screen.register_button(nodes.on_screen_left_btn, nil, move_left)
+	on_screen.register_button(nodes.on_screen_right_btn, nil, move_right)
+	on_screen.register_button(nodes.on_screen_btn, nil, jump)
 end
 
 function on_input(self, action_id, action)
-	on_screen.on_input(action_id, action)
-end
+	if data.game.state.input_pause or data.game.state.pause then
+		return
+	end
 
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
+	on_screen.on_input(action_id, action)
 end

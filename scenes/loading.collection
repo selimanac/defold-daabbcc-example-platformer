@@ -26,3 +26,13 @@ embedded_instances {
   "}\n"
   ""
 }
+embedded_instances {
+  id: "factories"
+  data: "embedded_components {\n"
+  "  id: \"orientation\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/components/gameobjects/orientation.go\\\"\\n"
+  "\"\n"
+  "}\n"
+  ""
+}

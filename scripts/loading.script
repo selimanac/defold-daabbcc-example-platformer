@@ -1,7 +1,16 @@
-local const = require("scripts.lib.const")
-local data  = require("scripts.lib.data")
+local const          = require("scripts.lib.const")
+local data           = require("scripts.lib.data")
+local device         = require("scripts.lib.device")
+
+local orientation_id = nil
 
 function init(_)
+	print(device.mobile() or device.tablet())
+	data.game.is_mobile = device.mobile() or device.tablet()
+	data.window_scale = window.get_display_scale()
+	print(" device.mobile(): ", device.mobile())
+	print(" device.tablet(): ", device.tablet())
+	print("data.game.is_mobile ", data.game.is_mobile)
 	----------------------
 	-- defos
 	----------------------
@@ -31,5 +40,12 @@ function on_message(_, message_id, _, _)
 	elseif message_id == data.proxy.msg.guy_removed then
 		go.delete(data.proxy.gui_container, true)
 		msg.post(const.PROXY, "enable")
+	elseif message_id == const.MSG.LANDSCAPE_PAUSE then
+		if orientation_id == nil then
+			orientation_id = factory.create(const.PROXY_ORIENTATION_FACTORY)
+		else
+			go.delete(orientation_id)
+			orientation_id = nil
+		end
 	end
 end

@@ -1,11 +1,11 @@
-local const            = {}
+local const                     = {}
 
-const.DISPLAY_WIDTH    = sys.get_config_number("display.width")
-const.DISPLAY_HEIGHT   = sys.get_config_number("display.height")
+const.DISPLAY_WIDTH             = sys.get_config_number("display.width")
+const.DISPLAY_HEIGHT            = sys.get_config_number("display.height")
 
-const.BACKGROUND_COLOR = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
+const.BACKGROUND_COLOR          = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
 
-const.COLLISION_BITS   = {
+const.COLLISION_BITS            = {
 	PLAYER     = 1,
 	ENEMY      = 2,
 	TILE       = 4,
@@ -18,9 +18,10 @@ const.COLLISION_BITS   = {
 	WATERFALL  = 512
 }
 
-const.FACTORIES        = {
+const.FACTORIES                 = {
 	LEVEL_MAP        = "/factories#level",
 	PLAYER           = "/factories#player",
+	MOBILE_GUI       = "/factories#mobile_gui",
 
 	-- Props
 	FALLING_PLATFORM = "/props#falling_platform",
@@ -44,10 +45,13 @@ const.FACTORIES        = {
 	ROCK_HEAD        = "/enemies#enemy_rock_head"
 }
 
-const.PLAYER           = {
-	SIZE                  = { w = 20, h = 26 },
-	HALF_SIZE             = { w = 20 / 2, h = 26 / 2 },
-	RAY_Y                 = (26 / 2) + 16,
+local PLAYER_WIDTH              = 20
+local PLAYER_HEIGHT             = 26
+
+const.PLAYER                    = {
+	SIZE                  = { w = PLAYER_WIDTH, h = PLAYER_HEIGHT },
+	HALF_SIZE             = { w = PLAYER_WIDTH / 2, h = PLAYER_HEIGHT / 2 },
+	RAY_Y                 = (PLAYER_HEIGHT / 2) + 16,
 	MOVE_ACCELERATION     = 800,
 	MAX_MOVE_SPEED        = 150,
 	DECELERATION_LERP     = 0.2,
@@ -58,7 +62,7 @@ const.PLAYER           = {
 	GRAVITY_DOWN          = -1500,
 	GRAVITY_SLIDE         = -200,
 	GRAVITY_WALL_JUMP     = -800,
-	MAX_VELOCITY_Y        = -600, -- <- Too much speed may cause collision to skip.
+	MAX_VELOCITY_Y        = -600, -- <- Too much velocity may cause collision to skip. There is no CCD at daabbcc
 	MAX_JUMP_HOLD_TIME    = 1,
 	PLATFORM_JUMP_OFFSET  = 10,
 	HEALTH                = 3,
@@ -76,14 +80,14 @@ const.PLAYER           = {
 	}
 }
 
-const.CAMERA           = {
+const.CAMERA                    = {
 	DEADZONE    = vmath.vector3(60, 60, 0),
 	CAMERA_LERP = 5,
 	BOUNDS_MIN  = vmath.vector3(270, -800, 0),
 	BOUNDS_MAX  = vmath.vector3(4250, 200, 0)
 }
 
-const.TRIGGERS         = {
+const.TRIGGERS                  = {
 	MOVE_LEFT            = hash("MOVE_LEFT"),
 	MOVE_RIGHT           = hash("MOVE_RIGHT"),
 	JUMP                 = hash("JUMP"),
@@ -98,9 +102,11 @@ const.TRIGGERS         = {
 	TOUCH_MULTI          = hash("TOUCH_MULTI")
 }
 
-const.PROXY            = msg.url("loading:/proxy#game_proxy")
+const.PROXY                     = msg.url("loading:/proxy#game_proxy")
+const.PROXY_SCRIPT                   = msg.url("loading:/script#loading")
+const.PROXY_ORIENTATION_FACTORY = msg.url("loading:/factories#orientation")
 
-const.URLS             = {
+const.URLS                      = {
 	CAMERA_CONTAINER = "/camera",
 	CAMERA_ID        = "/camera#camera",
 	MAP              = "",
@@ -111,17 +117,18 @@ const.URLS             = {
 	GUI              = "/gui#game"
 }
 
-const.MSG              = {
+const.MSG                       = {
 	RESTART              = hash("restart"),
 	PLAYER_DIE           = hash("player_die"),
 	GAME_PAUSE           = hash("game_pause"),
+	LANDSCAPE_PAUSE      = hash("landscape_pause"),
 	COLLECT              = hash("collect"),
 	PLAYER_HEALTH_UPDATE = hash("player_health_update"),
 	TOGGLE_AUDIO         = hash("toggle_audio"),
 	UPDATE_SIZE          = hash("update_size")
 }
 
-const.AUDIO            = {
+const.AUDIO                     = {
 	ON_GROUND        = "/fx#on_ground",
 	JUMP             = "/fx#jump",
 	RUN              = "/fx#run",

@@ -1115,4 +1115,15 @@ animations {
   }
   playback: PLAYBACK_LOOP_PINGPONG
 }
+animations {
+  id: "portrait_rotate"
+  images {
+    image: "/assets/pixel_adventure/Menu/Buttons/portrait_rotate1.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Menu/Buttons/portrait_rotate2.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 2
+}
 extrude_borders: 2

@@ -16,17 +16,16 @@ swap_interval = 1
 
 [android]
 input_method = HiddenInputField
+package = com.daabbcc.platformer
 
 [html5]
-scale_mode = no_scale
-htmlfile = /production/game_template.html
+scale_mode = downscale_fit
 
 [project]
 title = defold-daabbcc-platformer
 custom_resources = data
 dependencies#0 = https://github.com/selimanac/defold-daabbcc/archive/refs/heads/v3.x.zip
 dependencies#1 = https://github.com/selimanac/defold-random/archive/refs/heads/master.zip
-dependencies#2 = https://github.com/selimanac/defos/archive/refs/heads/master.zip
 
 [daabbcc]
 max_group_count = 1
@@ -38,7 +37,7 @@ default_texture_min_filter = nearest
 default_texture_mag_filter = nearest
 
 [native_extension]
-app_manifest = /components/manifest/development.appmanifest
+app_manifest = /components/manifest/production.appmanifest
 
 [sprite]
 subpixels = 0
@@ -61,4 +60,10 @@ debug = 0
 clear_color_red = 0.129412
 clear_color_green = 0.121569
 clear_color_blue = 0.188235
+
+[osx]
+bundle_identifier = com.daabbcc.platformer
+
+[ios]
+bundle_identifier = com.daabbcc.platformer
 

@@ -1,13 +1,14 @@
-local map          = require("scripts.lib.map")
-local collision    = require("scripts.lib.collision")
-local audio        = require("scripts.lib.audio")
-local data         = require("scripts.lib.data")
-local const        = require("scripts.lib.const")
-local game_camera  = require("scripts.lib.game_camera")
-local particles    = require("scripts.lib.particles")
-local background   = require("scripts.lib.background")
-local camera_fx    = require("scripts.lib.camera_fx")
-local device       = require("scripts.lib.device")
+local map         = require("scripts.lib.map")
+local collision   = require("scripts.lib.collision")
+local audio       = require("scripts.lib.audio")
+local data        = require("scripts.lib.data")
+local const       = require("scripts.lib.const")
+local game_camera = require("scripts.lib.game_camera")
+local particles   = require("scripts.lib.particles")
+local background  = require("scripts.lib.background")
+local camera_fx   = require("scripts.lib.camera_fx")
+local device      = require("scripts.lib.device")
+
 
 local player_input = require("scripts.game.player.player_input")
 local enemies      = require("scripts.game.enemies")
@@ -39,6 +40,14 @@ local function setup_urls()
 	end
 end
 
+local function check_mobile()
+	if data.game.is_mobile and not data.game.is_mobile_init then
+		data.game.is_mobile_init = true
+		data.window_scale = (data.window_scale * 0.7)
+		factory.create(const.FACTORIES.MOBILE_GUI, vmath.vector3(0))
+	end
+end
+
 function manager.add_backgrounds(self)
 	data.backgrounds[1] = self.background_1
 	data.backgrounds[2] = self.background_2
@@ -51,15 +60,10 @@ end
 
 function manager.init()
 	msg.post(".", "acquire_input_focus")
-	msg.post("@render:", "clear_color", { color = const.BACKGROUND_COLOR })
 
 	setup_urls()
+	check_mobile()
 
-	data.is_mobile = device.mobile()
-	data.window_scale = window.get_display_scale()
-	if data.is_mobile then
-		data.window_scale = (data.window_scale * 0.7)
-	end
 
 	collision.init()
 	map.init()
@@ -74,6 +78,8 @@ function manager.init()
 	end
 
 	collect_garbage()
+
+	game_camera.check_orientation()
 
 	audio.play_music()
 end

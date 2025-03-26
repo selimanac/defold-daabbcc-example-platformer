@@ -14,8 +14,11 @@ function player_input.vertical_movement(dt)
 		if data.player.state.is_sliding and data.player.state.jump_pressed and data.player.direction ~= 0 and data.player.direction ~= data.player.current_direction then
 			audio.play(const.AUDIO.WALL_JUMP)
 			data.player.state.on_ground = false
-			data.player.jump_timer = 0
 			data.player.state.is_sliding = false
+			data.player.state.is_falling = false
+
+			data.player.jump_timer = 0
+
 			data.player.velocity.y = const.PLAYER.WALL_JUMP_FORCE
 			data.player.gravity_down = const.PLAYER.GRAVITY_WALL_JUMP -- reset jump gravity
 		end
@@ -25,6 +28,7 @@ function player_input.vertical_movement(dt)
 			player_state.jump(data.player.jump_timer)
 
 			data.player.velocity.y = data.player.velocity.y + (const.PLAYER.GRAVITY_UP * 0.5) * dt
+
 			data.player.jump_timer = data.player.jump_timer + dt
 		else
 			-- released or time expires
@@ -65,34 +69,39 @@ function player_input.horizontal_movement(dt)
 	end
 end
 
+function player_input.jump_check(action)
+	if action.pressed then
+		data.player.state.jump_pressed = true
+		if data.player.state.on_ground then
+			data.player.velocity.y = const.PLAYER.JUMP_FORCE
+			data.player.state.on_ground = false
+			data.player.state.on_slope = false
+			data.player.jump_timer = 0
+		end
+	elseif action.released then
+		data.player.state.jump_pressed = false
+		data.player.state.is_jumping = false
+	end
+end
+
+function player_input.movement_dheck(action, direction)
+	if action.pressed then
+		data.player.direction = direction
+	elseif data.player.direction == direction and action.released then
+		data.player.direction = 0
+	end
+end
+
 ---------------------------
 -- Input
 ---------------------------
 function player_input.input(action_id, action)
 	if action_id == const.TRIGGERS.MOVE_LEFT then
-		if action.pressed then
-			data.player.direction = -1
-		elseif action.released then
-			if data.player.direction < 0 then data.player.direction = 0 end
-		end
+		player_input.movement_dheck(action, -1)
 	elseif action_id == const.TRIGGERS.MOVE_RIGHT then
-		if action.pressed then
-			data.player.direction = 1
-		elseif action.released then
-			if data.player.direction > 0 then data.player.direction = 0 end
-		end
+		player_input.movement_dheck(action, 1)
 	elseif action_id == const.TRIGGERS.JUMP then
-		if action.pressed then
-			data.player.state.jump_pressed = true
-			if data.player.state.on_ground then
-				data.player.velocity.y = const.PLAYER.JUMP_FORCE
-				data.player.state.on_ground = false
-				data.player.state.on_slope = false
-				data.player.jump_timer = 0
-			end
-		elseif action.released then
-			data.player.state.jump_pressed = false
-		end
+		player_input.jump_check(action)
 	end
 end
 

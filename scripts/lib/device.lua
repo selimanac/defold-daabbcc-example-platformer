@@ -8,7 +8,7 @@
 -- if device.type == "mobile" then
 --     -- do something!
 -- end
--- 
+--
 -- Or:
 -- if device.mobile() then
 --     -- do something!
@@ -28,7 +28,7 @@ local change_orientation_list = {}
 
 -- The client user agent string.
 -- Lowercase, so we can use the more efficient indexOf(), instead of Regex
-local USER_AGENT = string.lower(html5 and sys.get_sys_info({ignore_secure = true}).user_agent or sys.get_sys_info({ignore_secure = true}).system_name)
+local USER_AGENT = string.lower(html5 and sys.get_sys_info({ ignore_secure = true }).user_agent or sys.get_sys_info({ ignore_secure = true }).system_name)
 
 -- Detectable television devices.
 local TELEVISION = {
@@ -136,12 +136,12 @@ end
 
 function device.mobile()
     return (device.android_phone() or device.iphone() or device.ipod() or device.windows_phone() or
-               device.blackberry_phone() or device.fxos_phone() or device.meego())
+        device.blackberry_phone() or device.fxos_phone() or device.meego())
 end
 
 function device.tablet()
     return (device.ipad() or device.android_tablet() or device.blackberry_tablet() or device.windows_tablet() or
-               device.fxos_tablet())
+        device.fxos_tablet())
 end
 
 function device.desktop()
@@ -168,7 +168,11 @@ function device.portrait()
             return html5.run("Math.abs(window.orientation) !== 90") == HTML5_TRUE
         end
     end
-    local width, height = window.get_size()
+    local width, height = 0, 0
+    if window then
+        width, height = window.get_size()
+    end
+
     return height / width > 1
 end
 
@@ -181,7 +185,10 @@ function device.landscape()
             return html5.run("Math.abs(window.orientation) === 90") == HTML5_TRUE
         end
     end
-    local width, height = window.get_size()
+    local width, height = 0, 0
+    if window then
+        width, height = window.get_size()
+    end
     return height / width <= 1
 end
 
@@ -189,7 +196,7 @@ end
 -- --------------------
 
 local function set_orientation_cache()
-    device.orientation = find_match({'portrait', 'landscape'})
+    device.orientation = find_match({ 'portrait', 'landscape' })
 end
 
 local function walk_on_change_orientation_list(new_orientation)
@@ -200,7 +207,7 @@ end
 
 -- Handle device orientation changes.
 function device.handle_orientation()
-    local new_value = find_match({'portrait', 'landscape'})
+    local new_value = find_match({ 'portrait', 'landscape' })
     if device.orientation ~= new_value then
         walk_on_change_orientation_list(new_value)
         device.orientation = new_value
@@ -216,7 +223,7 @@ end
 -- Public functions to get the current value of type, os, or orientation
 -- ---------------------------------------------------------------------
 
-device.type = find_match({'mobile', 'tablet', 'desktop'})
+device.type = find_match({ 'mobile', 'tablet', 'desktop' })
 device.os = find_match({
     'ios', 'iphone', 'ipad', 'ipod', 'android', 'blackberry', 'macos', 'windows', 'fxos', 'meego', 'television'
 })
