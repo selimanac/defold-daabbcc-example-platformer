@@ -27,6 +27,7 @@ custom_resources = data
 dependencies#0 = https://github.com/selimanac/defold-daabbcc/archive/refs/heads/v3.x.zip
 dependencies#1 = https://github.com/selimanac/defold-random/archive/refs/heads/master.zip
 dependencies#2 = https://github.com/selimanac/defos/archive/refs/heads/master.zip
+dependencies#3 = https://github.com/britzl/extension-imgui/archive/refs/heads/master.zip
 
 [daabbcc]
 max_group_count = 1

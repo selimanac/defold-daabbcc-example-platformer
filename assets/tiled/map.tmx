@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="280" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="517">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="280" height="22" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="518">
  <editorsettings>
   <export target="../../data/level_1.json" format="json"/>
  </editorsettings>
@@ -273,7 +273,7 @@
   <object id="211" name="SPIKES" gid="245" x="1200" y="304" width="16" height="8"/>
   <object id="215" name="FIRE" gid="262" x="1536" y="160" width="16" height="32" rotation="-90"/>
   <object id="216" name="FIRE" gid="262" x="1536" y="144" width="16" height="32" rotation="-90"/>
-  <object id="219" name="TRAMPOLINE" gid="244" x="2024" y="240" width="28" height="28"/>
+  <object id="219" name="TRAMPOLINE" gid="244" x="2012" y="240" width="28" height="28"/>
   <object id="220" name="SPIKES" gid="245" x="2368" y="272" width="16" height="8"/>
   <object id="221" name="SPIKES" gid="245" x="2384" y="272" width="16" height="8"/>
   <object id="223" name="BOX_1" gid="260" x="96" y="228" width="20" height="20"/>
@@ -431,7 +431,6 @@
   <object id="469" name="BOX_1" gid="260" x="1932" y="116" width="20" height="20"/>
   <object id="470" name="BOX_1" gid="260" x="1952" y="116" width="20" height="20"/>
   <object id="471" name="BOX_1" gid="260" x="1972" y="116" width="20" height="20"/>
-  <object id="472" name="BOX_1" gid="260" x="1992" y="116" width="20" height="20"/>
   <object id="473" name="APPLE" gid="259" x="1884" y="92" width="32" height="32"/>
   <object id="474" name="APPLE" gid="259" x="1884" y="68" width="32" height="32"/>
   <object id="475" name="APPLE" gid="259" x="1904" y="92" width="32" height="32"/>
@@ -442,8 +441,6 @@
   <object id="480" name="APPLE" gid="259" x="1944" y="68" width="32" height="32"/>
   <object id="481" name="APPLE" gid="259" x="1964" y="92" width="32" height="32"/>
   <object id="482" name="APPLE" gid="259" x="1964" y="68" width="32" height="32"/>
-  <object id="483" name="APPLE" gid="259" x="1984" y="92" width="32" height="32"/>
-  <object id="484" name="APPLE" gid="259" x="1984" y="68" width="32" height="32"/>
   <object id="486" name="SPIKES" gid="245" x="1216" y="304" width="16" height="8"/>
   <object id="490" name="SPIKES" gid="245" x="192" y="320" width="16" height="8"/>
   <object id="491" name="SPIKES" gid="245" x="208" y="320" width="16" height="8"/>

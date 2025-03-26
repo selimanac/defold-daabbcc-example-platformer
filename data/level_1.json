@@ -2029,7 +2029,7 @@
                  "type":"TRAMPOLINE",
                  "visible":true,
                  "width":28,
-                 "x":2024,
+                 "x":2012,
                  "y":240
                 }, 
                 {
@@ -3673,18 +3673,6 @@
                  "y":116
                 }, 
                 {
-                 "gid":260,
-                 "height":20,
-                 "id":472,
-                 "name":"BOX_1",
-                 "rotation":0,
-                 "type":"BOX_1",
-                 "visible":true,
-                 "width":20,
-                 "x":1992,
-                 "y":116
-                }, 
-                {
                  "gid":259,
                  "height":32,
                  "id":473,
@@ -3802,30 +3790,6 @@
                  "visible":true,
                  "width":32,
                  "x":1964,
-                 "y":68
-                }, 
-                {
-                 "gid":259,
-                 "height":32,
-                 "id":483,
-                 "name":"APPLE",
-                 "rotation":0,
-                 "type":"APPLE",
-                 "visible":true,
-                 "width":32,
-                 "x":1984,
-                 "y":92
-                }, 
-                {
-                 "gid":259,
-                 "height":32,
-                 "id":484,
-                 "name":"APPLE",
-                 "rotation":0,
-                 "type":"APPLE",
-                 "visible":true,
-                 "width":32,
-                 "x":1984,
                  "y":68
                 }, 
                 {
@@ -4596,7 +4560,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":517,
+ "nextobjectid":518,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

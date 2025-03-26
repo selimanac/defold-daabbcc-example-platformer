@@ -80,7 +80,6 @@ function player_input.jump_check(action)
 		end
 	elseif action.released then
 		data.player.state.jump_pressed = false
-		data.player.state.is_jumping = false
 	end
 end
 

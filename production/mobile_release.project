@@ -20,6 +20,8 @@ package = com.daabbcc.platformer
 
 [html5]
 scale_mode = downscale_fit
+htmlfile = /production/game_template.html
+cssfile = /production/dark_theme.css
 
 [project]
 title = defold-daabbcc-platformer

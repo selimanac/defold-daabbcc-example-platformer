@@ -51,7 +51,7 @@ local PLAYER_HEIGHT             = 26
 const.PLAYER                    = {
 	SIZE                  = { w = PLAYER_WIDTH, h = PLAYER_HEIGHT },
 	HALF_SIZE             = { w = PLAYER_WIDTH / 2, h = PLAYER_HEIGHT / 2 },
-	RAY_Y                 = (PLAYER_HEIGHT / 2) + 16,
+	RAY_Y                 = (PLAYER_HEIGHT / 2) + 16, --<- Tile size
 	MOVE_ACCELERATION     = 800,
 	MAX_MOVE_SPEED        = 150,
 	DECELERATION_LERP     = 0.2,
@@ -81,10 +81,10 @@ const.PLAYER                    = {
 }
 
 const.CAMERA                    = {
-	DEADZONE    = vmath.vector3(60, 60, 0),
+	DEADZONE    = vmath.vector3(60, 60, 0), -- <- Might be different on mobile devices.
 	CAMERA_LERP = 5,
-	BOUNDS_MIN  = vmath.vector3(270, -800, 0),
-	BOUNDS_MAX  = vmath.vector3(4250, 200, 0)
+	BOUNDS_MIN  = vmath.vector3(270, 150, 0), -- Minimum camera bound position (left/bottom) <-It might be better to calculate according to the tile map’s width and height.
+	BOUNDS_MAX  = vmath.vector3(4250, 200, 0) -- Maximum camera bound position (right/top) <-It might be better to calculate according to the tile map’s width and height.
 }
 
 const.TRIGGERS                  = {
@@ -103,7 +103,7 @@ const.TRIGGERS                  = {
 }
 
 const.PROXY                     = msg.url("loading:/proxy#game_proxy")
-const.PROXY_SCRIPT                   = msg.url("loading:/script#loading")
+const.PROXY_SCRIPT              = msg.url("loading:/script#loading")
 const.PROXY_ORIENTATION_FACTORY = msg.url("loading:/factories#orientation")
 
 const.URLS                      = {

@@ -5,22 +5,20 @@ local device         = require("scripts.lib.device")
 local orientation_id = nil
 
 function init(_)
-	print(device.mobile() or device.tablet())
 	data.game.is_mobile = device.mobile() or device.tablet()
 	data.window_scale = window.get_display_scale()
-	print(" device.mobile(): ", device.mobile())
-	print(" device.tablet(): ", device.tablet())
-	print("data.game.is_mobile ", data.game.is_mobile)
+
 	----------------------
 	-- defos
 	----------------------
+	-- defos is not included in HTML5 build
 	if defos then
 		if defos.is_fullscreen() == false then
 			if sys.get_sys_info().system_name == "Darwin" then
 				defos.borderless_fullscreen() -- <-- Added
 				--defos.set_borderless(true) -- <- this doenst focus on Macos
 				--defos.activate() -- <- this doenst focus on Macos when it is borderless
-			elseif not sys.get_sys_info().system_name == "HTML5" then
+			else
 				defos.toggle_fullscreen()
 				defos.set_borderless(true)
 				defos.activate()

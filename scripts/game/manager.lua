@@ -1,14 +1,12 @@
-local map         = require("scripts.lib.map")
-local collision   = require("scripts.lib.collision")
-local audio       = require("scripts.lib.audio")
-local data        = require("scripts.lib.data")
-local const       = require("scripts.lib.const")
-local game_camera = require("scripts.lib.game_camera")
-local particles   = require("scripts.lib.particles")
-local background  = require("scripts.lib.background")
-local camera_fx   = require("scripts.lib.camera_fx")
-local device      = require("scripts.lib.device")
-
+local map          = require("scripts.lib.map")
+local collision    = require("scripts.lib.collision")
+local audio        = require("scripts.lib.audio")
+local data         = require("scripts.lib.data")
+local const        = require("scripts.lib.const")
+local game_camera  = require("scripts.lib.game_camera")
+local particles    = require("scripts.lib.particles")
+local background   = require("scripts.lib.background")
+local camera_fx    = require("scripts.lib.camera_fx")
 
 local player_input = require("scripts.game.player.player_input")
 local enemies      = require("scripts.game.enemies")
@@ -21,9 +19,9 @@ local debug        = nil
 local manager      = {}
 
 local function collect_garbage()
-	print("garbage before: ", collectgarbage("count"))
+	print("collect_garbage before: ", collectgarbage("count"))
 	collectgarbage("collect")
-	print("garbage after: ", collectgarbage("count"))
+	print("collect_garbage after: ", collectgarbage("count"))
 end
 
 local function setup_urls()
@@ -63,7 +61,6 @@ function manager.init()
 
 	setup_urls()
 	check_mobile()
-
 
 	collision.init()
 	map.init()

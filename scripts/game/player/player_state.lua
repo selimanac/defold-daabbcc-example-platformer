@@ -103,7 +103,6 @@ function player_state.slide()
 end
 
 function player_state.fall()
-	print("state FALL")
 	data.player.state.is_jumping = false
 	data.player.state.is_falling = true
 	data.player.state.on_moving_platform = false

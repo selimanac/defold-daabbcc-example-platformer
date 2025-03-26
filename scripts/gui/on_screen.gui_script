@@ -9,7 +9,6 @@ local nodes        = {
 	on_screen_btn       = "",
 	on_screen_left_btn  = "",
 	on_screen_right_btn = ""
-
 }
 
 local function move_left(action, node, touch)

@@ -49,8 +49,8 @@ data.dt              = vmath.vector4(0)
 -- Debug
 data.debug           = {
 	profiler  = false,
-	colliders = false,
-	imgui     = false,
+	colliders = true,
+	imgui     = true,
 	init      = sys.get_config_int("platformer.debug", 1) == 1 and true or false
 }
 

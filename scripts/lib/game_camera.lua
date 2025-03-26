@@ -27,8 +27,8 @@ local function get_target_camera_pos(camera_position, player_position, deadzone)
 	if camera_offset.y > deadzone.y then
 		camera_target_offset.y = camera_offset.y - deadzone.y
 	elseif player_position.y < camera_position.y then
-		-- Follow the player when falling (ignoring deadzone)
-		camera_target_offset.y = camera_offset.y + 32
+		-- Follow the player when falling (ignoring deadzone: just set camera_offset.y )
+		camera_target_offset.y = camera_offset.y + deadzone.y
 	end
 
 	return camera_position + camera_target_offset
@@ -94,8 +94,6 @@ local function window_event(self, event, size)
 		msg.post(const.URLS.GUI, const.MSG.UPDATE_SIZE)
 	end
 end
-
-
 
 function game_camera.init()
 	data.camera.position = data.player.position

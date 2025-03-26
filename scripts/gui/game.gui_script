@@ -1,6 +1,5 @@
-local data  = require("scripts.lib.data")
-local const = require("scripts.lib.const")
-
+local data                       = require("scripts.lib.data")
+local const                      = require("scripts.lib.const")
 
 local nodes                      = {
 	restart_btn         = "",
@@ -64,7 +63,7 @@ local function select_gamepad_menu_item()
 end
 
 local function gamepad_status()
-	window.set_mouse_lock(not data.game.is_gamepad_connected)
+	window.set_mouse_lock(data.game.is_gamepad_connected)
 
 	gui.set_enabled(nodes.mouse_menu, not data.game.is_gamepad_connected)
 
