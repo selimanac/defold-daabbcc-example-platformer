@@ -4,6 +4,10 @@ Play it here: https://selimanac.github.io/defold-daabbcc3d-example-charming-kitc
 
 Highly recommend controller. Tip: Keep holding the jump button while sliding to jump left or right, and don’t let it go if you want to chain jumps.
 
+### Debug View
+- Add debug.factory to game.collection under factories
+- Set platformer.debug to 1 on game.project
+
 
 
 ## Thanks

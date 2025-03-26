@@ -33,7 +33,6 @@ function player_state.idle(grounded)
 	end
 end
 
--- TODO restart will be ending
 function player_state.die(restart)
 	restart = restart and true or false
 
@@ -61,6 +60,7 @@ function player_state.die(restart)
 
 	go.animate(data.player.ids.CONTAINER, "position.y", go.PLAYBACK_ONCE_FORWARD, data.player.position.y + 50, go.EASING_OUTSINE, 0.3, 0, function()
 		audio.play(const.AUDIO.PLAYER_DISAPPEAR)
+
 		sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.DISAPPEARING, function()
 			timer.delay(0.3, false, function()
 				if restart then

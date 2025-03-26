@@ -14,7 +14,7 @@ build_platform() {
     local PLATFORM="$1"
     local ARCH="$2"
     local SETTINGS="$3"
-    local OUTPUT="$OUTPUT_DIR/$PLATFORM/$ARCH"  # Place each build in its architecture folder
+    local OUTPUT="$OUTPUT_DIR/$PLATFORM/$ARCH"  
 
 
     echo "-> Building for $PLATFORM ($ARCH)..."

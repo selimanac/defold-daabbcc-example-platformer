@@ -86,12 +86,12 @@ function manager.update(dt)
 		debug.update()
 	end
 
+	data.shader_time.x = data.shader_time.x + dt
+	data.dt.x = dt
+
 	if data.game.state.pause then
 		return
 	end
-
-	data.shader_time.x = data.shader_time.x + dt
-	data.dt.x = dt
 
 	player.update(dt)
 	game_camera.update(dt)

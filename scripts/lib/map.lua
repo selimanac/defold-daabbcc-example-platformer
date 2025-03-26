@@ -80,9 +80,9 @@ function map.load(level)
 			end
 		end
 
-		----------------------
+		--------------------------------------------
 		-- Tile collision objects
-		----------------------
+		--------------------------------------------
 		if layer.name == "map_collision" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]
@@ -171,9 +171,9 @@ function map.load(level)
 			end
 		end
 
-		----------------------
+		--------------------------------------------
 		-- Move directions for idiot npcs
-		----------------------
+		--------------------------------------------
 		if layer.name == "move_directions" then
 			for i = 1, #layer.objects do
 				local object_data = layer.objects[i]

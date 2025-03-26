@@ -29,8 +29,7 @@ local platform_query_result     = {}
 -- Bottom Collision: normal_y == 1
 ---------------------------------------
 function player_collisions.bottom(player_offset_y)
-	-- ground offset
-	data.player.position.y = data.player.position.y + player_offset_y
+	data.player.position.y = data.player.position.y + player_offset_y -- ground offset
 
 	-- Falling to ground, set it to idle
 	if data.player.state.on_ground == false and not data.player.state.is_walking then
