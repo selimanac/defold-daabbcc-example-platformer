@@ -1,3 +1,5 @@
+![DAABBCC](/.github/platformer.png?raw=true)
+
 Example platformer project for daabbcc.  
 Requires Defold >= 1.9.9
 
