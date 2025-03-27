@@ -13,6 +13,7 @@ vsync = 1
 fullscreen = 0
 display_device_info = 0
 swap_interval = 1
+dynamic_orientation = 0
 
 [android]
 input_method = HiddenInputField

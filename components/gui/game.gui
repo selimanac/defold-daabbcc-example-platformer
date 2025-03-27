@@ -23,9 +23,11 @@ nodes {
   }
   type: TYPE_BOX
   id: "pause_box"
+  adjust_mode: ADJUST_MODE_STRETCH
   layer: "gfx"
   inherit_alpha: true
   alpha: 0.3
+  size_mode: SIZE_MODE_AUTO
   enabled: false
 }
 nodes {
@@ -36,124 +38,9 @@ nodes {
   type: TYPE_BOX
   texture: "game/Play"
   id: "play_btn"
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "pause_box"
   layer: "gfx"
-}
-nodes {
-  position {
-    x: 15.0
-    y: 350.0
-  }
-  size {
-    x: 16.0
-    y: 16.0
-  }
-  type: TYPE_BOX
-  texture: "game/virtual_guy_player_idle"
-  id: "life"
-  xanchor: XANCHOR_LEFT
-  yanchor: YANCHOR_TOP
-  pivot: PIVOT_NW
-  layer: "gfx"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 26.0
-    y: -5.0
-  }
-  size {
-    x: 20.0
-    y: 10.0
-  }
-  type: TYPE_TEXT
-  text: "3"
-  font: "fff"
-  id: "life_count_txt"
-  xanchor: XANCHOR_LEFT
-  yanchor: YANCHOR_TOP
-  pivot: PIVOT_NW
-  parent: "life"
-  layer: "text"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 18.0
-    y: -4.0
-  }
-  size {
-    x: 5.0
-    y: 10.0
-  }
-  type: TYPE_TEXT
-  text: "x"
-  font: "fff"
-  id: "x1"
-  xanchor: XANCHOR_LEFT
-  yanchor: YANCHOR_TOP
-  pivot: PIVOT_NW
-  parent: "life"
-  layer: "text"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 11.0
-    y: 337.0
-  }
-  size {
-    x: 24.0
-    y: 24.0
-  }
-  type: TYPE_BOX
-  texture: "game/prop_apple_idle"
-  id: "apples"
-  xanchor: XANCHOR_LEFT
-  yanchor: YANCHOR_TOP
-  pivot: PIVOT_NW
-  layer: "gfx"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 30.0
-    y: -7.0
-  }
-  size {
-    x: 20.0
-    y: 10.0
-  }
-  type: TYPE_TEXT
-  text: "0"
-  font: "fff"
-  id: "apple_count_txt"
-  xanchor: XANCHOR_LEFT
-  yanchor: YANCHOR_TOP
-  pivot: PIVOT_NW
-  parent: "apples"
-  layer: "text"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: 22.0
-    y: -6.0
-  }
-  size {
-    x: 5.0
-    y: 10.0
-  }
-  type: TYPE_TEXT
-  text: "x"
-  font: "fff"
-  id: "x"
-  xanchor: XANCHOR_LEFT
-  yanchor: YANCHOR_TOP
-  pivot: PIVOT_NW
-  parent: "apples"
-  layer: "text"
-  inherit_alpha: true
 }
 nodes {
   position {
@@ -171,6 +58,7 @@ nodes {
   }
   type: TYPE_BOX
   id: "gamepad_menu"
+  adjust_mode: ADJUST_MODE_STRETCH
   inherit_alpha: true
   alpha: 0.3
   enabled: false
@@ -187,6 +75,7 @@ nodes {
   type: TYPE_BOX
   texture: "game/Restart"
   id: "gamepad_restart_btn"
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "gamepad_menu"
   layer: "gfx"
 }
@@ -202,6 +91,7 @@ nodes {
   type: TYPE_BOX
   texture: "game/Volume"
   id: "gamepad_audio_btn"
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "gamepad_menu"
   layer: "gfx"
 }
@@ -219,6 +109,7 @@ nodes {
   xanchor: XANCHOR_RIGHT
   yanchor: YANCHOR_TOP
   pivot: PIVOT_NE
+  adjust_mode: ADJUST_MODE_ZOOM
   layer: "gfx"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
@@ -232,6 +123,7 @@ nodes {
   type: TYPE_BOX
   texture: "game/Restart"
   id: "restart_btn"
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "mouse_menu"
   layer: "gfx"
   inherit_alpha: true
@@ -245,6 +137,7 @@ nodes {
   type: TYPE_BOX
   texture: "game/pause"
   id: "pause_btn"
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "mouse_menu"
   layer: "gfx"
   inherit_alpha: true
@@ -258,6 +151,7 @@ nodes {
   type: TYPE_BOX
   texture: "game/Volume"
   id: "audio_btn"
+  adjust_mode: ADJUST_MODE_ZOOM
   parent: "mouse_menu"
   layer: "gfx"
   inherit_alpha: true
@@ -279,6 +173,146 @@ nodes {
   layer: "text"
   inherit_alpha: true
   enabled: false
+}
+nodes {
+  position {
+    y: 360.0
+  }
+  size {
+    x: 80.0
+    y: 70.0
+  }
+  type: TYPE_BOX
+  id: "player_box"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_ZOOM
+  layer: "gfx"
+  alpha: 0.0
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 14.0
+    y: -9.0
+  }
+  size {
+    x: 16.0
+    y: 16.0
+  }
+  type: TYPE_BOX
+  texture: "game/virtual_guy_player_idle"
+  id: "life"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "player_box"
+  layer: "gfx"
+}
+nodes {
+  position {
+    x: 26.0
+    y: -5.0
+  }
+  size {
+    x: 20.0
+    y: 10.0
+  }
+  type: TYPE_TEXT
+  text: "3"
+  font: "fff"
+  id: "life_count_txt"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "life"
+  layer: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 18.0
+    y: -4.0
+  }
+  size {
+    x: 5.0
+    y: 10.0
+  }
+  type: TYPE_TEXT
+  text: "x"
+  font: "fff"
+  id: "x1"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "life"
+  layer: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 10.0
+    y: -22.0
+  }
+  size {
+    x: 24.0
+    y: 24.0
+  }
+  type: TYPE_BOX
+  texture: "game/prop_apple_idle"
+  id: "apples"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "player_box"
+  layer: "gfx"
+}
+nodes {
+  position {
+    x: 30.0
+    y: -7.0
+  }
+  size {
+    x: 20.0
+    y: 10.0
+  }
+  type: TYPE_TEXT
+  text: "0"
+  font: "fff"
+  id: "apple_count_txt"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "apples"
+  layer: "text"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 22.0
+    y: -6.0
+  }
+  size {
+    x: 5.0
+    y: 10.0
+  }
+  type: TYPE_TEXT
+  text: "x"
+  font: "fff"
+  id: "x"
+  xanchor: XANCHOR_LEFT
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_NW
+  adjust_mode: ADJUST_MODE_ZOOM
+  parent: "apples"
+  layer: "text"
+  inherit_alpha: true
 }
 layers {
   name: "gfx"

@@ -1,11 +1,14 @@
-local const                     = {}
+local const            = {}
 
-const.DISPLAY_WIDTH             = sys.get_config_number("display.width")
-const.DISPLAY_HEIGHT            = sys.get_config_number("display.height")
+const.DISPLAY_WIDTH    = sys.get_config_number("display.width")
+const.DISPLAY_HEIGHT   = sys.get_config_number("display.height")
 
-const.BACKGROUND_COLOR          = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
+const.BACKGROUND_COLOR = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
 
-const.COLLISION_BITS            = {
+----------------------
+-- Collision
+----------------------
+const.COLLISION_BITS   = {
 	PLAYER     = 1,
 	ENEMY      = 2,
 	TILE       = 4,
@@ -18,7 +21,10 @@ const.COLLISION_BITS            = {
 	WATERFALL  = 512
 }
 
-const.FACTORIES                 = {
+----------------------
+-- Factories
+----------------------
+const.FACTORIES        = {
 	LEVEL_MAP        = "/factories#level",
 	PLAYER           = "/factories#player",
 	MOBILE_GUI       = "/factories#mobile_gui",
@@ -45,10 +51,13 @@ const.FACTORIES                 = {
 	ROCK_HEAD        = "/enemies#enemy_rock_head"
 }
 
-local PLAYER_WIDTH              = 20
-local PLAYER_HEIGHT             = 26
+----------------------
+-- Player
+----------------------
+local PLAYER_WIDTH     = 20
+local PLAYER_HEIGHT    = 26
 
-const.PLAYER                    = {
+const.PLAYER           = {
 	SIZE                  = { w = PLAYER_WIDTH, h = PLAYER_HEIGHT },
 	HALF_SIZE             = { w = PLAYER_WIDTH / 2, h = PLAYER_HEIGHT / 2 },
 	RAY_Y                 = (PLAYER_HEIGHT / 2) + 16, --<- Tile size
@@ -80,14 +89,23 @@ const.PLAYER                    = {
 	}
 }
 
-const.CAMERA                    = {
-	DEADZONE    = vmath.vector3(60, 60, 0), -- <- Might be different on mobile devices.
-	CAMERA_LERP = 5,
-	BOUNDS_MIN  = vmath.vector3(270, 150, 0), -- Minimum camera bound position (left/bottom) <-It might be better to calculate according to the tile map’s width and height.
-	BOUNDS_MAX  = vmath.vector3(4250, 200, 0) -- Maximum camera bound position (right/top) <-It might be better to calculate according to the tile map’s width and height.
+----------------------
+-- Camera
+----------------------
+const.CAMERA           = {
+	DEADZONE          = vmath.vector3(60, 60, 0), -- <- Might be different on mobile devices.
+	CAMERA_LERP       = 5,
+	BOUNDS_MIN        = vmath.vector3(270, 150, 0), -- Minimum camera bound position (left/bottom) <-It might be better to calculate according to the tile map’s width and height.
+	BOUNDS_MAX        = vmath.vector3(4250, 200, 0), -- Maximum camera bound position (right/top) <-It might be better to calculate according to the tile map’s width and height.
+
+	MOBILE_BOUNDS_MIN = vmath.vector3(270, 0, 0),
+	MOBILE_BOUNDS_MAX = vmath.vector3(4250, 220, 0)
 }
 
-const.TRIGGERS                  = {
+----------------------
+-- Triggers
+----------------------
+const.TRIGGERS         = {
 	MOVE_LEFT            = hash("MOVE_LEFT"),
 	MOVE_RIGHT           = hash("MOVE_RIGHT"),
 	JUMP                 = hash("JUMP"),
@@ -102,10 +120,17 @@ const.TRIGGERS                  = {
 	TOUCH_MULTI          = hash("TOUCH_MULTI")
 }
 
+
+----------------------
+-- Main(loading) proxy
+----------------------
 const.PROXY                     = msg.url("loading:/proxy#game_proxy")
 const.PROXY_SCRIPT              = msg.url("loading:/script#loading")
 const.PROXY_ORIENTATION_FACTORY = msg.url("loading:/factories#orientation")
 
+----------------------
+-- URLs
+----------------------
 const.URLS                      = {
 	CAMERA_CONTAINER = "/camera",
 	CAMERA_ID        = "/camera#camera",
@@ -117,6 +142,9 @@ const.URLS                      = {
 	GUI              = "/gui#game"
 }
 
+----------------------
+-- Messages
+----------------------
 const.MSG                       = {
 	RESTART              = hash("restart"),
 	PLAYER_DIE           = hash("player_die"),
@@ -124,10 +152,13 @@ const.MSG                       = {
 	LANDSCAPE_PAUSE      = hash("landscape_pause"),
 	COLLECT              = hash("collect"),
 	PLAYER_HEALTH_UPDATE = hash("player_health_update"),
-	TOGGLE_AUDIO         = hash("toggle_audio"),
-	UPDATE_SIZE          = hash("update_size")
+	TOGGLE_AUDIO         = hash("toggle_audio")
+
 }
 
+----------------------
+-- Audio
+----------------------
 const.AUDIO                     = {
 	ON_GROUND        = "/fx#on_ground",
 	JUMP             = "/fx#jump",

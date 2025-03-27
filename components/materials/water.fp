@@ -44,31 +44,31 @@ void        main()
     float tiler = TILER_MULT / aspectRatio;
     float time = uTime.x;
 
-    // Optimize wave calculations by reducing multiplications
+    //  wave calculations
     float xTiler = uv.x * tiler;
     float baseWave = xTiler * WAVE_FREQUENCY + time * WAVE_SPEED;
 
-    // Calculate water height using optimized wave formula
+    //  water height
     float waterHeight = sin(baseWave);
     waterHeight += sin(xTiler * WAVE_FREQ_HALF + time * WAVE_SPEED_FAST);
     waterHeight += sin(-xTiler * WAVE_FREQ_NEG + time * WAVE_SPEED_SLOW);
 
-    // Apply wave modifications
+    //  wave modifications
     waterHeight = waterHeight * WAVE_STRENGTH + WATER_LEVEL;
 
-    // Calculate water and line boundaries
+    //  water and line boundaries
     float isWater = step(waterHeight, uv.y);
     float distanceToWave = abs(waterHeight - uv.y);
     float isTopLine = (1.0 - step(TOP_LINE_THICKNESS, distanceToWave)) * (1.0 - isWater);
 
-    // Calculate base water color with transparency
+    //  base water color with transparency
     vec4 outColour = mix(WATER_COLOR, vec4(0.0, 0.0, 1.0, 0.0), TRANSPARENCY);
 
     // Apply foam
     float foamFactor = clamp((waterHeight - uv.y) / FOAM_DEPTH, 0.0, 1.0);
     outColour = mix(FOAM_COLOR, outColour, foamFactor);
 
-    // Apply top line and water masking in one step
+    // Apply top line and water masking
     outColour = mix(outColour, TOP_LINE_COLOR, isTopLine);
     out_fragColor = mix(outColour, BACK_TEX, isWater);
 }

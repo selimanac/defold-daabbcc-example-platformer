@@ -5,7 +5,9 @@ local data           = {}
 data.window_size     = { width = 0, height = 0 }
 data.window_scale    = 1
 
+--------------------------
 -- Loading proxy
+--------------------------
 data.proxy           = {
 	loaded = false,
 	gui_container = msg.url("loading:/gui"),
@@ -18,35 +20,51 @@ data.proxy           = {
 	}
 }
 
+--------------------------
 -- Tile map
+--------------------------
 data.map_width       = 0
 data.map_height      = 0
 data.map             = {} -- <- Map tile data. Not using this.
 data.map_objects     = {}
 
+--------------------------
 -- Props
+--------------------------
 data.props           = {}
 data.moving_props    = {}
 data.collected_props = {} -- keep track of falling platforms.
 
+--------------------------
 -- Enemies
+--------------------------
 data.enemies         = {}
 
+--------------------------
 -- Background images
+--------------------------
 data.backgrounds     = {}
 
+--------------------------
 -- Checkpoints
+--------------------------
 data.checkpoints     = {}
 data.last_checkpoint = 0
 
+--------------------------
 -- Map directions
+--------------------------
 data.directions      = {}
 
+--------------------------
 -- Shaders
+--------------------------
 data.shader_time     = vmath.vector4(0)
 data.dt              = vmath.vector4(0)
 
+--------------------------
 -- Debug
+--------------------------
 data.debug           = {
 	profiler  = false,
 	colliders = true,
@@ -54,6 +72,9 @@ data.debug           = {
 	init      = sys.get_config_int("platformer.debug", 1) == 1 and true or false
 }
 
+--------------------------
+-- GAME
+--------------------------
 data.game            = {
 	state                = {
 		pause          = false,
@@ -70,6 +91,9 @@ data.game            = {
 	is_landscape         = true
 }
 
+--------------------------
+-- PLAYER
+--------------------------
 data.player          = {
 	position          = vmath.vector3(0.9), -- <- Z position
 	initial_position  = vmath.vector3(0.9),
@@ -104,6 +128,9 @@ data.player          = {
 	}
 }
 
+--------------------------
+-- Camera
+--------------------------
 data.camera          = {
 	zoom          = 0,
 	position      = vmath.vector3(),
@@ -112,6 +139,7 @@ data.camera          = {
 	view          = vmath.matrix4()
 }
 
+-- Pause the game
 function data.set_game_pause(state)
 	if data.game.state.pause ~= state then
 		data.game.state.pause = state
@@ -131,11 +159,13 @@ function data.set_game_pause(state)
 	end
 end
 
+-- Toggle audio
 function data.set_audio(state)
 	data.game.is_sound_fx = state
 	data.game.is_music = state
 end
 
+-- Final
 function data.final()
 	for _, prop in pairs(data.props) do
 		if prop.data and prop.data.timer_handle then

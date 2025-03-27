@@ -22,6 +22,7 @@ nodes {
   }
   type: TYPE_BOX
   id: "orientation_box"
+  adjust_mode: ADJUST_MODE_STRETCH
   layer: "gfx"
   inherit_alpha: true
   alpha: 0.3

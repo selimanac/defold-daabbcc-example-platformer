@@ -90,8 +90,6 @@ local function window_event(self, event, size)
 		game_camera.set_zoom(size)
 
 		data.window_size = size
-
-		msg.post(const.URLS.GUI, const.MSG.UPDATE_SIZE)
 	end
 end
 

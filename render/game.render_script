@@ -236,8 +236,8 @@ function update(self)
     render.draw(predicates.tile, draw_options_world)
     render.draw(predicates.particle_front, draw_options_world)
 
-    render.draw(predicates.waterfall, { frustum = state.main_camera.options.frustum, constants = self.background_constants })
-    render.draw(predicates.water, { frustum = state.main_camera.options.frustum, constants = self.background_constants })
+    render.draw(predicates.waterfall, { constants = self.background_constants })
+    render.draw(predicates.water, { constants = self.background_constants })
 
     render.draw(predicates.particle_front, draw_options_world)
 

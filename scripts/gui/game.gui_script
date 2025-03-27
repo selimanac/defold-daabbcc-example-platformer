@@ -13,7 +13,8 @@ local nodes                      = {
 	gamepad_menu        = "",
 	gamepad_restart_btn = "",
 	gamepad_audio_btn   = "",
-	gamepad_status      = ""
+	gamepad_status      = "",
+	player_box          = ""
 }
 
 local gamepad_status_text        = {
@@ -28,17 +29,24 @@ local gamepad_menu_selected      = 0
 local gamepad_menu_selected_item = nil
 local is_animating               = false
 
+----------------
+-- Gamepad
+----------------
+
+-- Restart callback
 local function game_restart()
 	data.game.state.input_pause = true
 	data.game.state.skip_colliders = true
 	msg.post(const.URLS.GAME, const.MSG.RESTART)
 end
 
+-- Audio  callback
 local function toggle_audio()
 	data.set_audio(not data.game.is_music)
 	msg.post(const.URLS.GAME, const.MSG.TOGGLE_AUDIO)
 end
 
+-- Menu items
 local gamepad_menu_items = {
 	[1] = {
 		node = "gamepad_restart_btn",
@@ -87,34 +95,28 @@ local function set_pause()
 
 	if not data.game.is_gamepad_connected then
 		gui.set_enabled(nodes.mouse_menu, not data.game.state.pause)
+		gui.set_enabled(nodes.player_box, not data.game.state.pause)
 	end
 end
 
-local function collect()
+local function update_player(node, value)
 	if not is_animating then
 		is_animating = true
-		gui.animate(nodes.apple_count_txt, "scale", scale_up, gui.EASING_INBOUNCE, 0.2, 0, function()
-			gui.set_scale(nodes.apple_count_txt, scale_default)
+		gui.animate(node, "scale", scale_up, gui.EASING_INBOUNCE, 0.2, 0, function()
+			gui.set_scale(node, scale_default)
 			is_animating = false
 		end, gui.PLAYBACK_ONCE_PINGPONG)
 	end
 
-	gui.set_text(nodes.apple_count_txt, data.player.collected_apples)
+	gui.set_text(node, value)
+end
+
+local function collect()
+	update_player(nodes.apple_count_txt, data.player.collected_apples)
 end
 
 local function update_health()
-	gui.animate(nodes.life_count_txt, "scale", scale_up, gui.EASING_INBOUNCE, 0.2, 0, function()
-		gui.set_scale(nodes.life_count_txt, scale_default)
-		is_animating = false
-	end, gui.PLAYBACK_ONCE_PINGPONG)
-
-	gui.set_text(nodes.life_count_txt, data.player.health)
-end
-
--- This is a lazy and not correct way to do it.
-local function resize_gui()
-	gui.set_size(nodes.pause_box, vmath.vector3(data.window_size.width, data.window_size.height, 0))
-	gui.set_size(nodes.gamepad_menu, vmath.vector3(data.window_size.width, data.window_size.height, 0))
+	update_player(nodes.life_count_txt, data.player.health)
 end
 
 local function toggle_gamepad_menu()
@@ -122,7 +124,6 @@ local function toggle_gamepad_menu()
 	data.set_game_pause(not data.game.state.pause)
 	gui.set_enabled(nodes.gamepad_menu, is_gamepad_menu)
 end
-
 
 function init(_)
 	msg.post(".", "acquire_input_focus")
@@ -149,8 +150,6 @@ function on_message(self, message_id, message, sender)
 		collect()
 	elseif message_id == const.MSG.PLAYER_HEALTH_UPDATE then
 		update_health()
-	elseif message_id == const.MSG.UPDATE_SIZE then
-		resize_gui()
 	elseif message_id == const.MSG.LANDSCAPE_PAUSE then
 		gui.set_enabled(nodes.pause_box, data.game.is_landscape)
 	end
