@@ -40,3 +40,11 @@ function on_input(self, action_id, action)
 
 	on_screen.on_input(action_id, action)
 end
+
+function on_message(self, message_id, message, sender)
+	if message_id == const.MSG.LANDSCAPE_PAUSE then
+		gui.set_enabled(nodes.on_screen_btn, data.game.is_landscape)
+		gui.set_enabled(nodes.on_screen_left_btn, data.game.is_landscape)
+		gui.set_enabled(nodes.on_screen_right_btn, data.game.is_landscape)
+	end
+end

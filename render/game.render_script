@@ -236,8 +236,8 @@ function update(self)
     render.draw(predicates.tile, draw_options_world)
     render.draw(predicates.particle_front, draw_options_world)
 
-    render.draw(predicates.waterfall, { constants = self.background_constants })
-    render.draw(predicates.water, { constants = self.background_constants })
+    render.draw(predicates.waterfall, { constants = self.background_constants }) -- <- Using frustum may cause a spike on dt at first run
+    render.draw(predicates.water, { constants = self.background_constants })     -- <- Using frustum may cause a spike on dt at first run
 
     render.draw(predicates.particle_front, draw_options_world)
 

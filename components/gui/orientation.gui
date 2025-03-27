@@ -11,6 +11,10 @@ nodes {
     x: 320.0
     y: 180.0
   }
+  scale {
+    x: 1.5
+    y: 1.5
+  }
   size {
     x: 640.0
     y: 360.0
@@ -29,6 +33,9 @@ nodes {
   size_mode: SIZE_MODE_AUTO
 }
 nodes {
+  position {
+    y: 36.666668
+  }
   size {
     x: 64.0
     y: 64.0
@@ -41,7 +48,7 @@ nodes {
 }
 nodes {
   position {
-    y: -57.0
+    y: -20.333332
   }
   scale {
     x: 2.0

@@ -32,7 +32,6 @@ local is_animating               = false
 ----------------
 -- Gamepad
 ----------------
-
 -- Restart callback
 local function game_restart()
 	data.game.state.input_pause = true
@@ -40,7 +39,7 @@ local function game_restart()
 	msg.post(const.URLS.GAME, const.MSG.RESTART)
 end
 
--- Audio  callback
+-- Audio callback
 local function toggle_audio()
 	data.set_audio(not data.game.is_music)
 	msg.post(const.URLS.GAME, const.MSG.TOGGLE_AUDIO)
@@ -139,6 +138,12 @@ function init(_)
 	if data.game.is_gamepad_connected then
 		gamepad_status()
 	end
+
+	-- Lazy way for mobile
+	if data.game.is_mobile then
+		gui.set_scale(nodes.mouse_menu, vmath.vector3(2))
+		gui.set_scale(nodes.player_box, vmath.vector3(2))
+	end
 end
 
 function on_message(self, message_id, message, sender)
@@ -152,6 +157,8 @@ function on_message(self, message_id, message, sender)
 		update_health()
 	elseif message_id == const.MSG.LANDSCAPE_PAUSE then
 		gui.set_enabled(nodes.pause_box, data.game.is_landscape)
+		gui.set_enabled(nodes.mouse_menu, data.game.is_landscape)
+		gui.set_enabled(nodes.player_box, data.game.is_landscape)
 	end
 end
 

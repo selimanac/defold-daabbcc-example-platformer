@@ -35,12 +35,12 @@ build_platform() {
 }
 
 
- build_platform "arm64-macos" "arm64-macos" "$DESKTOP_SETTINGS_FILE"
+ #build_platform "arm64-macos" "arm64-macos" "$DESKTOP_SETTINGS_FILE"
 
 # build_platform "x86_64-win32" "x86_64-win32" "$DESKTOP_SETTINGS_FILE"
 
 # build_platform "x86_64-linux" "x86_64-linux" "$DESKTOP_SETTINGS_FILE"
 
-#build_platform "wasm-web" "wasm-web" "$MOBILE_SETTINGS_FILE"
+build_platform "wasm-web" "wasm-web" "$MOBILE_SETTINGS_FILE"
 
 echo "-> All builds completed successfully!"

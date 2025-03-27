@@ -23,7 +23,7 @@ function checkpoint.enter(prop, query_result)
 end
 
 function checkpoint.add(prop, object_data)
-	local checkpoint = {
+	local temp_checkpoint = {
 		position = prop.position,
 		x = prop.position.x,
 		y = prop.position.y,
@@ -33,7 +33,7 @@ function checkpoint.add(prop, object_data)
 	}
 
 	if data.last_checkpoint == 0 then
-		data.checkpoints[object_data.id] = checkpoint
+		data.checkpoints[object_data.id] = temp_checkpoint
 	end
 
 	prop.data = {
@@ -49,15 +49,15 @@ end
 function checkpoint.check()
 	data.player.position = data.player.initial_position
 	if data.last_checkpoint > 0 then
-		local checkpoint = data.checkpoints[data.last_checkpoint]
+		local temp_checkpoint = data.checkpoints[data.last_checkpoint]
 
-		data.player.position = vmath.vector3(checkpoint.x, checkpoint.y, data.player.position.z)
+		data.player.position = vmath.vector3(temp_checkpoint.x, temp_checkpoint.y, data.player.position.z)
 		data.player.position.x = data.player.position.x + 10
 		data.player.position.y = data.player.position.y - const.PLAYER.HALF_SIZE.h
 
-		for _, checkpoint in pairs(data.checkpoints) do
-			if checkpoint.active then
-				local checkpoint_prop = data.props[checkpoint.aabb_id]
+		for _, checkpoint_item in pairs(data.checkpoints) do
+			if checkpoint_item.active then
+				local checkpoint_prop = data.props[checkpoint_item.aabb_id]
 				checkpoint_prop.fn(checkpoint_prop)
 			end
 		end

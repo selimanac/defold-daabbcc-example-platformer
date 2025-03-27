@@ -139,7 +139,8 @@ const.URLS                      = {
 	GAME             = "/script#game",
 	BACKGROUND       = "/background",
 	BACKGROUND_MODEL = "/background#model",
-	GUI              = "/gui#game"
+	GUI              = "/gui#game",
+	MOBILE_GUI       = ""
 }
 
 ----------------------

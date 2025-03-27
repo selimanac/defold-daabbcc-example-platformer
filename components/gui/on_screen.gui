@@ -18,6 +18,7 @@ nodes {
   xanchor: XANCHOR_RIGHT
   yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_SE
+  adjust_mode: ADJUST_MODE_ZOOM
   layer: "gdx"
   inherit_alpha: true
   alpha: 0.6
@@ -37,6 +38,7 @@ nodes {
   xanchor: XANCHOR_LEFT
   yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_SW
+  adjust_mode: ADJUST_MODE_ZOOM
   layer: "gdx"
   inherit_alpha: true
   alpha: 0.7
@@ -56,6 +58,7 @@ nodes {
   xanchor: XANCHOR_LEFT
   yanchor: YANCHOR_BOTTOM
   pivot: PIVOT_SW
+  adjust_mode: ADJUST_MODE_ZOOM
   layer: "gdx"
   inherit_alpha: true
   alpha: 0.6

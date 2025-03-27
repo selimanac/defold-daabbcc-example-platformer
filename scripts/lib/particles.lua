@@ -19,7 +19,6 @@ local temp_speed         = 0
 local temp_collision_bit = 0
 local temp_aabb_id       = 0
 
-
 function particles.spawn(ids, count, gravity, life_time, collectable)
 	count = count or 4
 	gravity = gravity or GRAVITY

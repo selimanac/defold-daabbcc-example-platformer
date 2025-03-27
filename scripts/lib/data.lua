@@ -2,6 +2,9 @@ local const          = require("scripts.lib.const")
 
 local data           = {}
 
+--------------------------
+-- Window
+--------------------------
 data.window_size     = { width = 0, height = 0 }
 data.window_scale    = 1
 
