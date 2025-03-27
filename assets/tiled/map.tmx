@@ -466,8 +466,8 @@
   <object id="511" name="APPLE" gid="259" x="52" y="280" width="32" height="32"/>
   <object id="512" name="APPLE" gid="259" x="112" y="320" width="32" height="32"/>
  </objectgroup>
- <objectgroup color="#cdc70d" id="3" name="actors" locked="1">
-  <object id="57" name="PLAYER" gid="258" x="284" y="240" width="32" height="32"/>
+ <objectgroup color="#cdc70d" id="3" name="actors">
+  <object id="57" name="PLAYER" gid="258" x="2440" y="56" width="32" height="32"/>
   <object id="177" name="ANGRY_PIG" gid="263" x="972" y="128" width="33" height="27">
    <properties>
     <property name="direction_x" type="int" value="-1"/>

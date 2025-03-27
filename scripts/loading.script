@@ -16,8 +16,8 @@ function init(_)
 		if not defos.is_fullscreen() then
 			if sys.get_sys_info().system_name == "Darwin" then
 				defos.borderless_fullscreen() -- <-- Added
-				--defos.set_borderless(true) -- <- this doenst focus on Macos
-				--defos.activate() -- <- this doenst focus on Macos when it is borderless
+				--defos.set_borderless(true) -- <- this prevent focus on Macos
+				--defos.activate() -- <- this doesn't focus on Macos when it is borderless
 			else
 				defos.toggle_fullscreen()
 				defos.set_borderless(true)

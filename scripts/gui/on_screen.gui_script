@@ -4,8 +4,6 @@ local on_screen    = require("scripts.lib.on_screen")
 local player_input = require("scripts.game.player.player_input")
 
 local nodes        = {
-	on_screen_base      = "",
-	on_screen_pad       = "",
 	on_screen_btn       = "",
 	on_screen_left_btn  = "",
 	on_screen_right_btn = ""
@@ -14,7 +12,6 @@ local nodes        = {
 local function move_left(action, node, touch)
 	player_input.movement_dheck(touch, -1)
 end
-
 
 local function move_right(action, node, touch)
 	player_input.movement_dheck(touch, 1)
@@ -30,19 +27,6 @@ function init(_)
 	for key, _ in pairs(nodes) do
 		nodes[key] = gui.get_node(key)
 	end
-
-	-- For analog controller
-	-- on_screen.register_analog(nodes.on_screen_pad, { radius = 50 }, function(action, node, touch)
-	-- 	if touch.x > 0 then
-	-- 		data.player.direction = 1
-	-- 	elseif touch.x < 0 then
-	-- 		data.player.direction = -1
-	-- 	end
-
-	-- 	if touch.released then
-	-- 		data.player.direction = 0
-	-- 	end
-	-- end)
 
 	on_screen.register_button(nodes.on_screen_left_btn, nil, move_left)
 	on_screen.register_button(nodes.on_screen_right_btn, nil, move_right)

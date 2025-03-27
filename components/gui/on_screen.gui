@@ -5,39 +5,6 @@ textures {
 }
 nodes {
   position {
-    x: 98.0
-    y: 78.0
-  }
-  size {
-    x: 110.0
-    y: 110.0
-  }
-  type: TYPE_BOX
-  texture: "game/on_screen_base"
-  id: "on_screen_base"
-  layer: "gdx"
-  inherit_alpha: true
-  alpha: 0.65
-  enabled: false
-}
-nodes {
-  position {
-    x: 98.0
-    y: 78.0
-  }
-  size {
-    x: 75.0
-    y: 75.0
-  }
-  type: TYPE_BOX
-  texture: "game/on_screen_base"
-  id: "on_screen_pad"
-  layer: "gdx"
-  inherit_alpha: true
-  enabled: false
-}
-nodes {
-  position {
     x: 608.0
     y: 48.0
   }

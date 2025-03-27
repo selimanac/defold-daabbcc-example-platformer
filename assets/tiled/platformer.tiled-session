@@ -11,10 +11,10 @@
         },
         "map.tmx": {
             "scale": 1,
-            "selectedLayer": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 828,
-                "y": 192.5
+                "x": 1872,
+                "y": 190.5
             }
         },
         "platformer.tsx": {

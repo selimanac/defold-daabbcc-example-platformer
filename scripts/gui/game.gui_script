@@ -150,7 +150,7 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == const.MSG.PLAYER_HEALTH_UPDATE then
 		update_health()
 	elseif message_id == const.MSG.UPDATE_SIZE then
-		--resize_gui()
+		resize_gui()
 	elseif message_id == const.MSG.LANDSCAPE_PAUSE then
 		gui.set_enabled(nodes.pause_box, data.game.is_landscape)
 	end

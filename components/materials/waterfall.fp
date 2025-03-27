@@ -3,107 +3,96 @@
 in highp vec4             var_position;
 in mediump vec3           var_normal;
 in mediump vec2           var_texcoord0;
-
 out vec4                  out_fragColor;
 
 uniform mediump sampler2D tex0;
-
 uniform fs_uniforms
 {
     mediump vec4 uTime;
     mediump vec4 uResolution;
 };
 
-const vec4  col1 = vec4(0.7843, 0.9607, 1, 1.0);
-const vec4  col2 = vec4(0.5098, 0.7058, 0.9607, 1.0);
-const vec4  col3 = vec4(0.3137, 0.5098, 0.9019, 1.0);
-const vec4  col4 = vec4(0.7843, 0.9607, 1, 1.0);
+// colors
+const vec4 COLORS[4] = vec4[4](
+vec4(0.7843, 0.9607, 1.0000, 1.0),
+vec4(0.5098, 0.7058, 0.9607, 1.0),
+vec4(0.3137, 0.5098, 0.9019, 1.0),
+vec4(0.7843, 0.9607, 1.0000, 1.0));
 
-const float edgeWidth = 0.02;     // Controls how wide the wavy edge is
-const float waveFrequency = 5.0;  // Controls how many waves appear
-const float waveAmplitude = 0.02; // Controls how pronounced the waves are
-const float waveSpeed = 15.0;     // Controls how fast the waves move
-// Wave function
-/* float edgeWave(float x, float time, float frequency, float amplitude)
-{
-    float distFromCenter = abs(x - 0.5) * 2.0;
-    float edgeFactor = smoothstep(0.0, 1.0, pow(distFromCenter, 1.5));
-    float wave = sin(time * frequency + x * 10.0) * amplitude;
-    return wave * edgeFactor;
-} */
+// wave related constants
+const vec4 WAVE_PARAMS = vec4(
+0.02, // EDGE_WIDTH
+5.0,  // WAVE_FREQUENCY
+0.02, // WAVE_AMPLITUDE
+15.0  // WAVE_SPEED
+);
 
-// FROM: https://shadered.org/view?s=6Gny24_ojD
-void main()
+const vec2 NOISE_PARAMS = vec2(10.0, 0.2);      // For noise calculation
+const vec2 EDGE_STEPS = vec2(0.9, 1.0);         // For edge smoothstep
+const vec3 ALPHA_PARAMS = vec3(0.3, 0.2, 0.45); // Alpha adjustments
+const vec2 UV_FACTORS = vec2(0.5, 0.05);        // UV scaling factors
+
+void       main()
 {
     vec2  uv = var_texcoord0.xy;
     float time = uTime.x * 0.4;
 
-    // Apply horizontal wave displacement based on position
-    // float xDisplacement = edgeWave(uv.x, time, 2.0, 0.01);
+    vec2  resolution = uResolution.xy * UV_FACTORS.x;
+    vec2  uv_pixel = floor(uv * resolution) / resolution;
 
-    // Apply the displacement to the UV coordinates
-    vec2 wavyUV = uv;
-    //  wavyUV.x += xDisplacement;
+    //  displacement
+    vec2 timeUV = vec2(uv_pixel.x, (uv_pixel.y + time) * UV_FACTORS.y);
+    vec3 displace = texture(tex0, timeUV).xyz;
+    displace = (displace * UV_FACTORS.x) - vec3(1.0, 1.0, UV_FACTORS.x);
 
-    // Ensure UV stays within bounds (optional, creates a "cropped" effect)
-    wavyUV.x = clamp(wavyUV.x, 0.0, 1.0);
+    // Edge effect
+    float edgeEffect = abs(uv_pixel.x - UV_FACTORS.x) * 2.0;
+    float edgeEffect2 = edgeEffect * edgeEffect;
 
-    vec2 uv_pixel = floor(wavyUV * (uResolution.xy / 2)) / (uResolution.xy / 2);
+    // displacement
+    float sineTime = (time * 2.0 + uv_pixel.y * 20.0);
+    displace.x += sin(sineTime) * 0.02 * edgeEffect2;
 
-    // Add vertical displacement that varies based on horizontal position
-    vec3 displace = texture(tex0, vec2(uv_pixel.x, (uv_pixel.y + time) * 0.05)).xyz;
-    displace *= 0.5;
-    displace.x -= 1.0;
-    displace.y -= 1.0;
-    displace.y *= 0.5;
-
-    // Add extra horizontal displacement at edges
-    float edgeEffect = abs(uv_pixel.x - 0.5) * 2.0; // 0 at center, 1 at edges
-    float horizontalWave = sin(time * 2.0 + uv_pixel.y * 20.0) * 0.02 * pow(edgeEffect, 2.0);
-    displace.x += horizontalWave;
-
-    // color
-    vec2 uv_tmp = uv_pixel;
-    uv_tmp.y *= 0.5;
-    uv_tmp.y += time;
+    // Texture and color
+    vec2 uv_tmp = vec2(uv_pixel.x, uv_pixel.y * UV_FACTORS.x + time);
     vec4 color = texture(tex0, uv_tmp + displace.xy);
 
-    // match to colors
-    vec4 noise = floor(color * 10.0) / 5.0;
-    vec4 dark = mix(col1, col2, wavyUV.y);
-    vec4 bright = mix(col3, col4, wavyUV.y);
+    //  noise
+    vec4 noise = floor(color * NOISE_PARAMS.x) * NOISE_PARAMS.y;
+
+    // color interpolation
+    vec4 dark = mix(COLORS[0], COLORS[1], uv.y);
+    vec4 bright = mix(COLORS[2], COLORS[3], uv.y);
     color = mix(dark, bright, noise);
 
-    // add gradients (top dark and transparent, bottom bright)
+    // power calculations
+    float uv_y_pow8 = uv_pixel.y * uv_pixel.y;
+    uv_y_pow8 = uv_y_pow8 * uv_y_pow8;
+    uv_y_pow8 = uv_y_pow8 * uv_y_pow8;
+
     float inv_uv = 1.0 - uv_pixel.y;
-    color.xyz -= 0.45 * pow(uv_pixel.y, 32.0);
-    color.a -= 0.2 * pow(uv_pixel.y, 8.0);
-    color += pow(inv_uv, 12.0);
+    float inv_uv_pow12 = inv_uv * inv_uv * inv_uv;
+    inv_uv_pow12 = inv_uv_pow12 * inv_uv_pow12;
 
-    // make waterfall transparent
-    color.a -= 0.3;
+    // color modifications
+    color.xyz -= ALPHA_PARAMS.z * vec3(uv_y_pow8);
+    color.a -= ALPHA_PARAMS.y * uv_y_pow8;
+    color += inv_uv_pow12;
 
-    // Add a slight edge highlight to emphasize the wavy sides
-    float edgeHighlight = smoothstep(0.9, 1.0, edgeEffect) * 0.15;
-    color.rgb += vec3(edgeHighlight);
+    color.a = max(0.0, color.a - ALPHA_PARAMS.x);
 
-    // sine wave offset for left and right edges
-    float leftEdge = edgeWidth + waveAmplitude * sin(waveFrequency * uv.y + time * waveSpeed);
-    float rightEdge = 1.0 - edgeWidth - waveAmplitude * sin(waveFrequency * uv.y + time * waveSpeed + 3.14);
+    // Edge highlight using  smoothstep
+    color.rgb += vec3(smoothstep(EDGE_STEPS.x, EDGE_STEPS.y, edgeEffect) * 0.15);
 
-    float edgeMask = 1.0;
+    // Waves
+    float timeWave = time * WAVE_PARAMS.w;
+    float waveBase = WAVE_PARAMS.y * uv.y + timeWave;
+    float leftEdge = WAVE_PARAMS.x + WAVE_PARAMS.z * sin(waveBase);
+    float rightEdge = 1.0 - WAVE_PARAMS.x - WAVE_PARAMS.z * sin(waveBase + 3.14);
 
-    if (uv.x < leftEdge)
-    {
-        edgeMask *= smoothstep(leftEdge - 0.05, leftEdge, uv.x);
-    }
+    //  edge masking
+    float edgeMask = smoothstep(leftEdge - 0.05, leftEdge, uv.x) *
+    smoothstep(rightEdge + 0.05, rightEdge, uv.x);
 
-    if (uv.x > rightEdge)
-    {
-        edgeMask *= smoothstep(rightEdge + 0.05, rightEdge, uv.x);
-    }
-
-    color.a *= edgeMask;
-
-    out_fragColor = vec4(color);
+    out_fragColor = color * vec4(1.0, 1.0, 1.0, edgeMask);
 }

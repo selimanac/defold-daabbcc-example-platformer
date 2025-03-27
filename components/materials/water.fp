@@ -12,62 +12,63 @@ uniform fs_uniforms
     mediump vec4 uResolution;
 };
 
+// Pre-calculated constants
 const float PI = 3.14159265359;
+const vec4  BACK_TEX = vec4(0.0);
+const vec4  WATER_COLOR = vec4(0.0, 0.5, 0.9, 1.0);
+const vec4  FOAM_COLOR = vec4(0.8, 1.0, 1.0, 1.0);
+const vec4  TOP_LINE_COLOR = vec4(1.0);
 
-// From https://www.shadertoy.com/view/MltyRs
-void main()
+const float TRANSPARENCY = 0.4;
+const float WAVE_FREQUENCY = 1.0;
+const float WAVE_SPEED = 6.0;
+const float WAVE_STRENGTH = 0.008; // Pre-multiplied with 0.001
+const float FOAM_DEPTH = 0.2;
+const float TOP_LINE_THICKNESS = 0.03;
+const float WATER_LEVEL = 0.98;
+
+// Pre-calculated wave multipliers
+const float WAVE_FREQ_HALF = WAVE_FREQUENCY * 0.5;
+const float WAVE_FREQ_NEG = WAVE_FREQUENCY * 1.3;
+const float WAVE_SPEED_FAST = WAVE_SPEED * 1.2;
+const float WAVE_SPEED_SLOW = WAVE_SPEED * 0.7;
+const float TILER_MULT = PI * 10.0;
+
+void        main()
 {
-    vec2  uv = var_texcoord0.xy;
+    // Calculate UV with aspect ratio correction
+    vec2  uv = var_texcoord0;
     float aspectRatio = uResolution.x / uResolution.y;
     uv.x *= aspectRatio;
 
-    // Makes sure the wave will tile
-    float tiler = PI * 10.0 / aspectRatio;
+    float tiler = TILER_MULT / aspectRatio;
+    float time = uTime.x;
 
-    vec4  backTex = vec4(0.0, 0.0, 0.0, 0.0);
+    // Optimize wave calculations by reducing multiplications
+    float xTiler = uv.x * tiler;
+    float baseWave = xTiler * WAVE_FREQUENCY + time * WAVE_SPEED;
 
-    vec4  waterColour = vec4(0.0, 0.5, 0.9, 1.0);
-    vec4  foamColour = vec4(0.8, 1.0, 1.0, 1.0);
-    vec4  topLineColor = vec4(1.0, 1.0, 1.0, 1.0); // Pure white for the top line
+    // Calculate water height using optimized wave formula
+    float waterHeight = sin(baseWave);
+    waterHeight += sin(xTiler * WAVE_FREQ_HALF + time * WAVE_SPEED_FAST);
+    waterHeight += sin(-xTiler * WAVE_FREQ_NEG + time * WAVE_SPEED_SLOW);
 
-    float transparency = 0.4;
-    float waveFrequency = 1.0; // Only whole numbers will tile
-    float waveSpeed = 6.0;
-    float waveStrength = 8.0;
-    float foamDepth = 0.2;
-    float topLineThickness = 0.03; // Controls the thickness of the top white line
+    // Apply wave modifications
+    waterHeight = waterHeight * WAVE_STRENGTH + WATER_LEVEL;
 
-    float distortion = 0.1;
-
-    // Generates the wave and its movement
-    float waterHeight = sin((uv.x * tiler) * waveFrequency + uTime.x * waveSpeed);
-    waterHeight += sin((uv.x * tiler) * waveFrequency * 0.5 + uTime.x * waveSpeed * 1.2);
-    waterHeight += sin((-uv.x * tiler) * waveFrequency * 1.3 + uTime.x * waveSpeed * 0.7);
-
-    waterHeight *= waveStrength * 0.001; // Reduces the wave strength
-    waterHeight += 0.98;                 // Raises the water level from the bottom
-
-    // Calculates if the pixel is part of the water
+    // Calculate water and line boundaries
     float isWater = step(waterHeight, uv.y);
+    float distanceToWave = abs(waterHeight - uv.y);
+    float isTopLine = (1.0 - step(TOP_LINE_THICKNESS, distanceToWave)) * (1.0 - isWater);
 
-    // Create the bold white top line effect
-    // This measures how close we are to the exact wave height
-    float distanceToWaveSurface = abs(waterHeight - uv.y);
-    float isTopLine = 1.0 - step(topLineThickness, distanceToWaveSurface);
+    // Calculate base water color with transparency
+    vec4 outColour = mix(WATER_COLOR, vec4(0.0, 0.0, 1.0, 0.0), TRANSPARENCY);
 
-    // Only show the line where there's water (below the wave)
-    isTopLine *= (1.0 - isWater);
+    // Apply foam
+    float foamFactor = clamp((waterHeight - uv.y) / FOAM_DEPTH, 0.0, 1.0);
+    outColour = mix(FOAM_COLOR, outColour, foamFactor);
 
-    vec4 outColour = vec4(0.0, 0, 1.0, 0.0);
-    // Adds transparency to the water colour
-    outColour = mix(waterColour, outColour, transparency);
-
-    // Creates the foam
-    outColour = mix(foamColour, outColour, clamp((waterHeight - uv.y) / foamDepth, 0.0, 1.0));
-
-    // Add the bold white top line
-    outColour = mix(outColour, topLineColor, isTopLine);
-
-    // Outputs a colour depending on if it's water or not (isWater)
-    out_fragColor = mix(outColour, backTex, isWater);
+    // Apply top line and water masking in one step
+    outColour = mix(outColour, TOP_LINE_COLOR, isTopLine);
+    out_fragColor = mix(outColour, BACK_TEX, isWater);
 }
