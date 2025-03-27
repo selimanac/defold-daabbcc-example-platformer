@@ -41,7 +41,7 @@ end
 local function check_mobile()
 	if data.game.is_mobile and not data.game.is_mobile_init then
 		data.game.is_mobile_init = true
-		data.window_scale = (data.window_scale * 0.7)
+		data.window_scale = (data.window_scale * 0.7) -- <- More zoom for mobile
 		local mobile_gui = factory.create(const.FACTORIES.MOBILE_GUI, vmath.vector3(0))
 		const.URLS.MOBILE_GUI = msg.url(mobile_gui)
 	end

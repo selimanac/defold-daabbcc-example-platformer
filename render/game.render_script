@@ -1,5 +1,6 @@
 local data = require("scripts.lib.data")
 
+-- Shaders
 local u_offset = vmath.vector4()
 local scroll_speed = 1
 
@@ -225,7 +226,7 @@ function update(self)
 
     -- render the other components: sprites, tilemaps, particles etc
     --
-    --  u_offset.x = u_offset.x - scroll_speed
+    --  u_offset.x = u_offset.x - scroll_speed -- Scroll X
     u_offset.y = u_offset.y + (scroll_speed * data.dt.x)
     self.background_constants.u_offset = u_offset
     self.background_constants.uTime = data.shader_time

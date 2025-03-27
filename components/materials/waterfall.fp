@@ -81,7 +81,7 @@ void       main()
 
     color.a = max(0.0, color.a - ALPHA_PARAMS.x);
 
-    // Edge highlight using  smoothstep
+    // edge highlight
     color.rgb += vec3(smoothstep(EDGE_STEPS.x, EDGE_STEPS.y, edgeEffect) * 0.15);
 
     // Waves

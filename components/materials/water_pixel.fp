@@ -42,7 +42,7 @@ void main()
     vec2 grid = floor(uv * WAVE_PARAMS[0]) / WAVE_PARAMS[0];
 
     //  tiling
-    float tiler = 31.4159 / aspectRatio; // Optimized PI * 10.0
+    float tiler = 31.4159 / aspectRatio; //  PI * 10.0
     float quantizedTime = floor(uTime.x * 8.0) / 8.0;
 
     // wave calculations
@@ -64,7 +64,7 @@ void main()
                             uv.y < waterHeight) *
     (1.0 - isWater);
 
-    // color mixing
+    // color mix
     vec4  outColour = mix(COLORS[1], vec4(0.0, 0.0, 1.0, 0.0), VISUAL_PARAMS[0]);
 
     float foamFactor = clamp((waterHeight - uv.y) / VISUAL_PARAMS[2], 0.0, 1.0);

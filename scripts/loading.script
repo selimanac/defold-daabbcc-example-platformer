@@ -8,7 +8,7 @@ function init(_)
 	data.game.is_mobile = device.mobile() or device.tablet()
 	data.window_scale = window.get_display_scale()
 
-	-- Very lazy way for camera bounds
+	-- Very lazy way for mobile camera bounds
 	if data.game.is_mobile then
 		const.CAMERA.BOUNDS_MIN = const.CAMERA.MOBILE_BOUNDS_MIN
 		const.CAMERA.BOUNDS_MAX = const.CAMERA.MOBILE_BOUNDS_MAX
@@ -21,10 +21,11 @@ function init(_)
 	if defos then
 		if not defos.is_fullscreen() then
 			if sys.get_sys_info().system_name == "Darwin" then
-				--	defos.borderless_fullscreen() -- <-- Added
+				defos.borderless_fullscreen() -- <-- Added
 				--defos.set_borderless(true) -- <- this prevent focus on Macos
 				--defos.activate() -- <- this doesn't focus on Macos when it is borderless
 			else
+				-- I have no idea if focus works on other platforms
 				defos.toggle_fullscreen()
 				defos.set_borderless(true)
 				defos.activate()

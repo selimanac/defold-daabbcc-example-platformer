@@ -67,13 +67,14 @@ function game_camera.check_orientation()
 		msg.post(const.URLS.MOBILE_GUI, const.MSG.LANDSCAPE_PAUSE)
 
 		data.game.is_landscape = current_landscape
+
 		if not current_landscape then
 			data.set_game_pause(true)
 		end
 	end
 end
 
-local function window_event(self, event, size)
+local function window_event(_, event, size)
 	if event == window.WINDOW_EVENT_FOCUS_LOST then
 		data.set_game_pause(true)
 	elseif event == window.WINDOW_EVENT_ICONFIED then
