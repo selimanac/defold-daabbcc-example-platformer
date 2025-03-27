@@ -1,5 +1,5 @@
-Example platformer project for daabbcc.
-Require Defold >= 1.9.9
+Example platformer project for daabbcc.  
+Requires Defold >= 1.9.9
 
 Play it here: https://selimanac.github.io/defold-daabbcc3d-example-charming-kitchen/
 
