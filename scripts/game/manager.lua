@@ -87,6 +87,7 @@ function manager.update(dt)
 		debug.update()
 	end
 
+	-- for shaders
 	data.shader_time.x = data.shader_time.x + dt
 	data.dt.x = dt
 

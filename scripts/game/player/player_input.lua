@@ -13,6 +13,7 @@ function player_input.vertical_movement(dt)
 		-- wall jump
 		if data.player.state.is_sliding and data.player.state.jump_pressed and data.player.direction ~= 0 and data.player.direction ~= data.player.current_direction then
 			audio.play(const.AUDIO.WALL_JUMP)
+
 			data.player.state.on_ground = false
 			data.player.state.is_sliding = false
 			data.player.state.is_falling = false
@@ -52,6 +53,7 @@ end
 function player_input.horizontal_movement(dt)
 	if data.player.direction ~= 0 then
 		player_state.run()
+
 		data.player.current_direction = player_state.flip()
 
 		data.player.velocity.x = data.player.velocity.x + data.player.direction * const.PLAYER.MOVE_ACCELERATION * dt

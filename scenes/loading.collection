@@ -36,3 +36,18 @@ embedded_instances {
   "}\n"
   ""
 }
+embedded_instances {
+  id: "go"
+  data: "embedded_components {\n"
+  "  id: \"model\"\n"
+  "  type: \"model\"\n"
+  "  data: \"mesh: \\\"/builtins/assets/meshes/quad.dae\\\"\\n"
+  "name: \\\"{{NAME}}\\\"\\n"
+  "materials {\\n"
+  "  name: \\\"default\\\"\\n"
+  "  material: \\\"/components/materials/pixelart.material\\\"\\n"
+  "}\\n"
+  "\"\n"
+  "}\n"
+  ""
+}

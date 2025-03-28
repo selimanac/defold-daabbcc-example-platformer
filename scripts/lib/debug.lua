@@ -29,23 +29,23 @@ local function draw_aabb(x, y, width, height, color)
 end
 
 local function debug_draw_aabb(aabb_data, color)
-	for _, data in ipairs(aabb_data) do
-		draw_aabb(data.x, data.y, data.size.width, data.size.height, color)
+	for _, item in ipairs(aabb_data) do
+		draw_aabb(item.x, item.y, item.size.width, item.size.height, color)
 	end
 end
 
 local function debug_draw_center_aabb(aabb_data, color)
-	for _, data in pairs(aabb_data) do
-		local size = { width = data.size.width, height = data.size.height }
-		if data.collider_size then
-			size = { width = data.collider_size.width, height = data.collider_size.height }
+	for _, item in pairs(aabb_data) do
+		local size = { width = item.size.width, height = item.size.height }
+		if item.collider_size then
+			size = { width = item.collider_size.width, height = item.collider_size.height }
 		end
 
-		if data.name == "SLOPE" then
-			msg.post("@render:", "draw_line", { start_point = vmath.vector3(data.properties.slope.x1, data.properties.slope.y1, 0), end_point = vmath.vector3(data.properties.slope.x2, data.properties.slope.y2, 0), color = colors.RED })
+		if item.name == "SLOPE" then
+			msg.post("@render:", "draw_line", { start_point = vmath.vector3(item.properties.slope.x1, item.properties.slope.y1, 0), end_point = vmath.vector3(item.properties.slope.x2, item.properties.slope.y2, 0), color = colors.RED })
 		end
 
-		draw_aabb(data.center.x - (size.width / 2), data.center.y - (size.height / 2), size.width, size.height, color)
+		draw_aabb(item.center.x - (size.width / 2), item.center.y - (size.height / 2), size.width, size.height, color)
 	end
 end
 

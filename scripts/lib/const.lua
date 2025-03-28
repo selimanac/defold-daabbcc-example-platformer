@@ -1,14 +1,14 @@
-local const            = {}
+local const                     = {}
 
-const.DISPLAY_WIDTH    = sys.get_config_number("display.width")
-const.DISPLAY_HEIGHT   = sys.get_config_number("display.height")
+const.DISPLAY_WIDTH             = sys.get_config_number("display.width")
+const.DISPLAY_HEIGHT            = sys.get_config_number("display.height")
 
-const.BACKGROUND_COLOR = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
+const.BACKGROUND_COLOR          = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
 
 ----------------------
 -- Collision
 ----------------------
-const.COLLISION_BITS   = {
+const.COLLISION_BITS            = {
 	PLAYER     = 1,
 	ENEMY      = 2,
 	TILE       = 4,
@@ -24,7 +24,7 @@ const.COLLISION_BITS   = {
 ----------------------
 -- Factories
 ----------------------
-const.FACTORIES        = {
+const.FACTORIES                 = {
 	LEVEL_MAP        = "/factories#level",
 	PLAYER           = "/factories#player",
 	MOBILE_GUI       = "/factories#mobile_gui",
@@ -54,10 +54,10 @@ const.FACTORIES        = {
 ----------------------
 -- Player
 ----------------------
-local PLAYER_WIDTH     = 20
-local PLAYER_HEIGHT    = 26
+local PLAYER_WIDTH              = 20
+local PLAYER_HEIGHT             = 26
 
-const.PLAYER           = {
+const.PLAYER                    = {
 	SIZE                  = { w = PLAYER_WIDTH, h = PLAYER_HEIGHT },
 	HALF_SIZE             = { w = PLAYER_WIDTH / 2, h = PLAYER_HEIGHT / 2 },
 	RAY_Y                 = (PLAYER_HEIGHT / 2) + 16, --<- Tile size
@@ -92,7 +92,7 @@ const.PLAYER           = {
 ----------------------
 -- Camera
 ----------------------
-const.CAMERA           = {
+const.CAMERA                    = {
 	DEADZONE          = vmath.vector3(60, 60, 0), -- <- Might be different on mobile devices.
 	CAMERA_LERP       = 5,
 	BOUNDS_MIN        = vmath.vector3(270, 150, 0), -- Minimum camera bound position (left/bottom) <-It might be better to calculate according to the tile map’s width and height.
@@ -105,7 +105,7 @@ const.CAMERA           = {
 ----------------------
 -- Triggers
 ----------------------
-const.TRIGGERS         = {
+const.TRIGGERS                  = {
 	MOVE_LEFT            = hash("MOVE_LEFT"),
 	MOVE_RIGHT           = hash("MOVE_RIGHT"),
 	JUMP                 = hash("JUMP"),
@@ -119,7 +119,6 @@ const.TRIGGERS         = {
 	KEY_ESC              = hash("KEY_ESC"),
 	TOUCH_MULTI          = hash("TOUCH_MULTI")
 }
-
 
 ----------------------
 -- Main(loading) proxy

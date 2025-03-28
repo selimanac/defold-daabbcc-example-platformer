@@ -42,18 +42,17 @@ function player_state.die(restart)
 
 	data.player.is_hit = true
 
-	audio.stop(const.AUDIO.RUN)
-
 	data.game.state.input_pause = true
 	data.game.state.skip_colliders = true
+
+	audio.stop(const.AUDIO.RUN)
+	audio.play(const.AUDIO.PLAYER_DEATH)
 
 	camera_fx.shake(10, 4)
 
 	particlefx.stop(data.player.ids.WALK_PFX)
 
 	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.HIT)
-
-	audio.play(const.AUDIO.PLAYER_DEATH)
 
 	data.player.health = data.player.health - 1
 	msg.post(const.URLS.GUI, const.MSG.PLAYER_HEALTH_UPDATE)
@@ -99,6 +98,7 @@ function player_state.slide()
 	data.player.state.is_sliding = true
 
 	sprite.play_flipbook(data.player.ids.PLAYER_SPRITE, const.PLAYER.ANIM.WALL_JUMP)
+
 	particlefx.play(data.player.ids.SLIDING_PFX)
 end
 

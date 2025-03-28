@@ -176,7 +176,7 @@ local function reset_camera_world(state)
 end
 
 function init(self)
-    self.predicates = create_predicates("tile", "gui", "particle", "background", "water", "particle_front", "waterfall", "model_transparent", "model")
+    self.predicates = create_predicates("tile", "gui", "particle", "background", "water", "particle_front", "waterfall", "model_transparent")
 
     local state = create_state()
     self.state = state
@@ -204,12 +204,11 @@ function update(self)
     -- clear screen buffers
     --
     -- turn on depth_mask before `render.clear()` to clear it as well
-    render.set_depth_mask(true)
+    render.set_depth_mask(false)
     render.set_stencil_mask(0xff)
     render.clear(state.clear_buffers)
 
     -- setup camera view and projection
-    --
     local draw_options_world = set_camera_world(state)
     render.set_viewport(0, 0, state.window_width, state.window_height)
 
@@ -217,15 +216,7 @@ function update(self)
     render.set_blend_func(graphics.BLEND_FACTOR_SRC_ALPHA, graphics.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA)
     render.enable_state(graphics.STATE_DEPTH_TEST)
 
-    -- render `model` predicate for default 3D material
-    --
-    render.enable_state(graphics.STATE_CULL_FACE)
-    render.draw(predicates.model, draw_options_world)
-    render.set_depth_mask(false)
-    render.disable_state(graphics.STATE_CULL_FACE)
-
     -- render the other components: sprites, tilemaps, particles etc
-    --
     --  u_offset.x = u_offset.x - scroll_speed -- Scroll X
     u_offset.y = u_offset.y + (scroll_speed * data.dt.x)
     self.background_constants.u_offset = u_offset
@@ -236,10 +227,8 @@ function update(self)
     render.draw(predicates.particle, draw_options_world)
     render.draw(predicates.tile, draw_options_world)
     render.draw(predicates.particle_front, draw_options_world)
-
     render.draw(predicates.waterfall, { constants = self.background_constants }) -- <- Using frustum may cause a spike on dt at first run
     render.draw(predicates.water, { constants = self.background_constants })     -- <- Using frustum may cause a spike on dt at first run
-
     render.draw(predicates.particle_front, draw_options_world)
 
     if data.debug.colliders then

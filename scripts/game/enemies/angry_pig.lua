@@ -13,10 +13,13 @@ function angry_pig.enter(enemy, query_result)
 
 		data.player.state.on_ground = false
 		data.player.velocity.y = const.PLAYER.WALL_JUMP_FORCE
+
 		player_state.jump(0)
 
 		audio.play(const.AUDIO.SQUEEZE)
+
 		collision.remove(enemy.aabb_id)
+
 		sprite.play_flipbook(enemy.sprite, enemy.anims.hit, function()
 			go.delete(enemy.id)
 		end)

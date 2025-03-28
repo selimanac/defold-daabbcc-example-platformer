@@ -13,9 +13,9 @@ local FLIPPED_HORIZONTALLY_FLAG = 0x80000000
 local FLIPPED_VERTICALLY_FLAG   = 0x40000000
 local FLIPPED_DIAGONALLY_FLAG   = 0x20000000
 
--- generic gid flip and rotate for tiles only
+--  gid flip and rotate for tiles only
 local function tile_flip(global_tile_id)
-	-- Extract flip flags using the bit library.
+	-- flip flags
 	local hflip = bit.band(global_tile_id, FLIPPED_HORIZONTALLY_FLAG) ~= 0
 	local vflip = bit.band(global_tile_id, FLIPPED_VERTICALLY_FLAG) ~= 0
 	local dflip = bit.band(global_tile_id, FLIPPED_DIAGONALLY_FLAG) ~= 0
@@ -29,7 +29,6 @@ local function tile_flip(global_tile_id)
 
 	if dflip then
 		rotation = 90
-		-- For a diagonal flip
 		hflip = not hflip
 		vflip = not vflip
 	end
