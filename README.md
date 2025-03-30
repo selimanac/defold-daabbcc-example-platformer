@@ -5,7 +5,16 @@ Requires Defold >= 1.9.9
 
 Play it here: https://selimanac.github.io/defold-daabbcc3d-example-charming-kitchen/
 
-Highly recommend controller. Tip: Keep holding the jump button while sliding to jump left or right, and don’t let it go if you want to chain jumps.
+### Controls
+
+Controller is recommended.
+
+**LEFT/RIGHT:** A/D - LEFT/RIGHT ARROWS -  LEFT STICK  
+**JUMP:** W - UP ARROW - SPACE - A (Xbox Controller) - X (PS Controller)
+
+START button for menu using controllers
+
+**Tip:** Keep holding the jump button while sliding to jump left or right, and don’t let it go if you want to chain jumps.
 
 ### Debug View
 - Add [debug.factory](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/components/factories/debug.factory) to [game.collection](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/scenes/game.collection) under factories
