@@ -14,7 +14,8 @@ builtins
 compile_commands.json
 *.appmanifest
 /.cache
-*.der
+/manifest.private.der
+/manifest.public.der
 RELEASE-NOTES.md
 /.editor_settings
 build_config.json
