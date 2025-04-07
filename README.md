@@ -1,23 +1,24 @@
 ![DAABBCC](/.github/platformer.png?raw=true)
 
-Example platformer project for daabbcc.  
+Example platformer project for [daabbcc](https://github.com/selimanac/defold-daabbcc).  
 Requires Defold >= 1.9.9
 
-Play it here: https://selimanac.github.io/defold-daabbcc3d-example-charming-kitchen/
+Play it here: https://selimanac.github.io/defold-daabbcc-example-platformer/
 
 ### Controls
 
-Controller is recommended.
+Gamepad is recommended.
 
 **LEFT/RIGHT:** A/D - LEFT/RIGHT ARROWS -  LEFT STICK  
-**JUMP:** W - UP ARROW - SPACE - A (Xbox Controller) - X (PS Controller)
+**JUMP:** W - UP ARROW - SPACE - A (Xbox Controller) - X (PS Controller)  
+**START** button for navigating the menu using gamepad.
 
-START button for menu using controllers
 
-**Tip:** Keep holding the jump button while sliding to jump left or right, and don’t let it go if you want to chain jumps.
+> [!TIP]
+> Keep holding the jump button while sliding to jump left or right, and don’t let it go if you want to chain jumps.
 
 ### Debug View
-- Add [debug.factory](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/components/factories/debug.factory) to [game.collection](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/scenes/game.collection) under factories
+- Add [debug.factory](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/components/factories/debug.factory) to `factories`gameobject at [game.collection](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/scenes/game.collection)  
 - Set [platformer.debug](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/game.project#L59) to 1 on game.project
 
 

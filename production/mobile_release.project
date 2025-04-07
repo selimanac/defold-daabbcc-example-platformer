@@ -26,6 +26,7 @@ cssfile = /production/dark_theme.css
 [project]
 title = defold-daabbcc-platformer
 custom_resources = data
+minimum_log_level = 0
 dependencies#0 = https://github.com/selimanac/defold-daabbcc/archive/refs/heads/v3.x.zip
 dependencies#1 = https://github.com/selimanac/defold-random/archive/refs/heads/master.zip
 

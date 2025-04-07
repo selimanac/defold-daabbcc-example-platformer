@@ -22,6 +22,7 @@ local function collect_garbage()
 	print("collect_garbage before: ", collectgarbage("count"))
 	collectgarbage("collect")
 	print("collect_garbage after: ", collectgarbage("count"))
+	collectgarbage("setstepmul", 110)
 end
 
 local function setup_urls()

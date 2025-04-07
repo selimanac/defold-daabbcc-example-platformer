@@ -10,11 +10,11 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 1,
+            "scale": 1.0391,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 405,
-                "y": -36.5
+                "x": 904.6290058704649,
+                "y": 282.4559715138101
             }
         },
         "platformer.tsx": {

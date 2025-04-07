@@ -39,11 +39,13 @@ end
 function on_message(_, message_id, _, _)
 	if message_id == data.proxy.msg.proxy_loaded then
 		data.proxy.loaded = true
+
 		msg.post(const.PROXY, "init")
 		msg.post(data.proxy.gui, data.proxy.msg.enable_game)
 		msg.post(const.PROXY, "acquire_input_focus")
 	elseif message_id == data.proxy.msg.guy_removed then
 		go.delete(data.proxy.gui_container, true)
+
 		msg.post(const.PROXY, "enable")
 	elseif message_id == const.MSG.LANDSCAPE_PAUSE then
 		if orientation_id == nil then
