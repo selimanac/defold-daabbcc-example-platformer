@@ -12,7 +12,7 @@ builtins
 *.sublime-workspace
 .clang-format
 compile_commands.json
-*.appmanifest
+
 /.cache
 /manifest.private.der
 /manifest.public.der
