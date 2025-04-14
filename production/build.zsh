@@ -22,14 +22,18 @@ build_platform() {
             --bundle-output "$OUTPUT" \
             --build-server "$BUILD_SERVER" \
             --settings "$SETTINGS" \
+            --texture-compression true \
             --variant  "$VARIANT" \
+            --build-report-html "$OUTPUT_DIR"/report.html \
             --root "$PROJECT_ROOT" || exit 1
     else
         java -jar bob.jar --archive --platform "$PLATFORM" resolve distclean build bundle \
             --bundle-output "$OUTPUT" \
             --build-server "$BUILD_SERVER" \
             --settings "$SETTINGS" \
+            --texture-compression true \
             --variant  "$VARIANT" \
+            --build-report-html "$OUTPUT_DIR"/report.html \
             --root "$PROJECT_ROOT" || exit 1
     fi
 }
