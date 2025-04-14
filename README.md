@@ -1,7 +1,7 @@
 ![DAABBCC](/.github/platformer.png?raw=true)
 
 Example platformer project for [daabbcc](https://github.com/selimanac/defold-daabbcc).  
-Requires Defold >= 1.9.9
+Requires Defold >= 1.10.0
 
 Play it here: https://selimanac.github.io/defold-daabbcc-example-platformer/
 
