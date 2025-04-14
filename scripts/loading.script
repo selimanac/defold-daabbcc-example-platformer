@@ -8,7 +8,7 @@ function init(_)
 	data.game.is_mobile = device.mobile() or device.tablet()
 	data.window_scale = window.get_display_scale()
 
-	-- Very lazy way for mobile camera bounds
+	-- Lazy way for mobile camera bounds
 	if data.game.is_mobile then
 		const.CAMERA.BOUNDS_MIN = const.CAMERA.MOBILE_BOUNDS_MIN
 		const.CAMERA.BOUNDS_MAX = const.CAMERA.MOBILE_BOUNDS_MAX

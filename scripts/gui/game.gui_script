@@ -32,7 +32,6 @@ local is_animating               = false
 ------------------------------
 -- Gamepad
 ------------------------------
-
 -- Restart callback
 local function game_restart()
 	data.game.state.input_pause = true

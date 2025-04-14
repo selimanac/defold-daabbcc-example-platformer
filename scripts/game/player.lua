@@ -8,14 +8,15 @@ local checkpoint         = require("scripts.game.props.checkpoint")
 
 local player             = {}
 
-local tile_query_results = nil
-local tile_query_count   = 0
-
 -- Queries
 local player_offset_x    = 0
 local player_offset_y    = 0
+
 local query_result       = {}
 local query_aabb_id      = 0
+
+local tile_query_results = nil
+local tile_query_count   = 0
 
 local query_prop         = {}
 local query_enemy        = {}
@@ -165,7 +166,6 @@ function player.update(dt)
 		-- No more collision, let it fall
 		player_collisions.fall()
 	end -- end query
-
 
 	-- set final position
 	go.set_position(data.player.position, data.player.ids.CONTAINER)
