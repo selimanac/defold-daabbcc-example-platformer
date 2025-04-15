@@ -25,6 +25,9 @@ local function init_defos()
 	end
 end
 
+----------------------
+-- live update
+---------------------
 local function check_missing_resources()
 	local missing_resources = collectionproxy.missing_resources(const.PROXY.GAME)
 
@@ -35,12 +38,11 @@ local function check_missing_resources()
 	end
 end
 
-
 local function download_archive()
 	local download_path = sys.get_save_file("defold-platformer", const.LIVEUPDATE.FILE)
 	local url = const.LIVEUPDATE.URL .. "/" .. const.LIVEUPDATE.FILE
 
-	http.request(url, "GET", function(self, id, response) -- <7>
+	http.request(url, "GET", function(_, _, response) -- <7>
 		if response.status == 200 or response.status == 304 then
 			liveupdate.add_mount("platformer", "zip:" .. download_path, 10, function(result)
 				msg.post(const.PROXY.GAME, "async_load")

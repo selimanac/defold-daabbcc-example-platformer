@@ -5,7 +5,7 @@ BUILD_SERVER="https://build-stage.defold.com/"
 DESKTOP_SETTINGS_FILE="./desktop_release.project"
 MOBILE_SETTINGS_FILE="./mobile_release.project"
 PROJECT_ROOT="../"
-VARIANT="debug"
+VARIANT="release"
 
 echo "-> Starting Defold build process..."
 
