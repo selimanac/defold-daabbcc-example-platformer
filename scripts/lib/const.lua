@@ -1,14 +1,19 @@
-local const                     = {}
+local const            = {}
 
-const.DISPLAY_WIDTH             = sys.get_config_number("display.width")
-const.DISPLAY_HEIGHT            = sys.get_config_number("display.height")
+const.DISPLAY_WIDTH    = sys.get_config_number("display.width")
+const.DISPLAY_HEIGHT   = sys.get_config_number("display.height")
 
-const.BACKGROUND_COLOR          = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
+const.BACKGROUND_COLOR = vmath.vector4(33 / 255, 31 / 255, 48 / 255, 1)
+
+const.LIVEUPDATE       = {
+	URL = sys.get_config_string("platformer.http_url", nil),
+	FILE = "platformer.zip"
+}
 
 ----------------------
 -- Collision
 ----------------------
-const.COLLISION_BITS            = {
+const.COLLISION_BITS   = {
 	PLAYER     = 1,
 	ENEMY      = 2,
 	TILE       = 4,
@@ -24,7 +29,7 @@ const.COLLISION_BITS            = {
 ----------------------
 -- Factories
 ----------------------
-const.FACTORIES                 = {
+const.FACTORIES        = {
 	LEVEL_MAP        = "/factories#level",
 	PLAYER           = "/factories#player",
 	MOBILE_GUI       = "/factories#mobile_gui",
@@ -54,10 +59,10 @@ const.FACTORIES                 = {
 ----------------------
 -- Player
 ----------------------
-local PLAYER_WIDTH              = 20
-local PLAYER_HEIGHT             = 26
+local PLAYER_WIDTH     = 20
+local PLAYER_HEIGHT    = 26
 
-const.PLAYER                    = {
+const.PLAYER           = {
 	SIZE                  = { w = PLAYER_WIDTH, h = PLAYER_HEIGHT },
 	HALF_SIZE             = { w = PLAYER_WIDTH / 2, h = PLAYER_HEIGHT / 2 },
 	RAY_Y                 = (PLAYER_HEIGHT / 2) + 16, --<- Tile size
@@ -92,7 +97,7 @@ const.PLAYER                    = {
 ----------------------
 -- Camera
 ----------------------
-const.CAMERA                    = {
+const.CAMERA           = {
 	DEADZONE          = vmath.vector3(60, 60, 0), -- <- Might be different on mobile devices.
 	CAMERA_LERP       = 5,
 	BOUNDS_MIN        = vmath.vector3(270, 150, 0), -- Minimum camera bound position (left/bottom) <-It might be better to calculate according to the tile map’s width and height.
@@ -105,7 +110,7 @@ const.CAMERA                    = {
 ----------------------
 -- Triggers
 ----------------------
-const.TRIGGERS                  = {
+const.TRIGGERS         = {
 	MOVE_LEFT            = hash("MOVE_LEFT"),
 	MOVE_RIGHT           = hash("MOVE_RIGHT"),
 	JUMP                 = hash("JUMP"),
@@ -121,16 +126,20 @@ const.TRIGGERS                  = {
 }
 
 ----------------------
--- Main(loading) proxy
+-- Loading proxy
 ----------------------
-const.PROXY                     = msg.url("loading:/proxy#game_proxy")
-const.PROXY_SCRIPT              = msg.url("loading:/script#loading")
-const.PROXY_ORIENTATION_FACTORY = msg.url("loading:/factories#orientation")
+const.PROXY            = {
+	GAME                = msg.url("loading:/proxy#game_proxy"),
+	SCRIPT              = msg.url("loading:/script#loading"),
+	ORIENTATION_FACTORY = msg.url("loading:/factories#orientation"),
+	GUI_CONTAINER       = msg.url("loading:/gui"),
+	GUI                 = msg.url("loading:/gui#loading")
+}
 
 ----------------------
 -- URLs
 ----------------------
-const.URLS                      = {
+const.URLS             = {
 	CAMERA_CONTAINER = "/camera",
 	CAMERA_ID        = "/camera#camera",
 	MAP              = "",
@@ -145,21 +154,27 @@ const.URLS                      = {
 ----------------------
 -- Messages
 ----------------------
-const.MSG                       = {
+const.MSG              = {
 	RESTART              = hash("restart"),
 	PLAYER_DIE           = hash("player_die"),
 	GAME_PAUSE           = hash("game_pause"),
 	LANDSCAPE_PAUSE      = hash("landscape_pause"),
 	COLLECT              = hash("collect"),
 	PLAYER_HEALTH_UPDATE = hash("player_health_update"),
-	TOGGLE_AUDIO         = hash("toggle_audio")
+	TOGGLE_AUDIO         = hash("toggle_audio"),
 
+	-- PROXY
+	PROXY_LOADED         = hash("proxy_loaded"),
+	GUY_REMOVED          = hash("guy_removed"),
+	ENABLE_GAME          = hash("enable_game"),
+	LOAD_GAME            = hash("load_game"),
+	DOWNLOAD_ARCHIVE     = hash("download_archive")
 }
 
 ----------------------
 -- Audio
 ----------------------
-const.AUDIO                     = {
+const.AUDIO            = {
 	ON_GROUND        = "/fx#on_ground",
 	JUMP             = "/fx#jump",
 	RUN              = "/fx#run",

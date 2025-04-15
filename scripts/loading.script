@@ -4,20 +4,11 @@ local device         = require("scripts.lib.device")
 
 local orientation_id = nil
 
-function init(_)
-	data.game.is_mobile = device.mobile() or device.tablet()
-	data.window_scale = window.get_display_scale()
-
-	-- Lazy way for mobile camera bounds
-	if data.game.is_mobile then
-		const.CAMERA.BOUNDS_MIN = const.CAMERA.MOBILE_BOUNDS_MIN
-		const.CAMERA.BOUNDS_MAX = const.CAMERA.MOBILE_BOUNDS_MAX
-	end
-
-	----------------------
-	-- defos
-	----------------------
-	-- defos is not included in HTML5 build
+----------------------
+-- defos
+----------------------
+-- defos is not included in HTML5 build
+local function init_defos()
 	if defos then
 		if not defos.is_fullscreen() then
 			if sys.get_sys_info().system_name == "Darwin" then
@@ -32,24 +23,66 @@ function init(_)
 			end
 		end
 	end
+end
 
-	msg.post(const.PROXY, "async_load")
+local function check_missing_resources()
+	local missing_resources = collectionproxy.missing_resources(const.PROXY.GAME)
+
+	if #missing_resources > 0 then
+		msg.post(const.PROXY.SCRIPT, const.MSG.DOWNLOAD_ARCHIVE)
+	else
+		msg.post(const.PROXY.GAME, "async_load")
+	end
+end
+
+
+local function download_archive()
+	local download_path = sys.get_save_file("defold-platformer", const.LIVEUPDATE.FILE)
+	local url = const.LIVEUPDATE.URL .. "/" .. const.LIVEUPDATE.FILE
+
+	http.request(url, "GET", function(self, id, response) -- <7>
+		if response.status == 200 or response.status == 304 then
+			liveupdate.add_mount("platformer", "zip:" .. download_path, 10, function(result)
+				msg.post(const.PROXY.GAME, "async_load")
+			end)
+		else
+			print("Failed to download archive ", download_path, "from", url, ":", response.status)
+		end
+	end, nil, nil, { path = download_path })
+end
+
+function init(_)
+	data.game.is_mobile = device.mobile() or device.tablet()
+	data.window_scale = window.get_display_scale()
+
+	--  lazy way for mobile camera bounds
+	if data.game.is_mobile then
+		const.CAMERA.BOUNDS_MIN = const.CAMERA.MOBILE_BOUNDS_MIN
+		const.CAMERA.BOUNDS_MAX = const.CAMERA.MOBILE_BOUNDS_MAX
+	end
+
+	init_defos()
+
+	msg.post(const.PROXY.SCRIPT, const.MSG.LOAD_GAME)
 end
 
 function on_message(_, message_id, _, _)
-	if message_id == data.proxy.msg.proxy_loaded then
+	if message_id == const.MSG.LOAD_GAME then
+		check_missing_resources()
+	elseif message_id == const.MSG.DOWNLOAD_ARCHIVE then
+		download_archive()
+	elseif message_id == const.MSG.PROXY_LOADED then
 		data.proxy.loaded = true
 
-		msg.post(const.PROXY, "init")
-		msg.post(data.proxy.gui, data.proxy.msg.enable_game)
-		msg.post(const.PROXY, "acquire_input_focus")
-	elseif message_id == data.proxy.msg.guy_removed then
-		go.delete(data.proxy.gui_container, true)
-
-		msg.post(const.PROXY, "enable")
+		msg.post(const.PROXY.GAME, "init")
+		msg.post(const.PROXY.GUI, const.MSG.ENABLE_GAME)
+		msg.post(const.PROXY.GAME, "acquire_input_focus")
+	elseif message_id == const.MSG.GUY_REMOVED then
+		go.delete(const.PROXY.GUI_CONTAINER, true)
+		msg.post(const.PROXY.GAME, "enable")
 	elseif message_id == const.MSG.LANDSCAPE_PAUSE then
 		if orientation_id == nil then
-			orientation_id = factory.create(const.PROXY_ORIENTATION_FACTORY)
+			orientation_id = factory.create(const.PROXY.ORIENTATION_FACTORY)
 		else
 			go.delete(orientation_id)
 			orientation_id = nil

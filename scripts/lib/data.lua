@@ -12,15 +12,7 @@ data.window_scale    = 1
 -- Loading proxy
 --------------------------
 data.proxy           = {
-	loaded = false,
-	gui_container = msg.url("loading:/gui"),
-	gui = msg.url("loading:/gui#loading"),
-	script = msg.url("loading:/script#loading"),
-	msg = {
-		proxy_loaded = hash("proxy_loaded"),
-		guy_removed = hash("guy_removed"),
-		enable_game = hash("enable_game")
-	}
+	loaded = false
 }
 
 --------------------------
@@ -154,9 +146,9 @@ function data.set_game_pause(state)
 
 		if data.proxy.loaded then
 			if data.game.state.pause then
-				msg.post(const.PROXY, "set_time_step", { factor = 0, mode = 0 })
+				msg.post(const.PROXY.GAME, "set_time_step", { factor = 0, mode = 0 })
 			else
-				msg.post(const.PROXY, "set_time_step", { factor = 1, mode = 1 })
+				msg.post(const.PROXY.GAME, "set_time_step", { factor = 1, mode = 1 })
 			end
 		end
 	end

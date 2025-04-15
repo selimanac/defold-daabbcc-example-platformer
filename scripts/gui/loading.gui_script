@@ -9,10 +9,10 @@ function init(_)
 end
 
 function on_message(_, message_id, _, _)
-	if message_id == data.proxy.msg.enable_game then
+	if message_id == const.MSG.ENABLE_GAME then
 		timer.delay(0.3, false, function()
 			gui.animate(guy_node, "color.w", 0.0, gui.EASING_LINEAR, 0.3, 0.5, function()
-				msg.post(data.proxy.script, data.proxy.msg.guy_removed)
+				msg.post(const.PROXY.SCRIPT, const.MSG.GUY_REMOVED)
 			end)
 		end)
 	end

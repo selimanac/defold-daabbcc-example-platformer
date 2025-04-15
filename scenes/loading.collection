@@ -6,6 +6,7 @@ embedded_instances {
   "  id: \"game_proxy\"\n"
   "  type: \"collectionproxy\"\n"
   "  data: \"collection: \\\"/scenes/game.collection\\\"\\n"
+  "exclude: true\\n"
   "\"\n"
   "}\n"
   ""

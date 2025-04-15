@@ -62,7 +62,7 @@ function game_camera.check_orientation()
 	local current_landscape = device.landscape()
 
 	if current_landscape ~= data.game.is_landscape then
-		msg.post(const.PROXY_SCRIPT, const.MSG.LANDSCAPE_PAUSE)
+		msg.post(const.PROXY.SCRIPT, const.MSG.LANDSCAPE_PAUSE)
 		msg.post(const.URLS.GUI, const.MSG.LANDSCAPE_PAUSE)
 		msg.post(const.URLS.MOBILE_GUI, const.MSG.LANDSCAPE_PAUSE)
 

@@ -200,7 +200,7 @@ track_cpu = 0
 sleep_between_server_updates = 0
 
 [liveupdate]
-settings = /liveupdate.settings
+settings = /production/liveupdate.settings
 enabled = 1
 mount_on_start = 1
 
@@ -223,4 +223,5 @@ app_manifest = /components/manifest/production.appmanifest
 
 [platformer]
 debug = 0
+http_url = https://selimanac.github.io/defold-daabbcc-example-platformer
 

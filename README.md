@@ -28,7 +28,7 @@ The map is created using Tiled, and all Tiled files are located in the [assets/t
 ### Build
 There is a simple [shell script](https://github.com/selimanac/defold-daabbcc-example-platformer/blob/cb326b49705a60b2228fdbb491c30cdae2cd8cfe/production/build.zsh) to bundle the project using [bob](https://defold.com/manuals/bob/).  
 
-- Download latest [bob](https://github.com/defold/defold/releases) (>= 1.9.9) and put it in production folder.
+- Download latest [bob](https://github.com/defold/defold/releases) (>= 1.10.0) and put it in production folder.
 - Modify the build shell script according to your needs.
 - Execute shell script. Bundles will ve created under production/bundle folder
 

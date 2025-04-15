@@ -58,9 +58,13 @@ max_count = 128
 
 [platformer]
 debug = 0
+http_url = https://selimanac.github.io/defold-daabbcc-example-platformer
 
 [render]
 clear_color_red = 0.129412
 clear_color_green = 0.121569
 clear_color_blue = 0.188235
+
+[liveupdate]
+settings = /production/liveupdate.settings
 
