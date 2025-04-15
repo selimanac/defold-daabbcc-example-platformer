@@ -1,107 +1,107 @@
 platforms:
   armv7-ios:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       frameworks: []
       linkFlags: []
   arm64-ios:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       frameworks: []
       linkFlags: []
   x86_64-ios:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       frameworks: []
       linkFlags: []
   armv7-android:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeJars: []
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       linkFlags: []
       jetifier: true
   arm64-android:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeJars: []
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       linkFlags: []
       jetifier: true
   arm64-osx:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold, graphics_vulkan, platform_vulkan, MoltenVK]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold, graphics_vulkan, platform_vulkan, MoltenVK]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt, GraphicsAdapterVulkan]
       symbols: [GraphicsAdapterOpenGL]
-      libs: [liveupdate_null, record_null, physics_null, graphics, platform]
+      libs: [record_null, physics_null, graphics, platform]
       frameworks: [OpenGL]
       linkFlags: []
   x86_64-osx:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold, graphics_vulkan, platform_vulkan, MoltenVK]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold, graphics_vulkan, platform_vulkan, MoltenVK]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt, GraphicsAdapterVulkan]
       symbols: [GraphicsAdapterOpenGL]
-      libs: [liveupdate_null, record_null, physics_null, graphics, platform]
+      libs: [record_null, physics_null, graphics, platform]
       frameworks: [OpenGL]
       linkFlags: []
   x86_64-linux:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       dynamicLibs: []
       linkFlags: []
   arm64-linux:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       dynamicLibs: []
       linkFlags: []
   x86-win32:
     context:
-      excludeLibs: [libBox2D, libliveupdate, librecord, vpx, libphysics, libLinearMath, libBulletDynamics, libBulletCollision, libbox2d, libbox2d_defold, libscript_box2d, libscript_box2d_defold]
+      excludeLibs: [libBox2D, librecord, vpx, libphysics, libLinearMath, libBulletDynamics, libBulletCollision, libbox2d, libbox2d_defold, libscript_box2d, libscript_box2d_defold]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [libliveupdate_null.lib, librecord_null.lib, libphysics_null.lib]
+      libs: [librecord_null.lib, libphysics_null.lib]
       linkFlags: []
   x86_64-win32:
     context:
-      excludeLibs: [libBox2D, libliveupdate, librecord, vpx, libphysics, libLinearMath, libBulletDynamics, libBulletCollision, libbox2d, libbox2d_defold, libscript_box2d, libscript_box2d_defold]
+      excludeLibs: [libBox2D, librecord, vpx, libphysics, libLinearMath, libBulletDynamics, libBulletCollision, libbox2d, libbox2d_defold, libscript_box2d, libscript_box2d_defold]
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [libliveupdate_null.lib, librecord_null.lib, libphysics_null.lib]
+      libs: [librecord_null.lib, libphysics_null.lib]
       linkFlags: []
   js-web:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeJsLibs: []
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       linkFlags: []
       emscriptenLinkFlags: []
   wasm-web:
     context:
-      excludeLibs: [Box2D, liveupdate, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
+      excludeLibs: [Box2D, record, vpx, physics, LinearMath, BulletDynamics, BulletCollision, box2d, box2d_defold, script_box2d, script_box2d_defold]
       excludeJsLibs: []
       excludeSymbols: [ScriptTypesExt, ScriptBox2DExt]
       symbols: []
-      libs: [liveupdate_null, record_null, physics_null]
+      libs: [record_null, physics_null]
       linkFlags: []
       emscriptenLinkFlags: []
