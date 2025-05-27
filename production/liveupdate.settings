@@ -2,5 +2,5 @@
 mode = Zip
 save-zip-in-bundle-folder = 1
 zip-filename = platformer
-supported-versions = "1.10.1"
+supported-versions = "1.10.0"
 

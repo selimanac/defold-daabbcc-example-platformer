@@ -1,0 +1,50 @@
+animations {
+  id: "virtual_guy_player_idle"
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/00_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/01_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/02_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/03_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/04_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/05_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/06_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/07_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/08_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/09_Idle (32x32).png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Main Characters/Virtual Guy/Idle (32x32)/10_Idle (32x32).png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 20
+}
+animations {
+  id: "portrait_rotate"
+  images {
+    image: "/assets/pixel_adventure/Menu/Buttons/portrait_rotate1.png"
+  }
+  images {
+    image: "/assets/pixel_adventure/Menu/Buttons/portrait_rotate2.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 2
+}
+extrude_borders: 2

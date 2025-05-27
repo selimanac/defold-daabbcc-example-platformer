@@ -204,9 +204,10 @@ function update(self)
     -- clear screen buffers
     --
     -- turn on depth_mask before `render.clear()` to clear it as well
-    render.set_depth_mask(false)
+    render.set_depth_mask(true)
     render.set_stencil_mask(0xff)
     render.clear(state.clear_buffers)
+    render.set_depth_mask(false)
 
     -- setup camera view and projection
     local draw_options_world = set_camera_world(state)

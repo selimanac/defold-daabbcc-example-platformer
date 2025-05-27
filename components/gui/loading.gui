@@ -4,8 +4,8 @@ fonts {
   font: "/components/font/fff.font"
 }
 textures {
-  name: "game"
-  texture: "/components/atlas/game.atlas"
+  name: "loading"
+  texture: "/components/atlas/loading.atlas"
 }
 nodes {
   position {
@@ -17,7 +17,7 @@ nodes {
     y: 64.0
   }
   type: TYPE_BOX
-  texture: "game/virtual_guy_player_idle"
+  texture: "loading/virtual_guy_player_idle"
   id: "guy"
   inherit_alpha: true
   alpha: 0.0
