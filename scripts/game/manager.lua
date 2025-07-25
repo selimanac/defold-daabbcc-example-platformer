@@ -122,7 +122,7 @@ function manager.message(message_id, message, sender)
 		props.set_collected()
 		collect_garbage()
 		player.init()
-	elseif const.MSG.TOGGLE_AUDIO then
+	elseif message_id == const.MSG.TOGGLE_AUDIO then
 		if not data.game.is_music then
 			audio.stop_music()
 		else
